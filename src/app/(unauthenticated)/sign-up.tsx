@@ -67,7 +67,11 @@ export default function SignUp() {
           }}
         />
       ) : (
-        <LoginScreen onLogin={(param) => {}} />
+        <LoginScreen
+          onLogin={async (param) => {
+            await authCtx.signIn(param.email, param.password);
+          }}
+        />
       )}
     </PickemsPage>
   );
