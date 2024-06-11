@@ -15,7 +15,7 @@ export function MatchupsTeamCard(props: MatchupsTeamCardType) {
   return (
     <View
       style={[
-        tw`flex-1 py-3 flex  flex-row justify-between rounded-md ${
+        tw`flex-1 py-3  flex  flex-row justify-between rounded-md ${
           props.isWinner ? "" : ""
         }`,
       ]}

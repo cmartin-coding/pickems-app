@@ -75,7 +75,6 @@ export function MatchupsScreen() {
           const offset = ev.nativeEvent.contentOffset.x;
           const index = Math.round(offset / width);
           const week = matchupWeeks[index].week;
-          console.log("week");
           setWeek(week);
           // const year = monthsAndYears[index].year;
           // const month = monthsAndYears[index].month;
