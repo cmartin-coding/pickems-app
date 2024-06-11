@@ -5,13 +5,16 @@ import { Provider } from "react-redux";
 import { useDeviceContext } from "twrnc";
 import { store } from "../store";
 import { AuthProvider } from "../context/AuthContext";
+import { DataProvider } from "../context/DataContext";
 
 export default function RootLayout() {
   // useDeviceContext(tw);
   return (
     <Provider store={store}>
       <AuthProvider>
-        <Slot />
+        <DataProvider>
+          <Slot />
+        </DataProvider>
       </AuthProvider>
     </Provider>
   );

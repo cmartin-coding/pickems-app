@@ -8,10 +8,12 @@ export default function AuthenticatedLayout() {
   }
 
   return (
-    <Stack screenOptions={{ headerShown: false }}>
+    <Stack initialRouteName="(tabs)" screenOptions={{ headerShown: false }}>
       {/* <Stack.Screen name="value-prop" /> */}
+      <Stack.Screen name="(tabs)" />
+      <Stack.Screen name="settings" />
       {/* <Stack.Screen name="login" /> */}
-      <Stack.Screen name="home" />
+
       {/* <Stack.Screen name="forgot-password" /> */}
     </Stack>
   );

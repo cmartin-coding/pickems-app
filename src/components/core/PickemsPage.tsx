@@ -15,6 +15,7 @@ export function PickemsPage(props: {
   children: ReactNode;
   style?: ViewStyle;
   showBackButton?: boolean;
+  isTabBarScreen?: boolean;
 }) {
   useDeviceContext(tw);
   const router = useRouter();
@@ -27,7 +28,7 @@ export function PickemsPage(props: {
           style={[
             tw`flex-1`,
             {
-              paddingTop: insets.top,
+              paddingTop: props.isTabBarScreen ? 0 : insets.top,
               paddingLeft: insets.left,
               paddingRight: insets.right,
             },
