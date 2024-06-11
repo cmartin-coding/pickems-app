@@ -45,7 +45,7 @@ export function MatchupsBySeasonAndWeek(props: MatchupsBySeasonAndWeekType) {
             ]}
             key={matchup.id}
           >
-            <View style={[tw`flex flex-row items-center`]}>
+            <View style={[tw`flex flex-row  flex-1 items-center`]}>
               <MatchupsTeamCard
                 abbreviation={matchup.home_team.abbreviation as string}
                 isComplete={matchup.isComplete}
@@ -53,7 +53,11 @@ export function MatchupsBySeasonAndWeek(props: MatchupsBySeasonAndWeekType) {
                 score={matchup.score.home || 0}
                 teamName={matchup.home_team.name}
               />
-              <PickemsText style={[tw`flex-1 text-center`]}>VS.</PickemsText>
+              <PickemsText
+                style={[tw`flex-1 text-center  text-black font-extrabold`]}
+              >
+                VS.
+              </PickemsText>
               <MatchupsTeamCard
                 abbreviation={matchup.away_team.abbreviation as string}
                 isComplete={matchup.isComplete}
