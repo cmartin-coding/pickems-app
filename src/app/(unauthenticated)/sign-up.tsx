@@ -5,6 +5,7 @@ import { PickemsTextInput } from "@/src/components/PickemsTextInput";
 import { PickemsPage } from "@/src/components/core/PickemsPage";
 import { LoginScreen } from "@/src/components/screens/LoginScreen";
 import { SignUpScreen } from "@/src/components/screens/SignUpScreen";
+import { useAddUserMutation } from "@/src/services/user";
 import { useAppSelector } from "@/src/store";
 import { supabase } from "@/src/supabase";
 import { useAuthContext } from "@/src/utils";
@@ -19,10 +20,13 @@ import {
   Easing,
   LayoutAnimation,
 } from "react-native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function SignUp() {
   const authCtx = useAuthContext();
+  const dispatch = useDispatch();
+
+  const [addUser, { isLoading, isSuccess, error }] = useAddUserMutation();
   const [signUpState, setSignUpState] = useState<{
     email: string;
     password: string;
@@ -55,14 +59,17 @@ export default function SignUp() {
                 param.password,
                 param.name
               );
-
-              await supabase.from("users").insert({
+              console.log(user);
+              const result = await addUser({
+                id: user.user.id,
                 email: param.email,
-                name: param.name,
                 favorite_team: param.favorite_team,
-              });
+                name: param.name,
+              }).unwrap();
+
+              console.log(result);
             } catch (ex) {
-              console.log(ex);
+              console.log("HERE", ex);
             }
           }}
         />

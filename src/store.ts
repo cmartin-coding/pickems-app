@@ -1,11 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { userSlice } from "./slices/user";
 import { useSelector } from "react-redux";
+import { userApi } from "./services/user";
 
 export const store = configureStore({
   reducer: {
+    userApi: userApi.reducer,
     user: userSlice.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(userApi.middleware),
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

@@ -1,7 +1,9 @@
+import { Json, Tables } from "./supabaseTypes";
+
 export type User = {
   name: string;
   id: string;
-  favorite_team: string;
+  favorite_team: string | null;
   email: string;
 };
 
@@ -14,6 +16,20 @@ export type UserType = {
   user: User;
   activeLeagues: ActiveLeagues[];
 };
+export type Score = { home: number; away: number };
+export type Odds = { over: number; under: number };
+export type Matchups = {
+  away_team: Tables<"nfl_teams">;
+  home_team: Tables<"nfl_teams">;
+  id: string;
+  isComplete: boolean;
+  odds: Odds;
+  score: Score;
+  season: string;
+  time: string | null;
+  week: number;
+  winner: number | null;
+}[];
 export type NFLTeamNames =
   | "Cardinals"
   | "Falcons"
