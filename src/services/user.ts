@@ -1,6 +1,11 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { supabase } from "../supabase";
-import { ActiveLeagues, Matchups, User } from "../types/types";
+import {
+  ActiveLeagues,
+  MatchupPicksType,
+  Matchups,
+  User,
+} from "../types/types";
 import uuid from "react-native-uuid";
 import { Tables } from "../types/supabaseTypes";
 
@@ -40,40 +45,6 @@ export const userApi = createApi({
   reducerPath: "userApi",
   baseQuery: supabaseBaseQuery,
   endpoints: (builder) => ({
-    createLeague: builder.mutation<
-      ActiveLeagues,
-      { league: Tables<"leagues">; user_id: string }
-    >({
-      queryFn: async (param) => {
-        try {
-          const { data, error } = await supabase
-            .from("leagues")
-            .insert(param.league);
-          const { data: leagueSeasonUserData, error: err } = await supabase
-            .from("league_users_season")
-            .insert({
-              league_id: param.league.id,
-              role: "Commissioner",
-              season_id: "3c41a592-012a-4224-b137-830ea88eeb7e",
-              user_id: param.user_id,
-            });
-          if (error || err) {
-            console.log(error, err);
-            throw new Error("Error adding league");
-          }
-
-          const activeLeague: ActiveLeagues = {
-            isCommissioner: true,
-            league_id: param.league.id,
-            league_name: param.league.name,
-          };
-          return { data: activeLeague };
-        } catch (ex) {
-          console.log(ex);
-          throw new Error("Error creating league");
-        }
-      },
-    }),
     addUser: builder.mutation<User, User>({
       queryFn: async (param) => {
         try {
@@ -166,6 +137,75 @@ export const userApi = createApi({
         }
       },
     }),
+    createLeague: builder.mutation<
+      ActiveLeagues,
+      { league: Tables<"leagues">; user_id: string }
+    >({
+      queryFn: async (param) => {
+        try {
+          const { data, error } = await supabase
+            .from("leagues")
+            .insert(param.league);
+          const { data: leagueSeasonUserData, error: err } = await supabase
+            .from("league_users_season")
+            .insert({
+              league_id: param.league.id,
+              role: "Commissioner",
+              season_id: "3c41a592-012a-4224-b137-830ea88eeb7e",
+              user_id: param.user_id,
+            });
+          if (error || err) {
+            console.log(error, err);
+            throw new Error("Error adding league");
+          }
+
+          const activeLeague: ActiveLeagues = {
+            isCommissioner: true,
+            league_id: param.league.id,
+            league_name: param.league.name,
+          };
+          return { data: activeLeague };
+        } catch (ex) {
+          console.log(ex);
+          throw new Error("Error creating league");
+        }
+      },
+    }),
+    getUserPicksByLeague: builder.query<
+      MatchupPicksType[],
+      { userId: string; leagueId: string; week_num: number }
+    >({
+      // @ts-ignore
+      // TODO: Dont get why this error is occurring. It is matching what I want.
+      queryFn: async (params) => {
+        try {
+          const { data, error } = await supabase
+            .from("nfl_matchups")
+            .select("*, home_team(*), away_team(*), picks(*)")
+            .eq("picks.user_id", params.userId)
+            .eq("week", params.week_num)
+            .eq("season", "3c41a592-012a-4224-b137-830ea88eeb7e")
+            .eq("picks.league_id", params.leagueId);
+          // const { data, error } = await supabase
+          //   .from("picks")
+          //   .select(
+          //     "*, nfl_matchups:matchup_id (*, home_team(*), away_team(*))"
+          //   )
+          //   .eq("league_id", params.leagueId)
+          //   .eq("user_id", params.userId)
+          //   .eq("season_id", "3c41a592-012a-4224-b137-830ea88eeb7e");
+
+          if (error) {
+            throw new Error("Problem getting picks");
+          }
+
+          return { data };
+        } catch (ex) {
+          console.error(ex);
+          throw new Error("Problem grabbing picks");
+        }
+      },
+    }),
   }),
 });
 
@@ -174,6 +214,8 @@ export const useGetMatchupsBySeasonQuery =
   userApi.endpoints.getMatchupsBySeasonAndWeek.useQuery;
 export const useGetMatchupsForCurrentSeasonQuery =
   userApi.endpoints.getAllMatchupsForCurrentSeason.useQuery;
+export const useGetPicksByLeagueIdAndUserAndSeason =
+  userApi.endpoints.getUserPicksByLeague.useQuery;
 
 export const useAddUserMutation = userApi.endpoints.addUser.useMutation;
 export const useCreateLeagueMutation =

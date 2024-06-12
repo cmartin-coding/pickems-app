@@ -14,7 +14,10 @@ export function PickemsButton(props: PickemsButtonType) {
   return (
     <TouchableOpacity
       {...props}
-      style={[tw`border rounded-md p-3 bg-slate-200 border-neutral-300/30`]}
+      style={[
+        tw`border rounded-md p-3 bg-slate-200 border-neutral-300/30`,
+        props.style,
+      ]}
     >
       <PickemsText style={[tw`text-center`]}>{props.buttonLabel}</PickemsText>
     </TouchableOpacity>

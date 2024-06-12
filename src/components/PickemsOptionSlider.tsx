@@ -11,12 +11,14 @@ import { useEffect, useRef, useState } from "react";
 type PickemsOptionSliderType = {
   buttonOneLabel: string;
   buttonTwoLabel: string;
-  selectedOption: boolean;
-  onClickOption: (option: boolean) => void;
+  selectedOption: string;
+  onClickOption: (option: boolean, val?: string) => void;
+  highlightBgColor?: string;
 };
 export function PickemsOptionSlider(props: PickemsOptionSliderType) {
   const transitionValue = useRef(new Animated.Value(0)).current;
-
+  const [selectedVal, setSelectedVal] = useState(props.selectedOption);
+  const [width, setWidth] = useState(0);
   const [buttonWidths, setButtonWidths] = useState({
     [props.buttonOneLabel]: 0,
     [props.buttonTwoLabel]: 0,
@@ -38,18 +40,27 @@ export function PickemsOptionSlider(props: PickemsOptionSliderType) {
       useNativeDriver: false,
       easing: Easing.inOut(Easing.ease),
     }).start();
-    props.onClickOption(option);
   };
+
+  useEffect(() => {
+    if (selectedVal === props.buttonOneLabel) {
+      setWidth(buttonWidths[props.buttonOneLabel]);
+    }
+    if (selectedVal === props.buttonTwoLabel) {
+      setWidth(buttonWidths[props.buttonTwoLabel]);
+    }
+  }, [buttonWidths, selectedVal]);
+
   return (
     <View style={[tw`flex flex-row relative`]}>
       <Animated.View
         style={[
-          tw`h-full w-1/2  bg-green-400  absolute rounded-md `,
+          tw`h-full  ${
+            props.highlightBgColor ? props.highlightBgColor : "bg-green-400"
+          }  absolute rounded-md `,
           {
             transform: [{ translateX }],
-            width: props.selectedOption
-              ? buttonWidths[props.buttonOneLabel]
-              : buttonWidths[props.buttonTwoLabel],
+            width: width,
           },
         ]}
       />
@@ -62,14 +73,20 @@ export function PickemsOptionSlider(props: PickemsOptionSliderType) {
           }));
         }}
         onPress={() => {
+          setSelectedVal(props.buttonOneLabel);
           toggleOption(true);
+          props.onClickOption(true, props.buttonOneLabel);
         }}
-        style={[tw`px-4 py-2`]}
+        style={[tw`px-4 py-2 flex-1`]}
       >
-        <PickemsText>{props.buttonOneLabel}</PickemsText>
+        <PickemsText style={[tw`text-center`]}>
+          {props.buttonOneLabel}
+        </PickemsText>
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
+          setSelectedVal(props.buttonTwoLabel);
+          props.onClickOption(false, props.buttonTwoLabel);
           toggleOption(false);
         }}
         onLayout={(event) => {
@@ -79,9 +96,11 @@ export function PickemsOptionSlider(props: PickemsOptionSliderType) {
             [props.buttonTwoLabel]: width,
           }));
         }}
-        style={[tw`px-4 py-2`]}
+        style={[tw`px-4 py-2 flex-1`]}
       >
-        <PickemsText>{props.buttonTwoLabel}</PickemsText>
+        <PickemsText style={[tw`text-center`]}>
+          {props.buttonTwoLabel}
+        </PickemsText>
       </TouchableOpacity>
     </View>
   );

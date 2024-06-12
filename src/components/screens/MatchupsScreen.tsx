@@ -111,6 +111,9 @@ export function MatchupsScreen() {
         ref={flatlistRef}
         pagingEnabled={true}
         maxToRenderPerBatch={8}
+        onScrollToIndexFailed={() => {
+          return;
+        }}
         windowSize={3}
         initialNumToRender={3}
         keyExtractor={(props) => `${props.season - props.week}`}
