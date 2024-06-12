@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useContext, useEffect, useState } from "react";
 import { ActiveLeagues, UserType } from "../types/types";
 import { useAuthContext } from "../utils";
 import { useAppSelector } from "../store";
@@ -41,6 +41,8 @@ export function DataProvider(props: { children: ReactNode }) {
             league_id: l.leagues?.id || "",
             league_name: l.leagues?.name || "",
             isCommissioner: l.role === "Commissioner",
+            isOverUnderEnabled: !!l.leagues?.does_include_over_under,
+            isPlayoffsEnabled: !!l.leagues?.does_include_playoffs,
           }))
         : [];
 
@@ -70,3 +72,5 @@ export function DataProvider(props: { children: ReactNode }) {
     </DataContext.Provider>
   );
 }
+
+export const useDataContext = () => React.useContext(DataContext);

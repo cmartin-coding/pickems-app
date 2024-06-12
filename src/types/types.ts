@@ -11,6 +11,22 @@ export type ActiveLeagues = {
   league_id: string;
   league_name: string;
   isCommissioner: boolean;
+  isOverUnderEnabled: boolean;
+  isPlayoffsEnabled: boolean;
+};
+
+export type MatchupPicksType = {
+  away_team: Tables<"nfl_teams">;
+  home_team: Tables<"nfl_teams">;
+  id: string;
+  isComplete: boolean;
+  odds: Odds;
+  picks: Tables<"picks">[];
+  score: Score;
+  season: string;
+  time: string;
+  week: number;
+  winner: number | null;
 };
 export type UserType = {
   user: User;

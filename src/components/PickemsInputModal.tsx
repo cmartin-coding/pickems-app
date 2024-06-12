@@ -23,12 +23,16 @@ export function PickemsInputModal(props: {
 
   return (
     <Modal visible={props.visible} transparent animationType="slide">
-      <KeyboardAvoidingView style={[tw`flex-1 flex-col`]} behavior="padding">
+      <KeyboardAvoidingView
+        style={[tw`flex-1 flex-col justify-end`]}
+        behavior="padding"
+      >
         <TouchableWithoutFeedback
           onPress={() => {
             props.onDismiss && props.onDismiss();
           }}
         >
+          <View style={[tw`flex-1 ${props.visible ? "bg-black/10" : ""}`]} />
           {/* <LinearGradient
               colors={["#00000000", "#00000080"]}
               style={[tw`flex-1`]}
@@ -36,7 +40,7 @@ export function PickemsInputModal(props: {
         </TouchableWithoutFeedback>
         <View
           style={[
-            tw`flex-col rounded-tl-xl min-h-[180px] rounded-tr-xl bg-white p-4 -mt-4`,
+            tw`flex-col rounded-tl-xl min-h-[180px] max-h-[90%] border rounded-tr-xl bg-white p-4 -mt-4`,
             { paddingBottom: insets.bottom + 4 },
             props.containerStyle,
           ]}
