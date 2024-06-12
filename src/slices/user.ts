@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { User, UserType } from "../types/types";
+import { ActiveLeagues, User, UserType } from "../types/types";
 import { userApi } from "../services/user";
 
 const initialState: UserType = {
@@ -21,6 +21,12 @@ export const userSlice = createSlice({
       userApi.endpoints.addUser.matchFulfilled,
       (state, action: PayloadAction<User>) => {
         state.user = action.payload;
+      }
+    );
+    builder.addMatcher(
+      userApi.endpoints.createLeague.matchFulfilled,
+      (state, action: PayloadAction<ActiveLeagues>) => {
+        state.activeLeagues.push(action.payload);
       }
     );
   },
