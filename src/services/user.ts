@@ -44,6 +44,7 @@ export default supabaseBaseQuery;
 export const userApi = createApi({
   reducerPath: "userApi",
   baseQuery: supabaseBaseQuery,
+  tagTypes: ["Picks"],
   endpoints: (builder) => ({
     addUser: builder.mutation<User, User>({
       queryFn: async (param) => {
@@ -163,6 +164,8 @@ export const userApi = createApi({
             isCommissioner: true,
             league_id: param.league.id,
             league_name: param.league.name,
+            isOverUnderEnabled: param.league.does_include_over_under,
+            isPlayoffsEnabled: param.league.does_include_playoffs,
           };
           return { data: activeLeague };
         } catch (ex) {
@@ -175,6 +178,7 @@ export const userApi = createApi({
       MatchupPicksType[],
       { userId: string; leagueId: string; week_num: number }
     >({
+      providesTags: ["Picks"],
       // @ts-ignore
       // TODO: Dont get why this error is occurring. It is matching what I want.
       queryFn: async (params) => {
@@ -206,6 +210,23 @@ export const userApi = createApi({
         }
       },
     }),
+    submitPicks: builder.mutation<null, Tables<"picks">[]>({
+      invalidatesTags: ["Picks"],
+      queryFn: async (picks) => {
+        try {
+          const { data, error } = await supabase.from("picks").upsert(picks);
+          if (error) {
+            console.log("ERROR", error);
+            throw new Error("Problem upserting picks");
+          }
+          console.log("Picks data upserted", picks);
+          return { data };
+        } catch (ex) {
+          console.error(ex);
+          throw new Error("Problem adding picks");
+        }
+      },
+    }),
   }),
 });
 
@@ -220,3 +241,4 @@ export const useGetPicksByLeagueIdAndUserAndSeason =
 export const useAddUserMutation = userApi.endpoints.addUser.useMutation;
 export const useCreateLeagueMutation =
   userApi.endpoints.createLeague.useMutation;
+export const useSubmitPicksMutation = userApi.endpoints.submitPicks.useMutation;

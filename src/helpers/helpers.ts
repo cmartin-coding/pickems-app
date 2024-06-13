@@ -43,3 +43,31 @@ export function formatMatchupsByTimeOfDay(
 
   return formattedData;
 }
+
+export function getWeeklyResults(completedMatchups: MatchupPicksType[]): {
+  numberOfCorrectPicks: number;
+  numberOfCorrectOverUnderPicks: number;
+} {
+  const numberOfCorrectPicks = completedMatchups.reduce((prev, acc) => {
+    const isCorrect = acc.picks[0].team_selection === acc.winner;
+    if (isCorrect) {
+      return prev + 1;
+    } else {
+      return prev;
+    }
+  }, 0);
+  const numberOfCorrectOverUnderPicks = completedMatchups.reduce(
+    (prev, acc) => {
+      const isCorrect =
+        acc.picks[0].over_under_selection === acc.over_under_winner;
+      if (isCorrect) {
+        return prev + 1;
+      } else {
+        return prev;
+      }
+    },
+    0
+  );
+
+  return { numberOfCorrectPicks, numberOfCorrectOverUnderPicks };
+}

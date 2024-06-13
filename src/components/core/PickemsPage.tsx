@@ -11,12 +11,18 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import tw, { useDeviceContext } from "twrnc";
 
-export function PickemsPage(props: {
+export type PickemsPageProps = {
   children: ReactNode;
+  belowScrollViewChildren?: ReactNode;
   style?: ViewStyle;
   showBackButton?: boolean;
   isTabBarScreen?: boolean;
-}) {
+  scrollViewStyle?: ViewStyle[];
+
+  aboveScrollViewChildren?: ReactNode;
+};
+
+export function PickemsPage(props: PickemsPageProps) {
   useDeviceContext(tw);
   const router = useRouter();
   const insets = useSafeAreaInsets();
@@ -24,51 +30,56 @@ export function PickemsPage(props: {
   return (
     <View style={[tw`flex-1 flex-col bg-white `, props.style]}>
       {props.children && (
-        <ScrollView
-          style={[
-            tw`flex-1`,
-            {
-              paddingTop: props.isTabBarScreen ? 0 : insets.top,
-              paddingLeft: insets.left,
-              paddingRight: insets.right,
-            },
-          ]}
-          showsVerticalScrollIndicator={false}
-          keyboardShouldPersistTaps="handled"
-          contentContainerStyle={{
-            paddingBottom: insets.bottom + 120,
-          }}
-        >
-          <View style={[tw`flex-row justify-center items-center  py-4`]}>
-            {props.showBackButton && router.canGoBack() && (
-              <TouchableOpacity
-                style={[tw`pt-1  z-20 absolute left-4`]}
-                onPress={() => {
-                  router.back();
-                }}
-              >
-                <Ionicons
-                  name="arrow-back"
-                  style={[tw`text-black`]}
-                  size={20}
-                />
-              </TouchableOpacity>
-            )}
-            {/* {props.rightHeader && (
+        <>
+          {props.aboveScrollViewChildren && props.aboveScrollViewChildren}
+          <ScrollView
+            style={[
+              props.scrollViewStyle,
+              tw`flex-1`,
+              {
+                paddingTop: props.isTabBarScreen ? 0 : insets.top,
+                paddingLeft: insets.left,
+                paddingRight: insets.right,
+              },
+            ]}
+            showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled"
+            contentContainerStyle={{
+              paddingBottom: insets.bottom + 120,
+            }}
+          >
+            <View style={[tw`flex-row justify-center items-center  py-4`]}>
+              {props.showBackButton && router.canGoBack() && (
+                <TouchableOpacity
+                  style={[tw`pt-1  z-20 absolute left-4`]}
+                  onPress={() => {
+                    router.back();
+                  }}
+                >
+                  <Ionicons
+                    name="arrow-back"
+                    style={[tw`text-black`]}
+                    size={20}
+                  />
+                </TouchableOpacity>
+              )}
+              {/* {props.rightHeader && (
                 <View style={[tw`pt-1 absolute right-5`]}>
                   {props.rightHeader}
                 </View>
               )} */}
-            {/* 
+              {/* 
               {props.logo ? (
                 props.logo
               ) : (
                 <TopiaLogo color={props.headerFgColor || "white"} />
               )} */}
-          </View>
+            </View>
 
-          <View style={[tw`p-2 mx-2`]}>{props.children}</View>
-        </ScrollView>
+            <View style={[tw`p-2 mx-2`]}>{props.children}</View>
+          </ScrollView>
+          {props.belowScrollViewChildren && props.belowScrollViewChildren}
+        </>
       )}
     </View>
   );

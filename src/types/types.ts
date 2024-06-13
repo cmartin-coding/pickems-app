@@ -27,6 +27,8 @@ export type MatchupPicksType = {
   time: string;
   week: number;
   winner: number | null;
+  over_under_number: number;
+  over_under_winner: "Over" | "Under";
 };
 export type UserType = {
   user: User;
