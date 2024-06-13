@@ -1,60 +1,20 @@
-import { PickemsHeader } from "@/src/components/PickemsHeader";
-import { PickemsInputModal } from "@/src/components/PickemsInputModal";
-import { PickemsText } from "@/src/components/PickemsText";
-import { PickemsAuthenticatedPage } from "@/src/components/core/PickemsAuthenticatedPage";
-import { PickemsPage } from "@/src/components/core/PickemsPage";
-import { UserPicksScreen } from "@/src/components/screens/UserPicksScreen";
-import { NFL_START_DATE } from "@/src/constants/const";
-import { NFL_WEEKS } from "@/src/constants/weeks";
-import { getCurrentNFLWeek } from "@/src/helpers/helpers";
-import {
-  useGetPicksByLeagueIdAndUserAndSeason,
-  useSubmitPicksMutation,
-} from "@/src/services/user";
-import { useAppSelector } from "@/src/store";
-import { Tables } from "@/src/types/supabaseTypes";
+import { ScrollView, TouchableOpacity, View } from "react-native";
+import { PickemsHeader } from "./PickemsHeader";
 import { tw } from "@/tailwind";
 import { Ionicons } from "@expo/vector-icons";
-import { useLocalSearchParams } from "expo-router";
-import { useEffect, useRef, useState } from "react";
-import {
-  ActivityIndicator,
-  ScrollView,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { PickemsText } from "./PickemsText";
+import { PickemsInputModal } from "./PickemsInputModal";
+import { useRef, useState } from "react";
+import { getCurrentNFLWeek } from "../helpers/helpers";
+import { NFL_WEEKS } from "../constants/weeks";
 
-export default function UserPicks() {
-  const user = useAppSelector((state) => state.user);
-  const { leagueId } = useLocalSearchParams<{ leagueId: string }>();
-  let leagueID = leagueId;
-  if (!leagueID) {
-    leagueID = user.activeLeagues[0]?.league_id;
-  }
-
+export function UserPicksHeader() {
   const scrollViewRef = useRef(null);
   const [weeksItemHeight, setWeeksItemHeight] = useState(0);
   const [isModalShown, setIsModalShown] = useState(false);
 
   const currWeek = getCurrentNFLWeek();
   const [selectedWeek, setSelectedWeek] = useState(currWeek);
-
-  const { isLoading, data, isFetching } = useGetPicksByLeagueIdAndUserAndSeason(
-    {
-      leagueId: leagueID,
-      userId: user.user.id,
-      week_num: selectedWeek,
-    }
-  );
-  const [submitPicks, { isError, data: picks }] = useSubmitPicksMutation();
-
-  const currLeague = user.activeLeagues.find((l) => l.league_id === leagueID);
-
-  // add logic for submitting picks
-  const handleSubmittingPicks = async (picks: Tables<"picks">[]) => {
-    await submitPicks(picks);
-  };
-
   return (
     <>
       <View style={[tw`flex flex-col bg-white items-center gap-2`]}>
@@ -97,23 +57,7 @@ export default function UserPicks() {
           </TouchableOpacity>
         </View>
       </View>
-      {(isLoading || isFetching) && (
-        <View style={[tw` h-full flex flex-row items-center justify-center`]}>
-          <ActivityIndicator />
-        </View>
-      )}
-      {!data && !isLoading && <PickemsText>No picks data...</PickemsText>}
-      {data && !isLoading && !isFetching && (
-        <UserPicksScreen
-          onSubmitPicks={(picks) => {
-            handleSubmittingPicks(picks);
-          }}
-          leagueId={leagueID}
-          currWeek={currWeek}
-          isOverUnderEnabled={!!currLeague?.isOverUnderEnabled}
-          matchups={data}
-        />
-      )}
+
       <PickemsInputModal
         visible={isModalShown}
         onDismiss={() => {

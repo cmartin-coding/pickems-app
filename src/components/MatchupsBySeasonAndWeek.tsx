@@ -55,13 +55,13 @@ export function MatchupsBySeasonAndWeek(props: MatchupsBySeasonAndWeekType) {
           <View key={d} style={[tw`flex flex-col gap-3 w-full`]}>
             <View
               style={[
-                tw`flex flex-row px-4 pb-2 border-b border-b-black justify-between`,
+                tw`flex flex-row px-4 pb-2 mx-4 border-b border-b-black justify-between`,
               ]}
             >
               <PickemsText style={[tw`font-bold text-lg`]}>
                 {day} {dateStr}
               </PickemsText>
-              <PickemsText>{timeStr}</PickemsText>
+              <PickemsText style={[tw``]}>{timeStr}</PickemsText>
             </View>
             <View style={[tw`flex flex-col pt-2 items-center   px-4 gap-3  `]}>
               {formattedMatchups[d].map((matchup) => {

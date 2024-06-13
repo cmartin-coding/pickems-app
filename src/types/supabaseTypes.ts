@@ -54,22 +54,28 @@ export type Database = {
       };
       leagues: {
         Row: {
+          created_at: string | null;
           does_include_over_under: boolean;
           does_include_playoffs: boolean;
           id: string;
           name: string;
+          updated_at: string | null;
         };
         Insert: {
+          created_at?: string | null;
           does_include_over_under: boolean;
           does_include_playoffs: boolean;
           id: string;
           name: string;
+          updated_at?: string | null;
         };
         Update: {
+          created_at?: string | null;
           does_include_over_under?: boolean;
           does_include_playoffs?: boolean;
           id?: string;
           name?: string;
+          updated_at?: string | null;
         };
         Relationships: [];
       };
@@ -80,6 +86,8 @@ export type Database = {
           id: string;
           isComplete: boolean;
           odds: Json;
+          over_under_number: number | null;
+          over_under_winner: Database["public"]["Enums"]["Over Under"] | null;
           score: Json | null;
           season: string;
           time: string | null;
@@ -92,6 +100,8 @@ export type Database = {
           id: string;
           isComplete: boolean;
           odds: Json;
+          over_under_number?: number | null;
+          over_under_winner?: Database["public"]["Enums"]["Over Under"] | null;
           score?: Json | null;
           season: string;
           time?: string | null;
@@ -104,6 +114,8 @@ export type Database = {
           id?: string;
           isComplete?: boolean;
           odds?: Json;
+          over_under_number?: number | null;
+          over_under_winner?: Database["public"]["Enums"]["Over Under"] | null;
           score?: Json | null;
           season?: string;
           time?: string | null;
@@ -170,36 +182,36 @@ export type Database = {
       };
       picks: {
         Row: {
+          created_at: string | null;
           id: string;
-          is_over_under_selection_correct: boolean | null;
-          is_team_selection_correct: boolean | null;
           league_id: string;
           matchup_id: string;
           over_under_selection: string | null;
           season_id: string;
           team_selection: number | null;
+          updated_at: string | null;
           user_id: string;
         };
         Insert: {
+          created_at?: string | null;
           id?: string;
-          is_over_under_selection_correct?: boolean | null;
-          is_team_selection_correct?: boolean | null;
           league_id: string;
           matchup_id: string;
           over_under_selection?: string | null;
           season_id: string;
           team_selection?: number | null;
+          updated_at?: string | null;
           user_id: string;
         };
         Update: {
+          created_at?: string | null;
           id?: string;
-          is_over_under_selection_correct?: boolean | null;
-          is_team_selection_correct?: boolean | null;
           league_id?: string;
           matchup_id?: string;
           over_under_selection?: string | null;
           season_id?: string;
           team_selection?: number | null;
+          updated_at?: string | null;
           user_id?: string;
         };
         Relationships: [
@@ -257,18 +269,21 @@ export type Database = {
       };
       users: {
         Row: {
+          created_at: string | null;
           email: string;
           favorite_team: string | null;
           id: string;
           name: string;
         };
         Insert: {
+          created_at?: string | null;
           email: string;
           favorite_team?: string | null;
           id: string;
           name: string;
         };
         Update: {
+          created_at?: string | null;
           email?: string;
           favorite_team?: string | null;
           id?: string;
@@ -296,6 +311,7 @@ export type Database = {
     Enums: {
       Conference: "AFC" | "NFC";
       Division: "East" | "West" | "North" | "South";
+      "Over Under": "Over" | "Under";
       Role: "Commissioner" | "Member";
     };
     CompositeTypes: {

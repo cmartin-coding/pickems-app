@@ -26,7 +26,7 @@ export default function PickemsTabBar() {
       <Tabs.Screen
         name="user-picks"
         options={{
-          title: "Your Picks",
+          title: "My Picks",
           tabBarIcon: ({ color }) => (
             <Ionicons name="american-football" size={25} color={color} />
             // <FontAwesome size={28} name="" color={color} />

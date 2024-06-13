@@ -1,16 +1,30 @@
 import { tw } from "@/tailwind";
-import { TouchableOpacity, View, ViewStyle } from "react-native";
+import {
+  Switch,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+  useWindowDimensions,
+} from "react-native";
 import { MatchupsTeamCard } from "../MatchupsTeamCard";
 import { PickemsText } from "../PickemsText";
 import { MatchupPicksType } from "@/src/types/types";
 import { PickemsOptionSlider } from "../PickemsOptionSlider";
 import { PickemsButton } from "../PickemsButton";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { PicksMatchupCard } from "../PicksMatchupCard";
-import { formatMatchupsByTimeOfDay } from "@/src/helpers/helpers";
+import {
+  formatMatchupsByTimeOfDay,
+  getWeeklyResults,
+} from "@/src/helpers/helpers";
 import { daysOfWeek } from "@/src/constants/const";
 import { format, getDay } from "date-fns";
+import { Tables } from "@/src/types/supabaseTypes";
+import { useSubmitPicksMutation } from "@/src/services/user";
+import { useAppSelector } from "@/src/store";
+import { CurrentStats } from "../CurrentStats";
+import { PickemsAuthenticatedPage } from "../core/PickemsAuthenticatedPage";
 
 type UserPicksScreenType = {
   isOverUnderEnabled: boolean;
@@ -18,20 +32,119 @@ type UserPicksScreenType = {
   currWeek: number;
   style?: ViewStyle[];
   leagueId: string;
+  onSubmitPicks: (picks: Tables<"picks">[]) => void;
 };
 export function UserPicksScreen(props: UserPicksScreenType) {
+  const user = useAppSelector((state) => state.user);
+  const { width } = useWindowDimensions();
   const matchupsWeek = props.matchups[0].week;
   const isCurrentMatchupWeek = matchupsWeek === props.currWeek;
-  const [picks, setPicks] = useState([]);
-  const formattedMatchups = formatMatchupsByTimeOfDay(props.matchups);
+
+  const [includeCompletedPicks, setIncludeCompletedPicks] = useState(true);
+  const [picks, setPicks] = useState<Tables<"picks">[]>([]);
+
+  const formattedMatchups = useMemo(() => {
+    let matchups = props.matchups;
+    // const matchups = formatMatchupsByTimeOfDay(props.matchups);
+    if (!includeCompletedPicks) {
+      matchups = props.matchups.filter((x) => !x.picks[0]?.id);
+    }
+    return formatMatchupsByTimeOfDay(matchups);
+  }, [includeCompletedPicks, props.matchups]);
+
   const gameTimes = Object.keys(formattedMatchups).sort(
     //@ts-ignore
     (a, b) => new Date(a) - new Date(b)
   );
+  const numberOfCompletedPicks = picks.length;
+  const isButtonsDisabled = numberOfCompletedPicks === 0;
+
+  const totalMatchups = props.matchups.length;
+  const totalPicksAlreadySubmitted = props.matchups.reduce((prev, acc) => {
+    if (!!acc.picks[0]?.id) {
+      return prev + 1;
+    } else {
+      return prev;
+    }
+  }, 0);
+  const hasCompletedWeeklyPicks = totalMatchups === totalPicksAlreadySubmitted;
+
+  const completedMatchups = props.matchups.filter((m) => m.isComplete);
+  const pickResults = getWeeklyResults(completedMatchups);
 
   return (
-    <View>
-      <PickemsButton buttonLabel="Submit Picks" style={[tw`mx-4 mb-4 p-1 `]} />
+    <PickemsAuthenticatedPage
+      belowScrollViewChildren={
+        !isButtonsDisabled && (
+          <View style={[tw`absolute bottom-0 w-full`]}>
+            <PickemsButton
+              onPress={() => {
+                props.onSubmitPicks(picks);
+              }}
+              buttonLabel="Save Picks"
+              style={[tw`p-4 border rounded-0 border-green-400  bg-green-100`]}
+              disabledStyle="bg-gray-200"
+              textStyle={[tw`text-black`]}
+            />
+          </View>
+        )
+      }
+    >
+      <View
+        style={[tw` border bg-blue-200/10 rounded-md p-2 flex  flex-col gap-4`]}
+      >
+        <CurrentStats
+          stats={{
+            numberOfCorrectOverUnderPicks:
+              pickResults.numberOfCorrectOverUnderPicks,
+            numberOfCorrectPicks: pickResults.numberOfCorrectPicks,
+            totalSelections: completedMatchups.length,
+          }}
+        />
+        {/* <PickemsButton
+            disabled={isButtonsDisabled}
+            onPress={() => {
+              props.onSubmitPicks(picks);
+            }}
+            buttonLabel="Submit Picks"
+            style={[
+              tw`p-3 border ${
+                !isButtonsDisabled
+                  ? "border-2 border-green-400 shadow-lg bg-green-100"
+                  : ""
+              }`,
+            ]}
+            disabledStyle="bg-gray-200"
+            textStyle={[
+              tw`text-gray-400 ${
+                isButtonsDisabled ? "text-gray-400" : "text-black"
+              }`,
+            ]}
+          /> */}
+
+        <View style={[tw`flex  flex-row items-center justify-between`]}>
+          <PickemsText>Include submitted picks?</PickemsText>
+          <Switch
+            value={includeCompletedPicks}
+            onChange={() => {
+              setIncludeCompletedPicks((prev) => !prev);
+            }}
+          />
+        </View>
+      </View>
+      {!hasCompletedWeeklyPicks && (
+        <View
+          style={[
+            tw`flex mb-6 mx-4 mt-2 flex-row gap-1 items-center  justify-center`,
+          ]}
+        >
+          <Ionicons name="alert-circle" color={"red"} size={20} />
+          <PickemsText style={[tw`   text-center text-sm`]}>
+            You haven't made all of your picks!
+          </PickemsText>
+        </View>
+      )}
+
       {gameTimes.map((d) => {
         const day = daysOfWeek[getDay(new Date(d))];
         const dateStr = format(new Date(d), "MMM d ");
@@ -48,9 +161,7 @@ export function UserPicksScreen(props: UserPicksScreenType) {
               </PickemsText>
               <PickemsText>{timeStr}</PickemsText>
             </View>
-            <View
-              style={[tw`flex flex-col pt-3 pb-4 items-center   px-4 gap-3  `]}
-            >
+            <View style={[tw`flex flex-col pt-3  pb-4 items-center gap-3  `]}>
               {formattedMatchups[d].map((matchup) => {
                 const overUnderVal = matchup.odds.over ? matchup.odds.over : 56;
                 const pick = matchup.picks[0];
@@ -68,6 +179,19 @@ export function UserPicksScreen(props: UserPicksScreenType) {
                     isSelectedHomeTeam={selectedHomeTeam}
                     matchup={matchup}
                     overUnderInfo={{ over: 56, under: 56 }}
+                    onPickCompleted={(pick) => {
+                      const pickIndex = picks.findIndex(
+                        (p) => p.id === pick.id
+                      );
+                      if (pickIndex < 0) {
+                        setPicks((prev) => [...prev, pick]);
+                      } else {
+                        const newPicks = [...picks];
+                        newPicks[pickIndex] = pick;
+
+                        setPicks(newPicks);
+                      }
+                    }}
                   />
                 );
               })}
@@ -75,6 +199,7 @@ export function UserPicksScreen(props: UserPicksScreenType) {
           </View>
         );
       })}
+
       {/* <View style={[tw`flex flex-col items-center  px-4 gap-5 `, props.style]}>
         {props.matchups.map((matchup) => {
           const overUnderVal = matchup.odds.over ? matchup.odds.over : 56;
@@ -96,7 +221,28 @@ export function UserPicksScreen(props: UserPicksScreenType) {
           );
         })}
       </View> */}
-      <PickemsButton buttonLabel="Submit Picks" style={[tw`mx-4 mt-4 p-1 `]} />
-    </View>
+      {/* {isCurrentMatchupWeek && (
+        <PickemsButton
+          disabled={isButtonsDisabled}
+          onPress={() => {
+            props.onSubmitPicks(picks);
+          }}
+          buttonLabel="Submit Picks"
+          style={[
+            tw`mx-4 mb-4 p-1 border ${
+              !isButtonsDisabled
+                ? "border-2 border-green-400 shadow-lg bg-green-100"
+                : ""
+            }`,
+          ]}
+          disabledStyle="bg-gray-200"
+          textStyle={[
+            tw`text-gray-400 ${
+              isButtonsDisabled ? "text-gray-400" : "text-black"
+            }`,
+          ]}
+        />
+      )} */}
+    </PickemsAuthenticatedPage>
   );
 }
