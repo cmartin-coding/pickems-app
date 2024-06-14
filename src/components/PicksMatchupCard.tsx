@@ -45,15 +45,10 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
     : !!pick.team_selection;
 
   useEffect(() => {
-    if (pickIsMade && props.isCurrentMatchupWeek && userHasAlteredPick) {
+    if (pickIsMade && userHasAlteredPick) {
       props.onPickCompleted(pick);
     }
   }, [pick]);
-
-  const currentDate = new Date();
-  const givenDate = new Date(props.matchup.time);
-  const isLockedOut =
-    isAfter(currentDate, givenDate) || isEqual(currentDate, givenDate);
 
   return (
     <View
@@ -66,50 +61,24 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
         style={[tw`flex flex-1 relative border-r flex-col  bg-blue-200/20 `]}
         key={props.matchup.id}
       >
-        {isLockedOut && (
-          <View
-            style={[
-              tw`w-full flex flex-row justify-center absolute z-20 h-full bg-slate-400/40`,
-            ]}
-          >
-            <Ionicons
-              name="lock-closed-outline"
-              size={60}
-              color={"grey"}
-              style={[
-                tw`absolute top-[10%]`,
-                {
-                  transform: [
-                    // { rotateY: "45deg" },
-                    // { rotateX: "45deg" },
-                    { rotateZ: "10deg" },
-                  ],
-                },
-              ]}
-            />
-          </View>
-        )}
         <View style={[tw`flex flex-row gap-2 flex-1 items-center`]}>
           <TouchableOpacity
             style={[
               tw`flex-1 flex flex-col items-center 
-         
           ${
-            pick.team_selection === props.matchup.away_team.id && !isLockedOut
+            pick.team_selection === props.matchup.away_team.id
               ? "rounded-sm bg-blue-300/50"
               : ""
           }`,
             ]}
             onPress={() => {
-              if (props.isCurrentMatchupWeek) {
-                if (props.matchup.away_team.id !== pick.team_selection) {
-                  setUserHasAlteredPick(true);
-                }
-                setPick((prev) => ({
-                  ...prev,
-                  team_selection: props.matchup.away_team.id,
-                }));
+              if (props.matchup.away_team.id !== pick.team_selection) {
+                setUserHasAlteredPick(true);
               }
+              setPick((prev) => ({
+                ...prev,
+                team_selection: props.matchup.away_team.id,
+              }));
             }}
           >
             <MatchupsTeamCard
@@ -120,17 +89,15 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
               score={props.matchup.score.away || 0}
               teamName={props.matchup.away_team.name}
             />
-            {props.isCurrentMatchupWeek && (
-              <View
-                style={[
-                  tw`h-4 w-4 mb-1 ${
-                    pick.team_selection === props.matchup.away_team.id
-                      ? "bg-green-500"
-                      : ""
-                  } rounded-full border border-black`,
-                ]}
-              />
-            )}
+            <View
+              style={[
+                tw`h-4 w-4 mb-1 ${
+                  pick.team_selection === props.matchup.away_team.id
+                    ? "bg-green-500"
+                    : ""
+                } rounded-full border border-black`,
+              ]}
+            />
           </TouchableOpacity>
 
           <PickemsText
@@ -143,20 +110,19 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
               if (props.matchup.home_team.id !== pick.team_selection) {
                 setUserHasAlteredPick(true);
               }
-              if (props.isCurrentMatchupWeek) {
-                setPick((prev) => ({
-                  ...prev,
-                  team_selection: props.matchup.home_team.id,
-                }));
-              }
+              setPick((prev) => ({
+                ...prev,
+                team_selection: props.matchup.home_team.id,
+              }));
             }}
             style={[
-              tw`flex-1 relative flex ${
-                pick.team_selection === props.matchup.home_team.id &&
-                !isLockedOut
-                  ? " rounded-sm bg-blue-300/50"
+              tw`flex-1 relative flex rounded-sm
+              ${
+                pick.team_selection === props.matchup.home_team.id
+                  ? "rounded-sm bg-blue-300/50"
                   : ""
-              } flex-col items-center`,
+              }
+              flex-col items-center`,
             ]}
           >
             <MatchupsTeamCard
@@ -167,22 +133,21 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
               score={props.matchup.score.home || 0}
               teamName={props.matchup.home_team.name}
             />
-            {props.isCurrentMatchupWeek && (
-              <View
-                style={[
-                  tw`h-4 w-4 mb-1 rounded-full border border-black ${
-                    pick.team_selection === props.matchup.home_team.id
-                      ? "bg-green-500 "
-                      : ""
-                  }`,
-                ]}
-              />
-            )}
+
+            <View
+              style={[
+                tw`h-4 w-4 mb-1 rounded-full border border-black ${
+                  pick.team_selection === props.matchup.home_team.id
+                    ? "bg-green-500 "
+                    : ""
+                }`,
+              ]}
+            />
           </TouchableOpacity>
         </View>
       </View>
 
-      {props.overUnderInfo && props.isCurrentMatchupWeek && (
+      {props.overUnderInfo && (
         <OverUnderPicker
           style={[tw`border-0`]}
           currentSelection={
