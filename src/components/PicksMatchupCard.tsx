@@ -58,7 +58,7 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
   return (
     <View
       style={[
-        tw`flex h-20 border rounded-md  flex-row  w-full 
+        tw`flex h-17 border rounded-md  flex-row  w-full 
         `,
       ]}
     >
@@ -181,6 +181,7 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
           </TouchableOpacity>
         </View>
       </View>
+
       {props.overUnderInfo && props.isCurrentMatchupWeek && (
         <OverUnderPicker
           style={[tw`border-0`]}
