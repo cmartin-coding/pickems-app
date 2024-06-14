@@ -21,14 +21,20 @@ export function MatchupsTeamCard(props: MatchupsTeamCardType) {
         }`,
       ]}
     >
-      <View style={[tw`flex flex-row items-center gap-1`]}>
-        <View style={[tw`flex flex-row gap-1`]}>
-          <PickemsText style={[tw``]}>{props.abbreviation}</PickemsText>
-          {props.isComplete && <PickemsText>({props.score})</PickemsText>}
+      <View style={[tw`flex flex-col items-center h-full `]}>
+        <View style={[tw`flex flex-row  flex-1 items-center gap-1`]}>
+          <PickemsText style={[tw`${props.isWinner ? "font-bold" : ""}`]}>
+            {props.abbreviation}
+          </PickemsText>
+          <View style={[tw`w-15 h-15 flex flex-row justify-center `]}>
+            <TeamLogo team={props.teamName as NFLTeamNames} />
+          </View>
         </View>
-        <View style={[tw`w-15 h-15 flex flex-row justify-center `]}>
-          <TeamLogo team={props.teamName as NFLTeamNames} />
-        </View>
+        {props.isComplete && (
+          <PickemsText style={[tw`${props.isWinner ? "font-bold  " : ""}`]}>
+            {props.score}
+          </PickemsText>
+        )}
       </View>
     </View>
   );

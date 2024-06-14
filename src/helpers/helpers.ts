@@ -44,7 +44,10 @@ export function formatMatchupsByTimeOfDay(
   return formattedData;
 }
 
-export function getWeeklyResults(completedMatchups: MatchupPicksType[]): {
+export function getWeeklyResults(
+  completedMatchups: MatchupPicksType[]
+  // userId?: string
+): {
   numberOfCorrectPicks: number;
   numberOfCorrectOverUnderPicks: number;
 } {
@@ -70,4 +73,12 @@ export function getWeeklyResults(completedMatchups: MatchupPicksType[]): {
   );
 
   return { numberOfCorrectPicks, numberOfCorrectOverUnderPicks };
+}
+
+export function getLeagueStandings(completedMatchups: MatchupPicksType[]) {
+  // Go through all picks for each completed matchup
+  // For each user pick
+}
+export function getLeagueShareableID() {
+  return Math.floor(1000 + Math.random() * 9000);
 }

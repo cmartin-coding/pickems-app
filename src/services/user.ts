@@ -8,6 +8,7 @@ import {
 } from "../types/types";
 import uuid from "react-native-uuid";
 import { Tables } from "../types/supabaseTypes";
+import { CURRENT_SEASON_ID } from "../constants/const";
 
 // supabaseBaseQuery.js
 
@@ -138,22 +139,98 @@ export const userApi = createApi({
         }
       },
     }),
+    getLeagueUsersAndStandings: builder.query<
+      { name: string; favorite_team: string }[],
+      { leagueID: string }
+    >({
+      queryFn: async ({ leagueID }) => {
+        try {
+          const { data, error } = await supabase
+            .from("picks")
+            .select(
+              "over_under_selection, team_selection(*),user_id(name, favorite_team), matchup_id(isComplete,winner(*),overUnderWinner)"
+            )
+            .eq("matchup_id.isComplete", true)
+            .eq("league_id", leagueID)
+            .eq("season_id", CURRENT_SEASON_ID);
+          if (error) {
+            console.error("Problem getting standings data", error);
+          }
+
+          if (!data) {
+            return { data: [] };
+          }
+
+          console.log(data);
+        } catch (ex) {
+          throw new Error("Problem getting users");
+        }
+      },
+    }),
+    joinLeague: builder.mutation<
+      ActiveLeagues | null,
+      { leaguePW: string; shareableId: number; user_id: string }
+    >({
+      queryFn: async (joinLeagueData) => {
+        try {
+          const {
+            data: league,
+            count,
+            error,
+          } = await supabase
+            .from("leagues")
+            .select("*")
+            .eq("shareable_id", joinLeagueData.shareableId)
+            .eq("shareable_pw", joinLeagueData.leaguePW)
+            .maybeSingle();
+          if (error) {
+            console.log(error, "Error getting league details");
+          }
+          if (count === 0 || !league) {
+            return { data: null };
+          }
+          const { error: err } = await supabase
+            .from("league_users_season")
+            .insert({
+              league_id: league.id,
+              role: "Member",
+              season_id: "3c41a592-012a-4224-b137-830ea88eeb7e",
+              user_id: joinLeagueData.user_id,
+            });
+
+          if (err) {
+            console.error("Error adding user to league users seasons table");
+          }
+          const activeLeague: ActiveLeagues = {
+            isCommissioner: true,
+            league_id: league.id,
+            league_name: league.name,
+            isOverUnderEnabled: league.does_include_over_under,
+            isPlayoffsEnabled: league.does_include_playoffs,
+          };
+          return { data: activeLeague };
+        } catch (ex) {
+          console.error(ex);
+          throw new Error("Problem joining league");
+        }
+      },
+    }),
     createLeague: builder.mutation<
       ActiveLeagues,
       { league: Tables<"leagues">; user_id: string }
     >({
-      queryFn: async (param) => {
+      queryFn: async (league) => {
         try {
-          const { data, error } = await supabase
+          const { error } = await supabase
             .from("leagues")
-            .insert(param.league);
-          const { data: leagueSeasonUserData, error: err } = await supabase
+            .insert(league.league);
+          const { error: err } = await supabase
             .from("league_users_season")
             .insert({
-              league_id: param.league.id,
+              league_id: league.league.id,
               role: "Commissioner",
               season_id: "3c41a592-012a-4224-b137-830ea88eeb7e",
-              user_id: param.user_id,
+              user_id: league.user_id,
             });
           if (error || err) {
             console.log(error, err);
@@ -162,10 +239,10 @@ export const userApi = createApi({
 
           const activeLeague: ActiveLeagues = {
             isCommissioner: true,
-            league_id: param.league.id,
-            league_name: param.league.name,
-            isOverUnderEnabled: param.league.does_include_over_under,
-            isPlayoffsEnabled: param.league.does_include_playoffs,
+            league_id: league.league.id,
+            league_name: league.league.name,
+            isOverUnderEnabled: league.league.does_include_over_under,
+            isPlayoffsEnabled: league.league.does_include_playoffs,
           };
           return { data: activeLeague };
         } catch (ex) {
@@ -237,8 +314,10 @@ export const useGetMatchupsForCurrentSeasonQuery =
   userApi.endpoints.getAllMatchupsForCurrentSeason.useQuery;
 export const useGetPicksByLeagueIdAndUserAndSeason =
   userApi.endpoints.getUserPicksByLeague.useQuery;
+// export const useGetLeagueUsersQuery = userApi.endpoints.getLeagueUsers.useQuery;
 
 export const useAddUserMutation = userApi.endpoints.addUser.useMutation;
 export const useCreateLeagueMutation =
   userApi.endpoints.createLeague.useMutation;
 export const useSubmitPicksMutation = userApi.endpoints.submitPicks.useMutation;
+export const useJoinLeagueMutation = userApi.endpoints.joinLeague.useMutation;

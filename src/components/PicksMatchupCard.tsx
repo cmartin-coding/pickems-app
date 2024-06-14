@@ -53,7 +53,9 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
   return (
     <View
       style={[
-        tw`flex h-17 border rounded-md  flex-row  w-full 
+        tw`flex h-17 border rounded-md ${
+          props.matchup.isComplete ? "border-blue-800 border-2" : ""
+        } flex-row  w-full 
         `,
       ]}
     >
@@ -63,6 +65,7 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
       >
         <View style={[tw`flex flex-row gap-2 flex-1 items-center`]}>
           <TouchableOpacity
+            disabled={props.matchup.isComplete}
             style={[
               tw`flex-1 flex flex-col items-center 
           ${
@@ -89,15 +92,17 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
               score={props.matchup.score.away || 0}
               teamName={props.matchup.away_team.name}
             />
-            <View
-              style={[
-                tw`h-4 w-4 mb-1 ${
-                  pick.team_selection === props.matchup.away_team.id
-                    ? "bg-green-500"
-                    : ""
-                } rounded-full border border-black`,
-              ]}
-            />
+            {!props.matchup.isComplete && (
+              <View
+                style={[
+                  tw`h-4 w-4 mb-1 ${
+                    pick.team_selection === props.matchup.away_team.id
+                      ? "bg-green-500"
+                      : ""
+                  } rounded-full border border-black`,
+                ]}
+              />
+            )}
           </TouchableOpacity>
 
           <PickemsText
@@ -106,6 +111,7 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
             @
           </PickemsText>
           <TouchableOpacity
+            disabled={props.matchup.isComplete}
             onPress={() => {
               if (props.matchup.home_team.id !== pick.team_selection) {
                 setUserHasAlteredPick(true);
@@ -133,22 +139,24 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
               score={props.matchup.score.home || 0}
               teamName={props.matchup.home_team.name}
             />
-
-            <View
-              style={[
-                tw`h-4 w-4 mb-1 rounded-full border border-black ${
-                  pick.team_selection === props.matchup.home_team.id
-                    ? "bg-green-500 "
-                    : ""
-                }`,
-              ]}
-            />
+            {!props.matchup.isComplete && (
+              <View
+                style={[
+                  tw`h-4 w-4 mb-1 rounded-full border border-black ${
+                    pick.team_selection === props.matchup.home_team.id
+                      ? "bg-green-500 "
+                      : ""
+                  }`,
+                ]}
+              />
+            )}
           </TouchableOpacity>
         </View>
       </View>
 
       {props.overUnderInfo && (
         <OverUnderPicker
+          isDisabled={props.matchup.isComplete}
           style={[tw`border-0`]}
           currentSelection={
             pick.over_under_selection

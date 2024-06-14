@@ -29,6 +29,14 @@ export const userSlice = createSlice({
         state.activeLeagues.push(action.payload);
       }
     );
+    builder.addMatcher(
+      userApi.endpoints.joinLeague.matchFulfilled,
+      (state, action: PayloadAction<ActiveLeagues | null>) => {
+        if (action.payload) {
+          state.activeLeagues.push(action.payload);
+        }
+      }
+    );
   },
 });
 

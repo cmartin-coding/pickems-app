@@ -12,17 +12,23 @@ import { PickemsText } from "../PickemsText";
 import { useAppSelector } from "@/src/store";
 import { useCreateLeagueMutation } from "@/src/services/user";
 import { router } from "expo-router";
+import { getLeagueShareableID } from "@/src/helpers/helpers";
 export function CreateLeague() {
   const [createLeague, { isLoading, isSuccess, error }] =
     useCreateLeagueMutation();
 
   const userId = useAppSelector((state) => state.user.user.id);
   const id = uuid.v4();
+  const shareableLeagueId = getLeagueShareableID();
   const [league, setLeague] = useState<Tables<"leagues">>({
     id: `${id}`,
     does_include_over_under: false,
     does_include_playoffs: false,
     name: "",
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    shareable_id: shareableLeagueId,
+    shareable_pw: "",
   });
   const [noLeagueNameInputted, setNoLeagueNameInputted] = useState(false);
 
@@ -58,7 +64,7 @@ export function CreateLeague() {
             setLeague((prev) => ({ ...prev, name: text }));
           }}
           value={league.name}
-          label="League Name"
+          label={{ text: "League Name" }}
           style={[tw`bg-white`]}
         />
         {noLeagueNameInputted && (
@@ -80,6 +86,29 @@ export function CreateLeague() {
           onChange={(val) => {
             setLeague((prev) => ({ ...prev, does_include_playoffs: val }));
           }}
+        />
+        <PickemsTextInput
+          onChangeText={(text) => {
+            setLeague((prev) => ({ ...prev, shareable_pw: text }));
+          }}
+          value={league.shareable_pw || ""}
+          label={{
+            text: "League Password",
+            includeInfoIcon: {
+              modalChildren: (
+                <View>
+                  <PickemsHeader style={[tw`mb-2`]}>
+                    League Password
+                  </PickemsHeader>
+                  <PickemsText style={[tw`text-sm`]}>
+                    You will share this password with other users so they can
+                    join the league.
+                  </PickemsText>
+                </View>
+              ),
+            },
+          }}
+          style={[tw`bg-white`]}
         />
         <PickemsButton
           onPress={() => {
