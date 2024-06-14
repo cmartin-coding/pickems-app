@@ -46,14 +46,29 @@ export default function UserPicks() {
       week_num: selectedWeek,
     }
   );
-  const [submitPicks, { isError, data: picks }] = useSubmitPicksMutation();
 
+  const [loading, setLoading] = useState(false);
   const currLeague = user.activeLeagues.find((l) => l.league_id === leagueID);
+  const [submitPicks, { isLoading: isSubmittingPicksLoading }] =
+    useSubmitPicksMutation();
 
-  // add logic for submitting picks
+  const [hasSubmittedPicks, setHasSubmittedPicks] = useState(false);
   const handleSubmittingPicks = async (picks: Tables<"picks">[]) => {
-    await submitPicks(picks);
+    try {
+      await submitPicks(picks);
+      setHasSubmittedPicks(true);
+    } catch (ex) {
+      console.error(ex);
+    }
   };
+
+  useEffect(() => {
+    if (hasSubmittedPicks && !isFetching) {
+      setHasSubmittedPicks(false);
+    }
+  }, [isFetching]);
+
+  console.log("HERE", hasSubmittedPicks);
 
   return (
     <>
@@ -97,21 +112,22 @@ export default function UserPicks() {
           </TouchableOpacity>
         </View>
       </View>
-      {(isLoading || isFetching) && (
+      {(isLoading || (isFetching && !hasSubmittedPicks)) && (
         <View style={[tw` h-full flex flex-row items-center justify-center`]}>
           <ActivityIndicator />
         </View>
       )}
       {!data && !isLoading && <PickemsText>No picks data...</PickemsText>}
-      {data && !isLoading && !isFetching && (
+      {data && !isLoading && (
         <UserPicksScreen
-          onSubmitPicks={(picks) => {
-            handleSubmittingPicks(picks);
-          }}
+          isLoading={isSubmittingPicksLoading}
           leagueId={leagueID}
           currWeek={currWeek}
           isOverUnderEnabled={!!currLeague?.isOverUnderEnabled}
           matchups={data}
+          onSubmitPicks={(picks) => {
+            handleSubmittingPicks(picks);
+          }}
         />
       )}
       <PickemsInputModal

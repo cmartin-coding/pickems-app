@@ -12,10 +12,6 @@ type CurrentStatsType = {
 
 export function CurrentStats(props: CurrentStatsType) {
   const user = useAppSelector((state) => state.user);
-  console.log(
-    typeof props.stats.numberOfCorrectPicks,
-    typeof props.stats.totalSelections
-  );
   const teamPicksAccuracy =
     props.stats.numberOfCorrectPicks / props.stats.totalSelections || 0;
   const overUnderPicksAccuracy =
