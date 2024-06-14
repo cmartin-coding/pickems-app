@@ -42,7 +42,7 @@ export function MatchupsBySeasonAndWeek(props: MatchupsBySeasonAndWeekType) {
   return (
     <View
       style={[
-        tw`flex flex-col mt-5 items-center  w-[92%] px-4 gap-3 `,
+        tw`flex flex-col  mt-5 items-center  w-[92%] px-4 gap-3 `,
         props.style,
       ]}
     >
@@ -52,7 +52,7 @@ export function MatchupsBySeasonAndWeek(props: MatchupsBySeasonAndWeekType) {
         const timeStr = format(new Date(d), "h:mm a");
 
         return (
-          <View key={d} style={[tw`flex flex-col gap-3 w-full`]}>
+          <View key={d} style={[tw`flex   flex-col gap-3 pt-3  w-full`]}>
             <View
               style={[
                 tw`flex flex-row px-4 pb-2 mx-4 border-b border-b-black justify-between`,
@@ -72,7 +72,7 @@ export function MatchupsBySeasonAndWeek(props: MatchupsBySeasonAndWeekType) {
                 return (
                   <View
                     style={[
-                      tw`flex flex-1  flex-col border bg-blue-200/20 border-slate-300 rounded-md w-full`,
+                      tw`flex  min-h-20 h-20 flex-col border bg-blue-200/20 border-slate-300 rounded-md w-full`,
                     ]}
                     key={matchup.id}
                   >

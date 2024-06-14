@@ -1,6 +1,7 @@
 import { PickemsHeader } from "@/src/components/PickemsHeader";
 import { PickemsInputModal } from "@/src/components/PickemsInputModal";
 import { PickemsText } from "@/src/components/PickemsText";
+import { UserPicksHeader } from "@/src/components/UserPicksHeader";
 import { PickemsAuthenticatedPage } from "@/src/components/core/PickemsAuthenticatedPage";
 import { PickemsPage } from "@/src/components/core/PickemsPage";
 import { UserPicksScreen } from "@/src/components/screens/UserPicksScreen";
@@ -32,13 +33,8 @@ export default function UserPicks() {
     leagueID = user.activeLeagues[0]?.league_id;
   }
 
-  const scrollViewRef = useRef(null);
-  const [weeksItemHeight, setWeeksItemHeight] = useState(0);
-  const [isModalShown, setIsModalShown] = useState(false);
-
   const currWeek = getCurrentNFLWeek();
   const [selectedWeek, setSelectedWeek] = useState(currWeek);
-
   const { isLoading, data, isFetching } = useGetPicksByLeagueIdAndUserAndSeason(
     {
       leagueId: leagueID,
@@ -54,65 +50,21 @@ export default function UserPicks() {
     <>
       {isLoading && !data && (
         <View style={[tw`w-full h-full flex flex-col`]}>
-          <View style={[tw`flex flex-col bg-white items-center gap-2`]}>
-            <PickemsHeader style={[tw`mb-0`]}>2024 Picks</PickemsHeader>
-
-            <View
-              style={[
-                tw`flex flex-row border p-1 ${
-                  currWeek === selectedWeek ? "" : "bg-blue-200"
-                } rounded-lg items-center`,
-              ]}
-            >
-              <TouchableOpacity
-                onPress={() => {
-                  if (selectedWeek > 1) {
-                    setSelectedWeek((prev) => prev - 1);
-                  }
-                }}
-                style={[tw`border-r  border-r-black`]}
-              >
-                <Ionicons name="chevron-back-sharp" size={20} />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  setIsModalShown(true);
-                }}
-                style={[tw`flex px-2 flex-row gap-1 items-center`]}
-              >
-                <PickemsText>Week {selectedWeek}</PickemsText>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[
-                  tw`border-l  flex flex-row justify-center border-l-black`,
-                ]}
-                onPress={() => {
-                  if (selectedWeek < 18) {
-                    setSelectedWeek((prev) => prev + 1);
-                  }
-                }}
-              >
-                <Ionicons name="chevron-forward-sharp" size={20} />
-              </TouchableOpacity>
-            </View>
-          </View>
+          <UserPicksHeader
+            currWeek={currWeek}
+            onWeekChange={() => {}}
+            selectedWeek={currWeek}
+          />
           <View style={[tw`flex-1 flex-row justify-center items-center`]}>
             <ActivityIndicator style={[tw``]} />
           </View>
         </View>
       )}
-      {/* {(isLoading || (isFetching && !hasSubmittedPicks)) && (
-        <View style={[tw` h-full flex flex-row items-center justify-center`]}>
-          <ActivityIndicator />
-        </View>
-      )} */}
 
-      {/* {!data && !isLoading && <PickemsText>No picks data...</PickemsText>} */}
       {data && (
         <UserPicksScreen
           isFetching={isFetching}
           isLoadingInitial={isLoading}
-          // isLoading={isSubmittingPicksLoading}
           leagueId={leagueID}
           currWeek={currWeek}
           isOverUnderEnabled={!!currLeague?.isOverUnderEnabled}
@@ -120,83 +72,8 @@ export default function UserPicks() {
           onChangeWeek={(week) => {
             setSelectedWeek(week);
           }}
-          onSubmitPicks={(picks) => {
-            // handleSubmittingPicks(picks);
-          }}
         />
       )}
-      <PickemsInputModal
-        visible={isModalShown}
-        onDismiss={() => {
-          setIsModalShown(false);
-        }}
-      >
-        <View style={[tw`pb-10`]}>
-          <View
-            style={[
-              tw`flex flex-row border-b border-b-slate-300 pb-2 items-center justify-between`,
-            ]}
-          >
-            <View style={[tw`flex-1`]} />
-            <PickemsText style={[tw`flex-1 text-md`]}>Select Week</PickemsText>
-            <TouchableOpacity
-              onPress={() => {
-                setIsModalShown(false);
-              }}
-              style={[tw`flex-1 flex flex-row justify-end`]}
-            >
-              <Ionicons name="close-circle-outline" size={28} color={"black"} />
-            </TouchableOpacity>
-          </View>
-          <ScrollView
-            contentOffset={{ x: 0, y: (selectedWeek - 1) * 48 }}
-            ref={scrollViewRef}
-            style={[tw`flex flex-col mt-3`]}
-          >
-            {NFL_WEEKS.map((x) => {
-              const isSelected = x === selectedWeek;
-              return (
-                <TouchableOpacity
-                  onLayout={(event) => {
-                    if (weeksItemHeight === 0) {
-                      const { height } = event.nativeEvent.layout;
-                      setWeeksItemHeight(height);
-                    }
-                  }}
-                  key={x}
-                  style={[
-                    tw`${
-                      isSelected ? "bg-black/10" : ""
-                    } rounded-lg p-3 flex flex-row items-center justify-between`,
-                  ]}
-                  onPress={() => {
-                    setSelectedWeek(x);
-                    setIsModalShown(false);
-                  }}
-                >
-                  <View style={[tw`flex flex-col`]}>
-                    <PickemsText style={[tw`text-black font-bold`]}>
-                      Week {x}
-                    </PickemsText>
-                    {x === currWeek && (
-                      <PickemsText style={[tw`text-xs`]}>
-                        Current Week
-                      </PickemsText>
-                    )}
-                  </View>
-                  {isSelected && (
-                    <Ionicons
-                      name="checkmark-circle-outline"
-                      size={24}
-                      color={"green"}
-                    />
-                  )}
-                </TouchableOpacity>
-              );
-            })}
-          </ScrollView>
-        </View>
-      </PickemsInputModal>
     </>
   );
 }
