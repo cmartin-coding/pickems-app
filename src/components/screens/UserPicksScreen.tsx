@@ -25,9 +25,9 @@ import { Tables } from "@/src/types/supabaseTypes";
 import { useSubmitPicksMutation } from "@/src/services/user";
 import { useAppSelector } from "@/src/store";
 import { CurrentStats } from "../CurrentStats";
-import { PickemsAuthenticatedPage } from "../core/PickemsAuthenticatedPage";
 import { UserPicksHeader } from "../UserPicksHeader";
 import Toast from "react-native-toast-message";
+import { PickemsPage } from "../core/PickemsPage";
 
 type UserPicksScreenType = {
   isOverUnderEnabled: boolean;
@@ -111,7 +111,8 @@ export function UserPicksScreen(props: UserPicksScreenType) {
   const [selectedWeek, setSelectedWeek] = useState(currWeek);
 
   return (
-    <PickemsAuthenticatedPage
+    <PickemsPage
+      isTabBarScreen
       aboveScrollViewChildren={
         <View style={[tw`mt-2`]}>
           <UserPicksHeader
@@ -269,6 +270,6 @@ export function UserPicksScreen(props: UserPicksScreenType) {
           })}
         </>
       )}
-    </PickemsAuthenticatedPage>
+    </PickemsPage>
   );
 }

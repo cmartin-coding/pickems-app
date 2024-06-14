@@ -12,7 +12,10 @@ import { View } from "react-native";
 
 export default function Home() {
   const user = useAppSelector((state) => state.user);
-  console.log(user.user.id);
+  // const { data } = useGetLeagueUsersQuery({
+  //   leagueID: user.activeLeagues[0].league_id,
+  // });
+  // console.log(data);
   return (
     <PickemsPage isTabBarScreen>
       <PickemsText style={[tw`mb-4 text-lg text-center`]}>
@@ -45,7 +48,12 @@ export default function Home() {
           }}
           buttonLabel="Create a league"
         />
-        <PickemsButton buttonLabel="Join a league" />
+        <PickemsButton
+          onPress={() => {
+            router.push("join-league");
+          }}
+          buttonLabel="Join a league"
+        />
       </View>
     </PickemsPage>
   );

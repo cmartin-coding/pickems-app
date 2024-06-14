@@ -9,6 +9,7 @@ type OverUnderPickerType = {
   style?: ViewStyle[];
   highlightStyle?: ViewStyle[];
   onSelectOverUnder: (selection: "Over" | "Under") => void;
+  isDisabled?: boolean;
 };
 export function OverUnderPicker(props: OverUnderPickerType) {
   const [overUnderSelection, setOverUnderSelection] = useState<
@@ -41,6 +42,7 @@ export function OverUnderPicker(props: OverUnderPickerType) {
       }}
     >
       <TouchableOpacity
+        disabled={props.isDisabled}
         style={[tw` z-20 flex-1 flex flex-row items-center justify-center`]}
         onPress={() => {
           toggleAnimation(true);
@@ -53,6 +55,7 @@ export function OverUnderPicker(props: OverUnderPickerType) {
         </PickemsText>
       </TouchableOpacity>
       <TouchableOpacity
+        disabled={props.isDisabled}
         onPress={() => {
           toggleAnimation(false);
           setOverUnderSelection("Under");

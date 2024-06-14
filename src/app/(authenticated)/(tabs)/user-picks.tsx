@@ -2,7 +2,6 @@ import { PickemsHeader } from "@/src/components/PickemsHeader";
 import { PickemsInputModal } from "@/src/components/PickemsInputModal";
 import { PickemsText } from "@/src/components/PickemsText";
 import { UserPicksHeader } from "@/src/components/UserPicksHeader";
-import { PickemsAuthenticatedPage } from "@/src/components/core/PickemsAuthenticatedPage";
 import { PickemsPage } from "@/src/components/core/PickemsPage";
 import { UserPicksScreen } from "@/src/components/screens/UserPicksScreen";
 import { NFL_START_DATE } from "@/src/constants/const";
@@ -16,7 +15,7 @@ import { useAppSelector } from "@/src/store";
 import { Tables } from "@/src/types/supabaseTypes";
 import { tw } from "@/tailwind";
 import { Ionicons } from "@expo/vector-icons";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
@@ -24,13 +23,20 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import Home from "./home";
+import { PickemsButton } from "@/src/components/PickemsButton";
+import { NoActiveLeaguesPlaceholder } from "@/src/components/NoActiveLeaguesPlaceholder";
 
 export default function UserPicks() {
   const user = useAppSelector((state) => state.user);
+
   const { leagueId } = useLocalSearchParams<{ leagueId: string }>();
   let leagueID = leagueId;
   if (!leagueID) {
     leagueID = user.activeLeagues[0]?.league_id;
+  }
+  if (!leagueID) {
+    return <NoActiveLeaguesPlaceholder tab="user-picks" />;
   }
 
   const currWeek = getCurrentNFLWeek();

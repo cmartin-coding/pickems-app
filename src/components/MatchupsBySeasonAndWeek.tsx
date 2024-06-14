@@ -72,12 +72,35 @@ export function MatchupsBySeasonAndWeek(props: MatchupsBySeasonAndWeekType) {
                 return (
                   <View
                     style={[
-                      tw`flex  min-h-20 h-20 flex-col border bg-blue-200/20 border-slate-300 rounded-md w-full`,
+                      tw`flex  min-h-20  flex-col border bg-blue-200/20 ${
+                        matchup.isComplete
+                          ? "border-blue-600 border-2"
+                          : "border-slate-300"
+                      } rounded-md w-full`,
                     ]}
                     key={matchup.id}
                   >
                     <View style={[tw`flex flex-row  flex-1 items-center`]}>
-                      <View style={[tw`pl-4`]}>
+                      <View style={[tw`pl-2 `]}>
+                        <MatchupsTeamCard
+                          teamId={matchup.away_team.id}
+                          abbreviation={
+                            matchup.away_team.abbreviation as string
+                          }
+                          isComplete={matchup.isComplete}
+                          isWinner={!!isAwayTeamWinner}
+                          score={matchup.score.away || 0}
+                          teamName={matchup.away_team.name}
+                        />
+                      </View>
+                      <PickemsText
+                        style={[
+                          tw`flex-1 text-center  text-black font-extrabold`,
+                        ]}
+                      >
+                        @
+                      </PickemsText>
+                      <View style={[tw`pr-2`]}>
                         <MatchupsTeamCard
                           teamId={matchup.home_team.id}
                           abbreviation={
@@ -89,21 +112,6 @@ export function MatchupsBySeasonAndWeek(props: MatchupsBySeasonAndWeekType) {
                           teamName={matchup.home_team.name}
                         />
                       </View>
-                      <PickemsText
-                        style={[
-                          tw`flex-1 text-center  text-black font-extrabold`,
-                        ]}
-                      >
-                        VS.
-                      </PickemsText>
-                      <MatchupsTeamCard
-                        teamId={matchup.away_team.id}
-                        abbreviation={matchup.away_team.abbreviation as string}
-                        isComplete={matchup.isComplete}
-                        isWinner={!!isAwayTeamWinner}
-                        score={matchup.score.away || 0}
-                        teamName={matchup.away_team.name}
-                      />
                     </View>
                   </View>
                 );

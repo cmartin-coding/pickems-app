@@ -59,6 +59,8 @@ export type Database = {
           does_include_playoffs: boolean;
           id: string;
           name: string;
+          shareable_id: number | null;
+          shareable_pw: string | null;
           updated_at: string | null;
         };
         Insert: {
@@ -67,6 +69,8 @@ export type Database = {
           does_include_playoffs: boolean;
           id: string;
           name: string;
+          shareable_id?: number | null;
+          shareable_pw?: string | null;
           updated_at?: string | null;
         };
         Update: {
@@ -75,6 +79,8 @@ export type Database = {
           does_include_playoffs?: boolean;
           id?: string;
           name?: string;
+          shareable_id?: number | null;
+          shareable_pw?: string | null;
           updated_at?: string | null;
         };
         Relationships: [];
@@ -186,7 +192,9 @@ export type Database = {
           id: string;
           league_id: string;
           matchup_id: string;
-          over_under_selection: string | null;
+          over_under_selection:
+            | Database["public"]["Enums"]["Over Under"]
+            | null;
           season_id: string;
           team_selection: number | null;
           updated_at: string | null;
@@ -197,7 +205,9 @@ export type Database = {
           id?: string;
           league_id: string;
           matchup_id: string;
-          over_under_selection?: string | null;
+          over_under_selection?:
+            | Database["public"]["Enums"]["Over Under"]
+            | null;
           season_id: string;
           team_selection?: number | null;
           updated_at?: string | null;
@@ -208,7 +218,9 @@ export type Database = {
           id?: string;
           league_id?: string;
           matchup_id?: string;
-          over_under_selection?: string | null;
+          over_under_selection?:
+            | Database["public"]["Enums"]["Over Under"]
+            | null;
           season_id?: string;
           team_selection?: number | null;
           updated_at?: string | null;

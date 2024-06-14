@@ -18,9 +18,10 @@ export function CurrentStats(props: CurrentStatsType) {
     props.stats.numberOfCorrectOverUnderPicks / props.stats.totalSelections ||
     0;
   const totalAccuracy =
-    (props.stats.numberOfCorrectOverUnderPicks +
+    ((props.stats.numberOfCorrectOverUnderPicks +
       props.stats.numberOfCorrectPicks) /
-      (props.stats.totalSelections * 2) || 0;
+      (props.stats.totalSelections * 2)) *
+      100 || 0;
 
   const incorrectPicks =
     props.stats.totalSelections - props.stats.numberOfCorrectPicks;

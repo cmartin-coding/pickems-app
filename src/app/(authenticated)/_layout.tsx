@@ -30,6 +30,7 @@ export default function AuthenticatedLayout() {
       <Stack.Screen name="(tabs)" />
       <Stack.Screen name="settings" />
       <Stack.Screen name="create-league" />
+      <Stack.Screen name="join-league" />
     </Stack>
   );
 }

@@ -31,7 +31,7 @@ export function SignUpScreen(props: SignUpProps) {
     <>
       <View style={[tw`flex flex-col gap-4`]}>
         <PickemsTextInput
-          label="Name"
+          label={{ text: "Name" }}
           value={signUpState.name}
           onChangeText={(val) => {
             setSignUpState((prev) => ({ ...prev, name: val }));
@@ -39,7 +39,7 @@ export function SignUpScreen(props: SignUpProps) {
         />
 
         <PickemsTextInput
-          label="Email"
+          label={{ text: "Email" }}
           value={signUpState.email}
           onChangeText={(val) => {
             setSignUpState((prev) => ({ ...prev, email: val }));
@@ -68,7 +68,7 @@ export function SignUpScreen(props: SignUpProps) {
           }}
         /> */}
         <PickemsTextInput
-          label="Password"
+          label={{ text: "Password" }}
           value={signUpState.password}
           secureTextEntry={true}
           onChangeText={(val) => {
