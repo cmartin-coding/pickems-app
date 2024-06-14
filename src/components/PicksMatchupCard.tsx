@@ -22,7 +22,6 @@ type PicksMatchupCardType = {
 };
 export function PicksMatchupCard(props: PicksMatchupCardType) {
   const userId = useAppSelector((state) => state.user.user.id);
-
   const [userHasAlteredPick, setUserHasAlteredPick] = useState(false);
 
   const pickID = uuid.v4();
@@ -59,10 +58,7 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
   return (
     <View
       style={[
-        tw`flex h-20 border rounded-md  flex-row  w-full ${
-          pickIsMade ? "border-2 border-green-500" : ""
-        }  
-        ${pickIsMade && !userHasAlteredPick ? "border-blue-700" : ""}
+        tw`flex h-20 border rounded-md  flex-row  w-full 
         `,
       ]}
     >
@@ -190,7 +186,7 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
           style={[tw`border-0`]}
           currentSelection={
             pick.over_under_selection
-              ? (pick.over_under_selection as "over" | "under")
+              ? (pick.over_under_selection as "Over" | "Under")
               : null
           }
           highlightStyle={[tw`rounded-r-sm bg-slate-500/40`]}
