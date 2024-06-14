@@ -34,14 +34,14 @@ export function OverUnderPicker(props: OverUnderPickerType) {
 
   return (
     <View
-      style={[tw`flex flex-col  border relative`, props.style]}
+      style={[tw`flex flex-col relative`, props.style]}
       onLayout={(ev) => {
         const { height } = ev.nativeEvent.layout;
         setHeight(height / 2);
       }}
     >
       <TouchableOpacity
-        style={[tw` z-20   p-2`]}
+        style={[tw` z-20 flex-1 flex flex-row items-center justify-center`]}
         onPress={() => {
           toggleAnimation(true);
           setOverUnderSelection("Over");
@@ -58,7 +58,7 @@ export function OverUnderPicker(props: OverUnderPickerType) {
           setOverUnderSelection("Under");
           props.onSelectOverUnder("Under");
         }}
-        style={[tw`z-20 p-2`]}
+        style={[tw`z-20 flex-1 flex flex-row justify-center items-center`]}
       >
         <PickemsText style={[tw`text-center`]}>
           Under {props.overUnderValue}

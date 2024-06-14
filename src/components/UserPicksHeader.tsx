@@ -8,13 +8,16 @@ import { useRef, useState } from "react";
 import { getCurrentNFLWeek } from "../helpers/helpers";
 import { NFL_WEEKS } from "../constants/weeks";
 
-export function UserPicksHeader() {
+type UserPicksHeaderType = {
+  onWeekChange: (week: number) => void;
+  selectedWeek: number;
+  currWeek: number;
+};
+export function UserPicksHeader(props: UserPicksHeaderType) {
   const scrollViewRef = useRef(null);
   const [weeksItemHeight, setWeeksItemHeight] = useState(0);
   const [isModalShown, setIsModalShown] = useState(false);
 
-  const currWeek = getCurrentNFLWeek();
-  const [selectedWeek, setSelectedWeek] = useState(currWeek);
   return (
     <>
       <View style={[tw`flex flex-col bg-white items-center gap-2`]}>
@@ -23,14 +26,15 @@ export function UserPicksHeader() {
         <View
           style={[
             tw`flex flex-row border p-1 ${
-              currWeek === selectedWeek ? "" : "bg-blue-200"
+              props.currWeek === props.selectedWeek ? "" : "bg-blue-200"
             } rounded-lg items-center`,
           ]}
         >
           <TouchableOpacity
             onPress={() => {
-              if (selectedWeek > 1) {
-                setSelectedWeek((prev) => prev - 1);
+              if (props.selectedWeek > 1) {
+                props.onWeekChange(props.selectedWeek - 1);
+                // setSelectedWeek((prev) => prev - 1);
               }
             }}
             style={[tw`border-r  border-r-black`]}
@@ -43,13 +47,14 @@ export function UserPicksHeader() {
             }}
             style={[tw`flex px-2 flex-row gap-1 items-center`]}
           >
-            <PickemsText>Week {selectedWeek}</PickemsText>
+            <PickemsText>Week {props.selectedWeek}</PickemsText>
           </TouchableOpacity>
           <TouchableOpacity
             style={[tw`border-l  flex flex-row justify-center border-l-black`]}
             onPress={() => {
-              if (selectedWeek < 18) {
-                setSelectedWeek((prev) => prev + 1);
+              if (props.selectedWeek < 18) {
+                props.onWeekChange(props.selectedWeek + 1);
+                // setSelectedWeek((prev) => prev + 1);
               }
             }}
           >
@@ -82,12 +87,12 @@ export function UserPicksHeader() {
             </TouchableOpacity>
           </View>
           <ScrollView
-            contentOffset={{ x: 0, y: (selectedWeek - 1) * 48 }}
+            contentOffset={{ x: 0, y: (props.selectedWeek - 1) * 48 }}
             ref={scrollViewRef}
             style={[tw`flex flex-col mt-3`]}
           >
             {NFL_WEEKS.map((x) => {
-              const isSelected = x === selectedWeek;
+              const isSelected = x === props.selectedWeek;
               return (
                 <TouchableOpacity
                   onLayout={(event) => {
@@ -103,7 +108,8 @@ export function UserPicksHeader() {
                     } rounded-lg p-3 flex flex-row items-center justify-between`,
                   ]}
                   onPress={() => {
-                    setSelectedWeek(x);
+                    // setSelectedWeek(x);
+                    props.onWeekChange(x);
                     setIsModalShown(false);
                   }}
                 >
@@ -111,7 +117,7 @@ export function UserPicksHeader() {
                     <PickemsText style={[tw`text-black font-bold`]}>
                       Week {x}
                     </PickemsText>
-                    {x === currWeek && (
+                    {x === props.currWeek && (
                       <PickemsText style={[tw`text-xs`]}>
                         Current Week
                       </PickemsText>

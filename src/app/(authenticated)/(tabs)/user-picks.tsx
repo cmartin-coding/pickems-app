@@ -49,84 +49,79 @@ export default function UserPicks() {
 
   const [loading, setLoading] = useState(false);
   const currLeague = user.activeLeagues.find((l) => l.league_id === leagueID);
-  const [submitPicks, { isLoading: isSubmittingPicksLoading }] =
-    useSubmitPicksMutation();
-
-  const [hasSubmittedPicks, setHasSubmittedPicks] = useState(false);
-  const handleSubmittingPicks = async (picks: Tables<"picks">[]) => {
-    try {
-      await submitPicks(picks);
-      setHasSubmittedPicks(true);
-    } catch (ex) {
-      console.error(ex);
-    }
-  };
-
-  useEffect(() => {
-    if (hasSubmittedPicks && !isFetching) {
-      setHasSubmittedPicks(false);
-    }
-  }, [isFetching]);
-
-  console.log("HERE", hasSubmittedPicks);
 
   return (
     <>
-      <View style={[tw`flex flex-col bg-white items-center gap-2`]}>
-        <PickemsHeader style={[tw`mb-0`]}>2024 Picks</PickemsHeader>
+      {isLoading && !data && (
+        <View style={[tw`w-full h-full flex flex-col`]}>
+          <View style={[tw`flex flex-col bg-white items-center gap-2`]}>
+            <PickemsHeader style={[tw`mb-0`]}>2024 Picks</PickemsHeader>
 
-        <View
-          style={[
-            tw`flex flex-row border p-1 ${
-              currWeek === selectedWeek ? "" : "bg-blue-200"
-            } rounded-lg items-center`,
-          ]}
-        >
-          <TouchableOpacity
-            onPress={() => {
-              if (selectedWeek > 1) {
-                setSelectedWeek((prev) => prev - 1);
-              }
-            }}
-            style={[tw`border-r  border-r-black`]}
-          >
-            <Ionicons name="chevron-back-sharp" size={20} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              setIsModalShown(true);
-            }}
-            style={[tw`flex px-2 flex-row gap-1 items-center`]}
-          >
-            <PickemsText>Week {selectedWeek}</PickemsText>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[tw`border-l  flex flex-row justify-center border-l-black`]}
-            onPress={() => {
-              if (selectedWeek < 18) {
-                setSelectedWeek((prev) => prev + 1);
-              }
-            }}
-          >
-            <Ionicons name="chevron-forward-sharp" size={20} />
-          </TouchableOpacity>
+            <View
+              style={[
+                tw`flex flex-row border p-1 ${
+                  currWeek === selectedWeek ? "" : "bg-blue-200"
+                } rounded-lg items-center`,
+              ]}
+            >
+              <TouchableOpacity
+                onPress={() => {
+                  if (selectedWeek > 1) {
+                    setSelectedWeek((prev) => prev - 1);
+                  }
+                }}
+                style={[tw`border-r  border-r-black`]}
+              >
+                <Ionicons name="chevron-back-sharp" size={20} />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  setIsModalShown(true);
+                }}
+                style={[tw`flex px-2 flex-row gap-1 items-center`]}
+              >
+                <PickemsText>Week {selectedWeek}</PickemsText>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  tw`border-l  flex flex-row justify-center border-l-black`,
+                ]}
+                onPress={() => {
+                  if (selectedWeek < 18) {
+                    setSelectedWeek((prev) => prev + 1);
+                  }
+                }}
+              >
+                <Ionicons name="chevron-forward-sharp" size={20} />
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={[tw`flex-1 flex-row justify-center items-center`]}>
+            <ActivityIndicator style={[tw``]} />
+          </View>
         </View>
-      </View>
-      {(isLoading || (isFetching && !hasSubmittedPicks)) && (
+      )}
+      {/* {(isLoading || (isFetching && !hasSubmittedPicks)) && (
         <View style={[tw` h-full flex flex-row items-center justify-center`]}>
           <ActivityIndicator />
         </View>
-      )}
-      {!data && !isLoading && <PickemsText>No picks data...</PickemsText>}
-      {data && !isLoading && (
+      )} */}
+
+      {/* {!data && !isLoading && <PickemsText>No picks data...</PickemsText>} */}
+      {data && (
         <UserPicksScreen
-          isLoading={isSubmittingPicksLoading}
+          isFetching={isFetching}
+          isLoadingInitial={isLoading}
+          // isLoading={isSubmittingPicksLoading}
           leagueId={leagueID}
           currWeek={currWeek}
           isOverUnderEnabled={!!currLeague?.isOverUnderEnabled}
           matchups={data}
+          onChangeWeek={(week) => {
+            setSelectedWeek(week);
+          }}
           onSubmitPicks={(picks) => {
-            handleSubmittingPicks(picks);
+            // handleSubmittingPicks(picks);
           }}
         />
       )}
