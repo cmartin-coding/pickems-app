@@ -27,6 +27,7 @@ import { useAppSelector } from "@/src/store";
 import { CurrentStats } from "../CurrentStats";
 import { PickemsAuthenticatedPage } from "../core/PickemsAuthenticatedPage";
 import { UserPicksHeader } from "../UserPicksHeader";
+import Toast from "react-native-toast-message";
 
 type UserPicksScreenType = {
   isOverUnderEnabled: boolean;
@@ -35,14 +36,22 @@ type UserPicksScreenType = {
   style?: ViewStyle[];
   leagueId: string;
   onChangeWeek: (week: number) => void;
-  // isLoading: boolean;
   isFetching: boolean;
   isLoadingInitial: boolean;
-  onSubmitPicks: (picks: Tables<"picks">[]) => void;
+  // onSubmitPicks: (picks: Tables<"picks">[]) => void;
 };
 export function UserPicksScreen(props: UserPicksScreenType) {
-  const matchupsWeek = props.matchups[0].week;
+  const showSuccessfulSavingToastMessage = () => {
+    Toast.show({
+      type: "success",
+      text1: "Picks Saved!",
+      text2: "Good luck.",
+      position: "bottom",
+      visibilityTime: 1300,
+    });
+  };
 
+  const matchupsWeek = props.matchups[0].week;
   const isCurrentMatchupWeek = matchupsWeek === props.currWeek;
 
   const [includeCompletedPicks, setIncludeCompletedPicks] = useState(true);
@@ -86,6 +95,8 @@ export function UserPicksScreen(props: UserPicksScreenType) {
     try {
       await submitPicks(picks);
       setHasSubmittedPicks(true);
+      setPicks([]);
+      showSuccessfulSavingToastMessage();
     } catch (ex) {
       console.error(ex);
     }
@@ -98,6 +109,7 @@ export function UserPicksScreen(props: UserPicksScreenType) {
   }, [props.isFetching]);
   const currWeek = getCurrentNFLWeek();
   const [selectedWeek, setSelectedWeek] = useState(currWeek);
+
   return (
     <PickemsAuthenticatedPage
       aboveScrollViewChildren={
@@ -138,15 +150,8 @@ export function UserPicksScreen(props: UserPicksScreenType) {
         (!isButtonsDisabled || isSubmittingPicksLoading) && (
           <View style={[tw`absolute bottom-0 bg-white w-full`]}>
             <PickemsButton
-              onPress={async () => {
-                try {
-                  await submitPicks(picks);
-                  setHasSubmittedPicks(true);
-                  // props.onSubmitPicks(picks);
-                  setPicks([]);
-                } catch (ex) {
-                  console.error(ex);
-                }
+              onPress={() => {
+                handleSubmittingPicks(picks);
               }}
               buttonLabel={
                 isSubmittingPicksLoading ? "Saving..." : "Save Picks"

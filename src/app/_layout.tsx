@@ -6,6 +6,7 @@ import { useDeviceContext } from "twrnc";
 import { store } from "../store";
 import { AuthProvider } from "../context/AuthContext";
 import { DataProvider } from "../context/DataContext";
+import Toast from "react-native-toast-message";
 
 export default function RootLayout() {
   // useDeviceContext(tw);
@@ -14,6 +15,7 @@ export default function RootLayout() {
       <AuthProvider>
         <DataProvider>
           <Slot />
+          <Toast />
         </DataProvider>
       </AuthProvider>
     </Provider>
