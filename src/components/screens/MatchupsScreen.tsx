@@ -38,7 +38,12 @@ const matchupWeeks = [
   { season: 2024, week: 18 },
 ];
 export function MatchupsScreen() {
-  const { data: matchups, isLoading } = useGetMatchupsForCurrentSeasonQuery("");
+  const {
+    data: matchups,
+    isLoading,
+    isFetching,
+    refetch,
+  } = useGetMatchupsForCurrentSeasonQuery("");
 
   const { width } = Dimensions.get("screen");
   const flatlistRef = useRef(null);
@@ -67,7 +72,13 @@ export function MatchupsScreen() {
   };
 
   return (
-    <PickemsPage isTabBarScreen>
+    <PickemsPage
+      refreshControl={{
+        isRefreshing: isFetching && !isLoading,
+        onRefresh: refetch,
+      }}
+      isTabBarScreen
+    >
       {isLoading ? (
         <View style={[tw`flex-1 flex flex-col justify-center items-center`]}>
           <PickemsText>Fetching matchups...</PickemsText>

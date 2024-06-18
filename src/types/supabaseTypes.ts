@@ -59,8 +59,8 @@ export type Database = {
           does_include_playoffs: boolean;
           id: string;
           name: string;
-          shareable_id: number | null;
-          shareable_pw: string | null;
+          shareable_id: number;
+          shareable_pw: string;
           updated_at: string | null;
         };
         Insert: {
@@ -69,8 +69,8 @@ export type Database = {
           does_include_playoffs: boolean;
           id: string;
           name: string;
-          shareable_id?: number | null;
-          shareable_pw?: string | null;
+          shareable_id: number;
+          shareable_pw?: string;
           updated_at?: string | null;
         };
         Update: {
@@ -79,8 +79,8 @@ export type Database = {
           does_include_playoffs?: boolean;
           id?: string;
           name?: string;
-          shareable_id?: number | null;
-          shareable_pw?: string | null;
+          shareable_id?: number;
+          shareable_pw?: string;
           updated_at?: string | null;
         };
         Relationships: [];
@@ -318,6 +318,19 @@ export type Database = {
           input_season_year: number;
         };
         Returns: undefined;
+      };
+      get_league_users_and_pick_statistics: {
+        Args: {
+          input_league_id: string;
+          input_season_id: string;
+        };
+        Returns: {
+          user_name: string;
+          user_id: string;
+          favorite_team: string;
+          total_team_selections_correct: number;
+          total_over_under_selections_correct: number;
+        }[];
       };
     };
     Enums: {

@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { useGetUserQuery } from "../services/user";
 import { userActions } from "../slices/user";
 import { supabase } from "../supabase";
+import { activeLeagueActions } from "../slices/activeLeague";
 
 type DataContextType = {
   loading: boolean;
@@ -53,6 +54,11 @@ export function DataProvider(props: { children: ReactNode }) {
       if (user) {
         dispatch(
           userActions.setUser({ user: user, activeLeagues: activeLeagues })
+        );
+        dispatch(
+          activeLeagueActions.setActiveLeague({
+            leagueID: activeLeagues[0]?.league_id || null,
+          })
         );
       }
       setLoading(false);

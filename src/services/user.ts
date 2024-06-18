@@ -2,6 +2,7 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import { supabase } from "../supabase";
 import {
   ActiveLeagues,
+  LeagueUsersAndStandings,
   MatchupPicksType,
   Matchups,
   User,
@@ -140,28 +141,55 @@ export const userApi = createApi({
       },
     }),
     getLeagueUsersAndStandings: builder.query<
-      { name: string; favorite_team: string }[],
+      LeagueUsersAndStandings[],
       { leagueID: string }
     >({
       queryFn: async ({ leagueID }) => {
         try {
-          const { data, error } = await supabase
-            .from("picks")
-            .select(
-              "over_under_selection, team_selection(*),user_id(name, favorite_team), matchup_id(isComplete,winner(*),overUnderWinner)"
-            )
-            .eq("matchup_id.isComplete", true)
-            .eq("league_id", leagueID)
-            .eq("season_id", CURRENT_SEASON_ID);
+          const { count: total_matchups_completed } = await supabase
+            .from("nfl_matchups")
+            .select("*", { count: "exact" })
+            .eq("isComplete", true);
+
+          const { data: users, error } = await supabase.rpc(
+            "get_league_users_and_pick_statistics",
+            {
+              input_league_id: leagueID,
+              input_season_id: CURRENT_SEASON_ID,
+            }
+          );
+
           if (error) {
             console.error("Problem getting standings data", error);
           }
 
-          if (!data) {
+          if (!users || !total_matchups_completed) {
             return { data: [] };
           }
+          const leagueUsersAndStanding = [];
+          for (let i = 0; i < users?.length; i++) {
+            const overUnderAccuracy =
+              users[i].total_over_under_selections_correct /
+                total_matchups_completed || 0;
+            const teamSelectionAccuracy =
+              users[i].total_team_selections_correct /
+                total_matchups_completed || 0;
+            const overallAccuracy =
+              (users[i].total_over_under_selections_correct +
+                users[i].total_team_selections_correct) /
+                (total_matchups_completed * 2) || 0;
 
-          console.log(data);
+            const updUser = {
+              ...users[i],
+              totalCompleteMatchups: total_matchups_completed,
+              overUnderAccuracy,
+              teamSelectionAccuracy,
+              overallAccuracy,
+            };
+            leagueUsersAndStanding.push(updUser);
+          }
+
+          return { data: leagueUsersAndStanding };
         } catch (ex) {
           throw new Error("Problem getting users");
         }
@@ -251,6 +279,32 @@ export const userApi = createApi({
         }
       },
     }),
+    getLeaguePicks: builder.query<
+      MatchupPicksType[],
+      { week_num: number; leagueId: string }
+    >({
+      //@ts-ignore
+      queryFn: async (params) => {
+        try {
+          const { data, error } = await supabase
+            .from("nfl_matchups")
+            .select("*, home_team(*), away_team(*), picks(*)")
+            .eq("week", params.week_num)
+            .eq("season", "3c41a592-012a-4224-b137-830ea88eeb7e")
+            .eq("picks.league_id", params.leagueId);
+
+          if (error) {
+            throw new Error("Problem getting picks");
+          }
+
+          return { data };
+        } catch (ex) {
+          console.error(ex);
+          throw new Error("Problem grabbing picks");
+        }
+      },
+      providesTags: ["Picks"],
+    }),
     getUserPicksByLeague: builder.query<
       MatchupPicksType[],
       { userId: string; leagueId: string; week_num: number }
@@ -267,14 +321,6 @@ export const userApi = createApi({
             .eq("week", params.week_num)
             .eq("season", "3c41a592-012a-4224-b137-830ea88eeb7e")
             .eq("picks.league_id", params.leagueId);
-          // const { data, error } = await supabase
-          //   .from("picks")
-          //   .select(
-          //     "*, nfl_matchups:matchup_id (*, home_team(*), away_team(*))"
-          //   )
-          //   .eq("league_id", params.leagueId)
-          //   .eq("user_id", params.userId)
-          //   .eq("season_id", "3c41a592-012a-4224-b137-830ea88eeb7e");
 
           if (error) {
             throw new Error("Problem getting picks");
@@ -314,7 +360,9 @@ export const useGetMatchupsForCurrentSeasonQuery =
   userApi.endpoints.getAllMatchupsForCurrentSeason.useQuery;
 export const useGetPicksByLeagueIdAndUserAndSeason =
   userApi.endpoints.getUserPicksByLeague.useQuery;
-// export const useGetLeagueUsersQuery = userApi.endpoints.getLeagueUsers.useQuery;
+export const useGetLeagueUsersAndStandings =
+  userApi.endpoints.getLeagueUsersAndStandings.useQuery;
+export const useGetAllLeaguePicks = userApi.endpoints.getLeaguePicks.useQuery;
 
 export const useAddUserMutation = userApi.endpoints.addUser.useMutation;
 export const useCreateLeagueMutation =

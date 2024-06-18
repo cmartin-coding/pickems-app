@@ -25,8 +25,7 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
   const [userHasAlteredPick, setUserHasAlteredPick] = useState(false);
 
   const pickID = uuid.v4();
-
-  const [pick, setPick] = useState<Tables<"picks">>({
+  const initialPickVal = {
     id: props.matchup.picks[0]?.id
       ? props.matchup.picks[0].id
       : (pickID as string),
@@ -38,7 +37,8 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
     user_id: userId,
     season_id: props.matchup.season,
     team_selection: props.matchup.picks[0]?.team_selection,
-  });
+  };
+  const [pick, setPick] = useState<Tables<"picks">>(initialPickVal);
 
   const pickIsMade = !!props.overUnderInfo
     ? pick.over_under_selection && pick.team_selection
@@ -50,6 +50,11 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
     }
   }, [pick]);
 
+  const isHomeTeamWinner = props.matchup.winner === props.matchup.home_team.id;
+  const isAwayTeamWinner = props.matchup.winner === props.matchup.away_team.id;
+
+  const isSelectedHomeTeam = pick.team_selection === props.matchup.home_team.id;
+  const isSelectedAwayTeam = pick.team_selection === props.matchup.away_team.id;
   return (
     <View
       style={[
@@ -72,7 +77,9 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
             pick.team_selection === props.matchup.away_team.id
               ? "rounded-sm bg-blue-300/50"
               : ""
-          }`,
+          }
+          ${isSelectedAwayTeam && isHomeTeamWinner ? "bg-red-300/20" : ""}
+          `,
             ]}
             onPress={() => {
               if (props.matchup.away_team.id !== pick.team_selection) {
@@ -88,7 +95,7 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
               teamId={props.matchup.away_team.id}
               abbreviation={props.matchup.away_team.abbreviation as string}
               isComplete={props.matchup.isComplete}
-              isWinner={false}
+              isWinner={isAwayTeamWinner}
               score={props.matchup.score.away || 0}
               teamName={props.matchup.away_team.name}
             />
@@ -128,6 +135,13 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
                   ? "rounded-sm bg-blue-300/50"
                   : ""
               }
+                ${isSelectedHomeTeam && isAwayTeamWinner ? "bg-red-300/20" : ""}
+              ${
+                isHomeTeamWinner &&
+                pick.team_selection === props.matchup.away_team.id
+                  ? ""
+                  : ""
+              }
               flex-col items-center`,
             ]}
           >
@@ -135,7 +149,7 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
               teamId={props.matchup.home_team.id}
               abbreviation={props.matchup.home_team.abbreviation as string}
               isComplete={props.matchup.isComplete}
-              isWinner={false}
+              isWinner={isHomeTeamWinner}
               score={props.matchup.score.home || 0}
               teamName={props.matchup.home_team.name}
             />

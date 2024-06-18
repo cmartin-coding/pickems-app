@@ -1,5 +1,5 @@
 import { tw } from "@/tailwind";
-import { Modal, TouchableOpacity, View } from "react-native";
+import { Modal, TouchableOpacity, View, ViewStyle } from "react-native";
 import { PickemsText } from "./PickemsText";
 import { ReactNode } from "react";
 import { Ionicons } from "@expo/vector-icons";
@@ -8,6 +8,7 @@ type PickemsPopUpModalType = {
   visible: boolean;
   onDismiss: () => void;
   children: ReactNode;
+  style?: ViewStyle[];
 };
 export function PickemsPopUpModal(props: PickemsPopUpModalType) {
   return (
@@ -17,7 +18,12 @@ export function PickemsPopUpModal(props: PickemsPopUpModalType) {
       visible={props.visible}
       transparent={true}
     >
-      <View style={[tw` flex-1 flex flex-row justify-center items-center`]}>
+      <View
+        style={[
+          tw` flex-1 flex flex-row justify-center items-center`,
+          props.style,
+        ]}
+      >
         <View
           style={[
             tw`min-h-30 p-3 relative rounded-md z-20 max-w-[80%] bg-white`,
