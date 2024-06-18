@@ -4,13 +4,16 @@ import { PickemsText } from "@/src/components/PickemsText";
 import { PickemsPage } from "@/src/components/core/PickemsPage";
 import { CLE } from "@/src/constants/team-logos/cle";
 import { useGetUserQuery } from "@/src/services/user";
+import { activeLeagueActions } from "@/src/slices/activeLeague";
 import { useAppSelector } from "@/src/store";
 import { useAuthContext } from "@/src/utils";
 import { tw } from "@/tailwind";
 import { router } from "expo-router";
 import { View } from "react-native";
+import { useDispatch } from "react-redux";
 
 export default function Home() {
+  const dispatch = useDispatch();
   const user = useAppSelector((state) => state.user);
   // const { data } = useGetLeagueUsersQuery({
   //   leagueID: user.activeLeagues[0].league_id,
@@ -29,9 +32,14 @@ export default function Home() {
               style={[tw`bg-green-200/80 border-black`]}
               key={al.league_id}
               onPress={() => {
+                dispatch(
+                  activeLeagueActions.setActiveLeague({
+                    leagueID: al.league_id,
+                  })
+                );
                 router.push({
                   pathname: "/user-picks",
-                  params: { leagueId: al.league_id },
+                  // params: { leagueId: al.league_id },
                 });
               }}
             >

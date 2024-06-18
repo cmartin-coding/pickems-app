@@ -38,6 +38,7 @@ type UserPicksScreenType = {
   onChangeWeek: (week: number) => void;
   isFetching: boolean;
   isLoadingInitial: boolean;
+  refetch: () => void;
   // onSubmitPicks: (picks: Tables<"picks">[]) => void;
 };
 export function UserPicksScreen(props: UserPicksScreenType) {
@@ -90,11 +91,11 @@ export function UserPicksScreen(props: UserPicksScreenType) {
   const [submitPicks, { isLoading: isSubmittingPicksLoading }] =
     useSubmitPicksMutation();
 
-  const [hasSubmittedPicks, setHasSubmittedPicks] = useState(false);
+  const [isAvoidingFullLoader, setIsAvoidingFullLoader] = useState(false);
   const handleSubmittingPicks = async (picks: Tables<"picks">[]) => {
     try {
       await submitPicks(picks);
-      setHasSubmittedPicks(true);
+      setIsAvoidingFullLoader(true);
       setPicks([]);
       showSuccessfulSavingToastMessage();
     } catch (ex) {
@@ -103,8 +104,8 @@ export function UserPicksScreen(props: UserPicksScreenType) {
   };
 
   useEffect(() => {
-    if (hasSubmittedPicks && !props.isFetching) {
-      setHasSubmittedPicks(false);
+    if (isAvoidingFullLoader && !props.isFetching) {
+      setIsAvoidingFullLoader(false);
     }
   }, [props.isFetching]);
   const currWeek = getCurrentNFLWeek();
@@ -112,12 +113,19 @@ export function UserPicksScreen(props: UserPicksScreenType) {
 
   return (
     <PickemsPage
+      refreshControl={{
+        isRefreshing: props.isFetching && !props.isLoadingInitial,
+        onRefresh: () => {
+          setIsAvoidingFullLoader(true);
+          props.refetch();
+        },
+      }}
       isTabBarScreen
       aboveScrollViewChildren={
         <View style={[tw`mt-2`]}>
           <UserPicksHeader
+            includeHeader
             selectedWeek={selectedWeek}
-            currWeek={currWeek}
             onWeekChange={(week) => {
               if (picks.length > 0) {
                 Alert.alert(
@@ -165,7 +173,7 @@ export function UserPicksScreen(props: UserPicksScreenType) {
         )
       }
     >
-      {props.isLoadingInitial || (props.isFetching && !hasSubmittedPicks) ? (
+      {props.isLoadingInitial || (props.isFetching && !isAvoidingFullLoader) ? (
         <View style={[tw` h-full flex flex-row items-center justify-center`]}>
           <ActivityIndicator />
         </View>
@@ -234,6 +242,7 @@ export function UserPicksScreen(props: UserPicksScreenType) {
                       ? matchup.odds.over
                       : 56;
                     const pick = matchup.picks[0];
+
                     const selectedHomeTeam =
                       pick?.team_selection === matchup.home_team.id;
                     const selectedAwayTeam =

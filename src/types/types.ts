@@ -34,6 +34,17 @@ export type UserType = {
   user: User;
   activeLeagues: ActiveLeagues[];
 };
+export type LeagueUsersAndStandings = {
+  overUnderAccuracy: number;
+  teamSelectionAccuracy: number;
+  overallAccuracy: number;
+  user_name: string;
+  user_id: string;
+  favorite_team: string;
+  total_team_selections_correct: number;
+  total_over_under_selections_correct: number;
+  totalCompleteMatchups: number;
+};
 export type Score = { home: number; away: number };
 export type Odds = { over: number; under: number };
 export type Matchups = {

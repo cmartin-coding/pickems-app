@@ -52,7 +52,7 @@ export function getWeeklyResults(
   numberOfCorrectOverUnderPicks: number;
 } {
   const numberOfCorrectPicks = completedMatchups.reduce((prev, acc) => {
-    const isCorrect = acc.picks[0].team_selection === acc.winner;
+    const isCorrect = acc.picks[0]?.team_selection === acc.winner;
     if (isCorrect) {
       return prev + 1;
     } else {
@@ -62,7 +62,7 @@ export function getWeeklyResults(
   const numberOfCorrectOverUnderPicks = completedMatchups.reduce(
     (prev, acc) => {
       const isCorrect =
-        acc.picks[0].over_under_selection === acc.over_under_winner;
+        acc.picks[0]?.over_under_selection === acc.over_under_winner;
       if (isCorrect) {
         return prev + 1;
       } else {

@@ -1,4 +1,4 @@
-import { ScrollView, TouchableOpacity, View } from "react-native";
+import { ScrollView, TouchableOpacity, View, ViewStyle } from "react-native";
 import { PickemsHeader } from "./PickemsHeader";
 import { tw } from "@/tailwind";
 import { Ionicons } from "@expo/vector-icons";
@@ -11,23 +11,28 @@ import { NFL_WEEKS } from "../constants/weeks";
 type UserPicksHeaderType = {
   onWeekChange: (week: number) => void;
   selectedWeek: number;
-  currWeek: number;
+  includeHeader?: boolean;
+  style?: ViewStyle[];
+  // currWeek: number;
 };
 export function UserPicksHeader(props: UserPicksHeaderType) {
   const scrollViewRef = useRef(null);
   const [weeksItemHeight, setWeeksItemHeight] = useState(0);
   const [isModalShown, setIsModalShown] = useState(false);
-
+  const currWeek = getCurrentNFLWeek();
   return (
     <>
       <View style={[tw`flex flex-col bg-white items-center gap-2`]}>
-        <PickemsHeader style={[tw`mb-0`]}>2024 Picks</PickemsHeader>
+        {props.includeHeader && (
+          <PickemsHeader style={[tw`mb-0`]}>2024 Picks</PickemsHeader>
+        )}
 
         <View
           style={[
             tw`flex flex-row border p-1 ${
-              props.currWeek === props.selectedWeek ? "" : "bg-blue-200"
+              currWeek === props.selectedWeek ? "" : "bg-blue-200"
             } rounded-lg items-center`,
+            props.style,
           ]}
         >
           <TouchableOpacity
@@ -117,7 +122,7 @@ export function UserPicksHeader(props: UserPicksHeaderType) {
                     <PickemsText style={[tw`text-black font-bold`]}>
                       Week {x}
                     </PickemsText>
-                    {x === props.currWeek && (
+                    {x === currWeek && (
                       <PickemsText style={[tw`text-xs`]}>
                         Current Week
                       </PickemsText>

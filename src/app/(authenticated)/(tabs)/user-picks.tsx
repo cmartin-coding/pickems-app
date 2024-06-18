@@ -29,35 +29,40 @@ import { NoActiveLeaguesPlaceholder } from "@/src/components/NoActiveLeaguesPlac
 
 export default function UserPicks() {
   const user = useAppSelector((state) => state.user);
-
-  const { leagueId } = useLocalSearchParams<{ leagueId: string }>();
-  let leagueID = leagueId;
-  if (!leagueID) {
-    leagueID = user.activeLeagues[0]?.league_id;
-  }
-  if (!leagueID) {
+  const currentSelectedLeague = useAppSelector((state) => state.activeLeague);
+  // const { leagueId } = useLocalSearchParams<{ leagueId: string }>();
+  // let leagueID = leagueId;
+  // if (!leagueID) {
+  // leagueID = user.activeLeagues[0]?.league_id;
+  // }
+  if (!currentSelectedLeague.selectedLeagueID) {
     return <NoActiveLeaguesPlaceholder tab="user-picks" />;
   }
 
   const currWeek = getCurrentNFLWeek();
   const [selectedWeek, setSelectedWeek] = useState(currWeek);
-  const { isLoading, data, isFetching } = useGetPicksByLeagueIdAndUserAndSeason(
-    {
-      leagueId: leagueID,
+
+  const { isLoading, data, isFetching, refetch } =
+    useGetPicksByLeagueIdAndUserAndSeason({
+      leagueId: currentSelectedLeague.selectedLeagueID,
       userId: user.user.id,
       week_num: selectedWeek,
-    }
-  );
+    });
 
-  const [loading, setLoading] = useState(false);
-  const currLeague = user.activeLeagues.find((l) => l.league_id === leagueID);
+  useEffect(() => {
+    refetch();
+  }, [currentSelectedLeague.selectedLeagueID]);
+
+  const currLeague = user.activeLeagues.find(
+    (l) => l.league_id === currentSelectedLeague.selectedLeagueID
+  );
 
   return (
     <>
       {isLoading && !data && (
         <View style={[tw`w-full h-full flex flex-col`]}>
           <UserPicksHeader
-            currWeek={currWeek}
+            includeHeader
             onWeekChange={() => {}}
             selectedWeek={currWeek}
           />
@@ -69,9 +74,10 @@ export default function UserPicks() {
 
       {data && (
         <UserPicksScreen
+          refetch={refetch}
           isFetching={isFetching}
           isLoadingInitial={isLoading}
-          leagueId={leagueID}
+          leagueId={currentSelectedLeague.selectedLeagueID}
           currWeek={currWeek}
           isOverUnderEnabled={!!currLeague?.isOverUnderEnabled}
           matchups={data}

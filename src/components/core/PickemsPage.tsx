@@ -1,24 +1,26 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useState } from "react";
 import {
   ScrollView,
   TouchableOpacity,
   View,
   ViewStyle,
   Text,
+  RefreshControl,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import tw, { useDeviceContext } from "twrnc";
 
 export type PickemsPageProps = {
   children: ReactNode;
+  childrenStyle?: ViewStyle[];
   belowScrollViewChildren?: ReactNode;
-  style?: ViewStyle;
+  style?: ViewStyle[];
   showBackButton?: boolean;
   isTabBarScreen?: boolean;
   scrollViewStyle?: ViewStyle[];
-
+  refreshControl?: { onRefresh: () => void; isRefreshing: boolean };
   aboveScrollViewChildren?: ReactNode;
 };
 
@@ -33,6 +35,14 @@ export function PickemsPage(props: PickemsPageProps) {
         <>
           {props.aboveScrollViewChildren && props.aboveScrollViewChildren}
           <ScrollView
+            refreshControl={
+              props.refreshControl && (
+                <RefreshControl
+                  refreshing={props.refreshControl.isRefreshing}
+                  onRefresh={props.refreshControl.onRefresh}
+                />
+              )
+            }
             style={[
               props.scrollViewStyle,
               tw`flex-1`,
@@ -63,20 +73,11 @@ export function PickemsPage(props: PickemsPageProps) {
                   />
                 </TouchableOpacity>
               )}
-              {/* {props.rightHeader && (
-                <View style={[tw`pt-1 absolute right-5`]}>
-                  {props.rightHeader}
-                </View>
-              )} */}
-              {/* 
-              {props.logo ? (
-                props.logo
-              ) : (
-                <TopiaLogo color={props.headerFgColor || "white"} />
-              )} */}
             </View>
 
-            <View style={[tw`p-2 mx-2`]}>{props.children}</View>
+            <View style={[tw`p-2 mx-2`, props.childrenStyle]}>
+              {props.children}
+            </View>
           </ScrollView>
           {props.belowScrollViewChildren && props.belowScrollViewChildren}
         </>

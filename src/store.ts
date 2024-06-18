@@ -2,11 +2,13 @@ import { configureStore } from "@reduxjs/toolkit";
 import { userSlice } from "./slices/user";
 import { useSelector } from "react-redux";
 import { userApi } from "./services/user";
+import { activeLeagueSlice } from "./slices/activeLeague";
 
 export const store = configureStore({
   reducer: {
     userApi: userApi.reducer,
     user: userSlice.reducer,
+    activeLeague: activeLeagueSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(userApi.middleware),
