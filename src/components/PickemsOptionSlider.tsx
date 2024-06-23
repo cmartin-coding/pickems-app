@@ -44,7 +44,7 @@ export function PickemsOptionSlider(props: PickemsOptionSliderType) {
   return (
     <View
       style={[
-        tw`flex p-1 w-[90%] flex-row bg-gray-200/70 rounded-lg  relative`,
+        tw`flex p-1 w-[90%] flex-row bg-gray-200/70  rounded-lg  relative`,
       ]}
     >
       <Animated.View
@@ -71,7 +71,7 @@ export function PickemsOptionSlider(props: PickemsOptionSliderType) {
         }}
         style={[tw`flex-1 py-1`]}
       >
-        <PickemsText style={[tw`text-center`]}>
+        <PickemsText style={[tw`text-center `]}>
           {props.buttonOneLabel}
         </PickemsText>
       </TouchableOpacity>
@@ -88,7 +88,7 @@ export function PickemsOptionSlider(props: PickemsOptionSliderType) {
         }}
         style={[tw`flex-1 py-1`]}
       >
-        <PickemsText style={[tw`text-center`]}>
+        <PickemsText style={[tw`text-center `]}>
           {props.buttonTwoLabel}
         </PickemsText>
       </TouchableOpacity>
