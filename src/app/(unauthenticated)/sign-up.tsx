@@ -39,7 +39,7 @@ export default function SignUp() {
 
   return (
     <PickemsPage showBackButton={true}>
-      <View style={[tw`flex flex-col items-center mt-2 gap-2 mb-6`]}>
+      <View style={[tw`flex flex-col items-center mt-2 relative gap-2 mb-6`]}>
         <Ionicons name="person" size={34} color={"#0000FF"} />
         <PickemsHeader style={[tw` text-black text-center text-lg `]}>
           Login or Sign Up Today

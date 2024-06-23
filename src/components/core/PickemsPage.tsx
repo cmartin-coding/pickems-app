@@ -25,7 +25,7 @@ export type PickemsPageProps = {
 };
 
 export function PickemsPage(props: PickemsPageProps) {
-  useDeviceContext(tw);
+  // useDeviceContext(tw);
   const router = useRouter();
   const insets = useSafeAreaInsets();
 

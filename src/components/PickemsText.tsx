@@ -8,7 +8,7 @@ type PickemsTextProps = {
 } & TextProps;
 export function PickemsText(props: PickemsTextProps) {
   return (
-    <Text {...props} style={[tw`text-md text-black font-sans`, props.style]}>
+    <Text {...props} style={[tw`text-md text-black  font-sans`, props.style]}>
       {props.children}
     </Text>
   );
