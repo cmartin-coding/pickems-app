@@ -1,4 +1,5 @@
 import { PickemsButton } from "@/src/components/PickemsButton";
+import { PickemsHeader } from "@/src/components/PickemsHeader";
 import { PickemsOptionSlider } from "@/src/components/PickemsOptionSlider";
 import { PickemsText } from "@/src/components/PickemsText";
 import { PickemsTextInput } from "@/src/components/PickemsTextInput";
@@ -10,6 +11,7 @@ import { useAppSelector } from "@/src/store";
 import { supabase } from "@/src/supabase";
 import { useAuthContext } from "@/src/utils";
 import { tw } from "@/tailwind";
+import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -37,49 +39,59 @@ export default function SignUp() {
 
   return (
     <PickemsPage showBackButton={true}>
-      <PickemsText style={[tw` text-black text-center text-lg mb-6`]}>
-        {isSignUp ? "Sign Up" : "Login"}
-      </PickemsText>
-      <View style={[tw`flex flex-row justify-center`]}>
-        <PickemsOptionSlider
-          onClickOption={(bool) => {
-            setIsSignUp(bool);
-          }}
-          selectedOption={isSignUp}
-          buttonOneLabel="Sign Up"
-          buttonTwoLabel="Login"
-        />
+      <View style={[tw`flex flex-col items-center mt-2 gap-2 mb-6`]}>
+        <Ionicons name="person" size={34} color={"#0000FF"} />
+        <PickemsHeader style={[tw` text-black text-center text-lg `]}>
+          Login or Sign Up Today
+        </PickemsHeader>
+        <PickemsText style={[tw`text-gray-700 text-center`]}>
+          Play with your friends and see who really knows their football
+          knowledge!
+        </PickemsText>
       </View>
-      {isSignUp ? (
-        <SignUpScreen
-          onSignUp={async (param) => {
-            try {
-              const user = await authCtx.signUpWithEmail(
-                param.email,
-                param.password,
-                param.name
-              );
-              console.log(user);
-              const result = await addUser({
-                id: user.user.id,
-                email: param.email,
-                favorite_team: param.favorite_team,
-                name: param.name,
-              }).unwrap();
+      <View style={[tw`flex flex-col gap-4`]}>
+        <View style={[tw`flex flex-row justify-center`]}>
+          <PickemsOptionSlider
+            highlightColor="bg-white"
+            onClickOption={(bool) => {
+              setIsSignUp(bool);
+            }}
+            selectedOption={isSignUp}
+            buttonOneLabel="Sign Up"
+            buttonTwoLabel="Login"
+          />
+        </View>
+        {isSignUp ? (
+          <SignUpScreen
+            onSignUp={async (param) => {
+              try {
+                const user = await authCtx.signUpWithEmail(
+                  param.email,
+                  param.password,
+                  param.name
+                );
+                console.log(user);
+                const result = await addUser({
+                  id: user.user.id,
+                  email: param.email,
+                  favorite_team: param.favorite_team,
+                  name: param.name,
+                }).unwrap();
 
-              console.log(result);
-            } catch (ex) {
-              console.log("HERE", ex);
-            }
-          }}
-        />
-      ) : (
-        <LoginScreen
-          onLogin={async (param) => {
-            await authCtx.signIn(param.email, param.password);
-          }}
-        />
-      )}
+                console.log(result);
+              } catch (ex) {
+                console.log("HERE", ex);
+              }
+            }}
+          />
+        ) : (
+          <LoginScreen
+            onLogin={async (param) => {
+              await authCtx.signIn(param.email, param.password);
+            }}
+          />
+        )}
+      </View>
     </PickemsPage>
   );
 }

@@ -1,3 +1,4 @@
+import { tw } from "@/tailwind";
 import { useState } from "react";
 import { Image, StyleProp, ViewStyle } from "react-native";
 import { SelectList } from "react-native-dropdown-select-list";
@@ -7,15 +8,15 @@ export function PickemsSelectList(props: {
   selected?: any[];
   placeholder?: string;
   darkMode?: boolean;
-  boxStyle?: ViewStyle;
+  boxStyle?: ViewStyle[];
   label?: string;
 }) {
   return (
     <SelectList
       data={props.data}
       inputStyles={{
-        borderColor: "#ffffff",
         fontSize: 16,
+        color: "black",
       }}
       searchicon={<></>}
       //   arrowicon={
@@ -29,15 +30,19 @@ export function PickemsSelectList(props: {
       //       }}
       //     />
       //   }
-      boxStyles={{
-        backgroundColor: "white",
-        borderRadius: 90,
-        height: 55,
-        flex: 1,
-        flexDirection: "row",
-        alignItems: "center",
-        ...props.boxStyle,
-      }}
+      boxStyles={[
+        tw`bg-gray-200/30`,
+        {
+          // backgroundColor: "white",
+          borderRadius: 90,
+          height: 55,
+          flex: 1,
+          flexDirection: "row",
+          alignItems: "center",
+
+          ...props.boxStyle,
+        },
+      ]}
       dropdownStyles={{ backgroundColor: "white" }}
       searchPlaceholder={
         props.placeholder ? props.placeholder : "Select option"

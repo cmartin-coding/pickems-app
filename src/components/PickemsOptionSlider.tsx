@@ -42,17 +42,19 @@ export function PickemsOptionSlider(props: PickemsOptionSliderType) {
     props.onClickOption(option);
   };
   return (
-    <View style={[tw`flex flex-row relative`]}>
+    <View
+      style={[
+        tw`flex p-1 w-[90%] flex-row bg-gray-200/70 rounded-lg  relative`,
+      ]}
+    >
       <Animated.View
         style={[
-          tw`h-full w-1/2  ${
-            props.highlightColor ? props.highlightColor : "bg-green-300"
+          tw`h-full m-1 shadow-md ${
+            props.highlightColor ? props.highlightColor : "bg-green-400"
           }  absolute rounded-md `,
           {
             transform: [{ translateX }],
-            width: props.selectedOption
-              ? buttonWidths[props.buttonOneLabel]
-              : buttonWidths[props.buttonTwoLabel],
+            width: "50%",
           },
         ]}
       />
@@ -67,9 +69,11 @@ export function PickemsOptionSlider(props: PickemsOptionSliderType) {
         onPress={() => {
           toggleOption(true);
         }}
-        style={[tw`px-4 py-2`]}
+        style={[tw`flex-1 py-1`]}
       >
-        <PickemsText>{props.buttonOneLabel}</PickemsText>
+        <PickemsText style={[tw`text-center`]}>
+          {props.buttonOneLabel}
+        </PickemsText>
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
@@ -82,9 +86,11 @@ export function PickemsOptionSlider(props: PickemsOptionSliderType) {
             [props.buttonTwoLabel]: width,
           }));
         }}
-        style={[tw`px-4 py-2`]}
+        style={[tw`flex-1 py-1`]}
       >
-        <PickemsText>{props.buttonTwoLabel}</PickemsText>
+        <PickemsText style={[tw`text-center`]}>
+          {props.buttonTwoLabel}
+        </PickemsText>
       </TouchableOpacity>
     </View>
   );

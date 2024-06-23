@@ -165,9 +165,9 @@ export function UserPicksScreen(props: UserPicksScreenType) {
               buttonLabel={
                 isSubmittingPicksLoading ? "Saving..." : "Save Picks"
               }
-              style={[tw`p-4 border rounded-0 border-green-400  bg-green-100`]}
+              style={[tw`p-4 border rounded-0   bg-blue-800`]}
               disabledStyle="bg-gray-200"
-              textStyle={[tw`text-black`]}
+              textStyle={[tw`text-white font-bold`]}
             />
           </View>
         )
@@ -181,7 +181,7 @@ export function UserPicksScreen(props: UserPicksScreenType) {
         <>
           <View
             style={[
-              tw` border ${
+              tw` border -mt-4 ${
                 hasCompletedWeeklyPicks ? "mb-6" : "mb-0"
               } bg-blue-200/10 rounded-md p-2 flex  flex-col gap-4`,
             ]}
