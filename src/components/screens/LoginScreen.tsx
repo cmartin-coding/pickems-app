@@ -25,12 +25,14 @@ export function LoginScreen(props: LoginScreenType) {
           onChangeText={(val) => {
             setLoginState((prev) => ({ ...prev, email: val }));
           }}
+          style={[tw`bg-gray-200/30`]}
           keyboardType="email-address"
         />
         <PickemsTextInput
           label={{ text: "Password" }}
           value={loginState.password}
           secureTextEntry={true}
+          style={[tw`bg-gray-200/30`]}
           onChangeText={(val) => {
             setLoginState((prev) => ({ ...prev, password: val }));
           }}
@@ -40,6 +42,8 @@ export function LoginScreen(props: LoginScreenType) {
             props.onLogin(loginState);
           }}
           buttonLabel="Login"
+          style={[tw`bg-[#0000FF]`]}
+          textStyle={[tw`text-white`]}
         />
       </View>
     </>
