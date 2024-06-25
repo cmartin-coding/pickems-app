@@ -13,8 +13,8 @@ import { PickemsText } from "../PickemsText";
 import { getMatchupWeeks } from "@/src/helpers/helpers";
 import { MatchupsBySeasonAndWeek } from "../MatchupsBySeasonAndWeek";
 import {
+  useGetAllMatchups,
   useGetMatchupsBySeasonQuery,
-  useGetMatchupsForCurrentSeasonQuery,
 } from "@/src/services/user";
 import { Ionicons } from "@expo/vector-icons";
 const matchupWeeks = [
@@ -43,7 +43,7 @@ export function MatchupsScreen() {
     isLoading,
     isFetching,
     refetch,
-  } = useGetMatchupsForCurrentSeasonQuery("");
+  } = useGetAllMatchups("");
 
   const { width } = Dimensions.get("screen");
   const flatlistRef = useRef(null);

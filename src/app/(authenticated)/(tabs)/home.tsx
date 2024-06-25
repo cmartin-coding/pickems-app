@@ -11,22 +11,29 @@ import { useAuthContext } from "@/src/utils";
 import { tw } from "@/tailwind";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, TouchableOpacity, View } from "react-native";
 import { useDispatch } from "react-redux";
 import { LinearGradient } from "expo-linear-gradient";
 import { supabase } from "@/src/supabase";
+import { useEffect } from "react";
+import { userActions } from "@/src/slices/user";
 export default function Home() {
   const dispatch = useDispatch();
+  const authCtx = useAuthContext();
+
   const user = useAppSelector((state) => state.user);
-  // const { data } = useGetLeagueUsersQuery({
-  //   leagueID: user.activeLeagues[0].league_id,
-  // });
-  // console.log(data);
+
+  const { isLoading } = useGetUserQuery(authCtx.user?.id as string);
+
+  if (isLoading) {
+    return <ActivityIndicator />;
+  }
+
   const test = async () => {
     const { data } = await supabase.from("users").select("*");
     console.log(data);
   };
-  test();
+  // test();
 
   return (
     <PickemsPage isTabBarScreen>
@@ -79,6 +86,14 @@ export default function Home() {
           <PickemsText style={[tw`font-semibold`]}>My Leagues</PickemsText>
           {user.activeLeagues.map((al) => (
             <TouchableOpacity
+              onPress={() => {
+                dispatch(
+                  userActions.updateSelectedLeague({
+                    activeLeagueID: al.league_id,
+                  })
+                );
+                router.push("/user-picks");
+              }}
               style={[
                 tw`flex mx-1  relative border rounded-lg items-center p-2 flex-row gap-2`,
               ]}

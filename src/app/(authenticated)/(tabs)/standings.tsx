@@ -11,9 +11,8 @@ import { ActivityIndicator, View } from "react-native";
 
 export default function Standings() {
   const user = useAppSelector((state) => state.user);
-  const activeLeagueID = useAppSelector((state) => state.activeLeague);
 
-  if (!activeLeagueID.selectedLeagueID) {
+  if (!user.currentActiveLeague) {
     return <NoActiveLeaguesPlaceholder tab="standings" />;
   }
   const {
@@ -21,9 +20,7 @@ export default function Standings() {
     refetch,
     isFetching,
     isLoading,
-  } = useGetLeagueUsersAndStandings({
-    leagueID: activeLeagueID.selectedLeagueID as string,
-  });
+  } = useGetLeagueUsersAndStandings(user.currentActiveLeague);
   if (!leagueUsers && isLoading) {
     return <ActivityIndicator />;
   }

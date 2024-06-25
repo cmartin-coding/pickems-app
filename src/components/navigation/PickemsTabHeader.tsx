@@ -8,6 +8,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useAppSelector } from "@/src/store";
 import { useDispatch } from "react-redux";
 import { activeLeagueActions } from "@/src/slices/activeLeague";
+import { userActions } from "@/src/slices/user";
 
 type PickemsTabHeaderProps = {
   title: string;
@@ -19,9 +20,9 @@ export function PickemsTabHeader(props: PickemsTabHeaderProps) {
   const insets = useSafeAreaInsets();
   const disptach = useDispatch();
   const user = useAppSelector((state) => state.user);
-  const activeLeague = useAppSelector((state) => state.activeLeague);
+  // const activeLeague = useAppSelector((state) => state.activeLeague);
   const leagueDetails = user.activeLeagues.find(
-    (al) => al.league_id === activeLeague.selectedLeagueID
+    (al) => al.league_id === user.currentActiveLeague
   );
 
   const [isLeagueSelectionShown, setIsLeagueSelectionShown] = useState(false);
@@ -102,15 +103,15 @@ export function PickemsTabHeader(props: PickemsTabHeaderProps) {
                   <TouchableOpacity
                     onPress={() => {
                       disptach(
-                        activeLeagueActions.setActiveLeague({
-                          leagueID: al.league_id,
+                        userActions.updateSelectedLeague({
+                          activeLeagueID: al.league_id,
                         })
                       );
                       setIsLeagueSelectionShown(false);
                     }}
                     style={[
                       tw`flex flex-row rounded-md ${
-                        al.league_id === activeLeague.selectedLeagueID
+                        al.league_id === user.currentActiveLeague
                           ? "bg-blue-200/70 "
                           : ""
                       } justify-center p-2`,

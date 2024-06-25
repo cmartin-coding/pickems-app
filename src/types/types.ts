@@ -33,6 +33,7 @@ export type MatchupPicksType = {
 export type UserType = {
   user: User;
   activeLeagues: ActiveLeagues[];
+  currentActiveLeague: string | null;
 };
 export type LeagueUsersAndStandings = {
   overUnderAccuracy: number;

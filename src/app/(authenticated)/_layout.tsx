@@ -12,7 +12,7 @@ export default function AuthenticatedLayout() {
   if (!authCtx?.user?.id) {
     return <Redirect href={"/sign-up"} />;
   }
-  if (dataCtx.loading || authCtx.loading) {
+  if (authCtx.loading) {
     return (
       <PickemsPage>
         <View

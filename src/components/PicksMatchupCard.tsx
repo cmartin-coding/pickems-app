@@ -55,30 +55,47 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
 
   const isSelectedHomeTeam = pick.team_selection === props.matchup.home_team.id;
   const isSelectedAwayTeam = pick.team_selection === props.matchup.away_team.id;
+
+  const isHomePickCorrect =
+    props.matchup.isComplete && isSelectedHomeTeam && isHomeTeamWinner;
+  const isAwayPickCorrect =
+    props.matchup.isComplete && isSelectedAwayTeam && isAwayTeamWinner;
+
+  /**
+   * If the matchup is complete then style only the pick to be red or green depending if it is correct.
+   *  ex: IF MATCHUP COMPLETE AND WINNER IS HOME AND HOMETEAM SELECTED BE GREEN
+   *  ex: IF MATCHUP COMPLETE AND WINNER IS AWAY AND AWAY TEAM SELECTED BE GREEN
+   *  ex: IF MATCHUP COMPLETE AND WINNER IS HOME AND AWAY TEAM SELECTED AWAY BE RED
+   *  ex: IF MATCHUP COMPLETE AND WINNER IS AWAY AND HOME TEAM SELECTED HOME BE RED
+   * Get user selection
+   * If user selected and winner is not null
+   */
+
   return (
     <View
       style={[
-        tw`flex h-17 border rounded-md ${
-          props.matchup.isComplete ? "border-blue-800 border-2" : ""
-        } flex-row  w-full 
+        tw`flex h-17  rounded-md flex-row gap-4 w-full 
         `,
       ]}
     >
       <View
-        style={[tw`flex flex-1 relative border-r flex-col  bg-blue-200/20 `]}
+        style={[tw`flex flex-1 relative  flex-col   `]}
         key={props.matchup.id}
       >
-        <View style={[tw`flex flex-row gap-2 flex-1 items-center`]}>
+        <View style={[tw`flex flex-row gap-4 flex-1 items-center`]}>
           <TouchableOpacity
             disabled={props.matchup.isComplete}
             style={[
-              tw`flex-1 flex flex-col items-center 
+              tw`flex-1 flex flex-col  border rounded-lg p-1 items-center 
+             
           ${
-            pick.team_selection === props.matchup.away_team.id
-              ? "rounded-sm bg-blue-300/50"
+            isSelectedAwayTeam && !props.matchup.isComplete
+              ? "rounded-xl bg-blue-400/30"
               : ""
           }
-          ${isSelectedAwayTeam && isHomeTeamWinner ? "bg-red-300/20" : ""}
+            ${isAwayPickCorrect ? "bg-green-300" : ""}
+            ${isHomeTeamWinner && isSelectedAwayTeam ? "bg-red-300" : ""}
+         
           `,
             ]}
             onPress={() => {
@@ -99,17 +116,6 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
               score={props.matchup.score.away || 0}
               teamName={props.matchup.away_team.name}
             />
-            {!props.matchup.isComplete && (
-              <View
-                style={[
-                  tw`h-4 w-4 mb-1 ${
-                    pick.team_selection === props.matchup.away_team.id
-                      ? "bg-green-500"
-                      : ""
-                  } rounded-full border border-black`,
-                ]}
-              />
-            )}
           </TouchableOpacity>
 
           <PickemsText
@@ -129,19 +135,14 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
               }));
             }}
             style={[
-              tw`flex-1 relative flex rounded-sm
+              tw`flex-1 relative border p-1 rounded-lg flex 
               ${
-                pick.team_selection === props.matchup.home_team.id
-                  ? "rounded-sm bg-blue-300/50"
+                isSelectedHomeTeam && !props.matchup.isComplete
+                  ? " bg-blue-400/30"
                   : ""
               }
-                ${isSelectedHomeTeam && isAwayTeamWinner ? "bg-red-300/20" : ""}
-              ${
-                isHomeTeamWinner &&
-                pick.team_selection === props.matchup.away_team.id
-                  ? ""
-                  : ""
-              }
+                ${isHomePickCorrect ? "bg-green-300" : ""}
+                ${isAwayTeamWinner && isSelectedHomeTeam ? "bg-red-300" : ""}
               flex-col items-center`,
             ]}
           >
@@ -153,17 +154,6 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
               score={props.matchup.score.home || 0}
               teamName={props.matchup.home_team.name}
             />
-            {!props.matchup.isComplete && (
-              <View
-                style={[
-                  tw`h-4 w-4 mb-1 rounded-full border border-black ${
-                    pick.team_selection === props.matchup.home_team.id
-                      ? "bg-green-500 "
-                      : ""
-                  }`,
-                ]}
-              />
-            )}
           </TouchableOpacity>
         </View>
       </View>
@@ -171,13 +161,13 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
       {props.overUnderInfo && (
         <OverUnderPicker
           isDisabled={props.matchup.isComplete}
-          style={[tw`border-0`]}
+          style={[tw` border rounded-md `]}
           currentSelection={
             pick.over_under_selection
               ? (pick.over_under_selection as "Over" | "Under")
               : null
           }
-          highlightStyle={[tw`rounded-r-sm bg-slate-500/40`]}
+          highlightStyle={[tw`rounded-md bg-slate-500/40`]}
           overUnderValue={40}
           onSelectOverUnder={(selection) => {
             if (selection !== pick.over_under_selection) {
