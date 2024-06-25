@@ -6,6 +6,7 @@ import { userApi } from "../services/user";
 const initialState: UserType = {
   activeLeagues: [],
   user: { email: "", favorite_team: "", id: "", name: "" },
+  currentActiveLeague: null,
 };
 
 export const userSlice = createSlice({
@@ -15,8 +16,26 @@ export const userSlice = createSlice({
     setUser: (state, action: PayloadAction<UserType>) => {
       return { ...action.payload };
     },
+    updateSelectedLeague: (
+      state,
+      action: PayloadAction<{ activeLeagueID: string }>
+    ) => {
+      state.currentActiveLeague = action.payload.activeLeagueID;
+    },
   },
   extraReducers(builder) {
+    builder.addMatcher(
+      userApi.endpoints.getUser.matchFulfilled,
+      (
+        state,
+        action: PayloadAction<{ user: User; activeLeagues: ActiveLeagues[] }>
+      ) => {
+        state.user = action.payload.user;
+        state.activeLeagues = action.payload.activeLeagues;
+        state.currentActiveLeague =
+          action.payload.activeLeagues[0]?.league_id || null;
+      }
+    );
     builder.addMatcher(
       userApi.endpoints.addUser.matchFulfilled,
       (state, action: PayloadAction<User>) => {

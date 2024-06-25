@@ -8,7 +8,7 @@ export const store = configureStore({
   reducer: {
     userApi: userApi.reducer,
     user: userSlice.reducer,
-    activeLeague: activeLeagueSlice.reducer,
+    // activeLeague: activeLeagueSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(userApi.middleware),

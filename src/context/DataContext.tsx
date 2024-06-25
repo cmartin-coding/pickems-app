@@ -3,7 +3,6 @@ import { ActiveLeagues, UserType } from "../types/types";
 import { useAuthContext } from "../utils";
 import { useAppSelector } from "../store";
 import { useDispatch } from "react-redux";
-import { useGetUserQuery } from "../services/user";
 import { userActions } from "../slices/user";
 import { supabase } from "../supabase";
 import { activeLeagueActions } from "../slices/activeLeague";
@@ -52,9 +51,9 @@ export function DataProvider(props: { children: ReactNode }) {
           }))
         : [];
 
-      dispatch(
-        userActions.setUser({ user: user, activeLeagues: activeLeagues })
-      );
+      // dispatch(
+      //   userActions.setUser({ user: user, activeLeagues: activeLeagues })
+      // );
 
       dispatch(
         activeLeagueActions.setActiveLeague({
@@ -70,7 +69,7 @@ export function DataProvider(props: { children: ReactNode }) {
   };
   useEffect(() => {
     if (authCtx.user && authCtx.user?.id !== user.user.id) {
-      handleInitialAppOpen(authCtx.user.id);
+      // handleInitialAppOpen(authCtx.user.id);
     }
   }, [authCtx.user?.id]);
   return (

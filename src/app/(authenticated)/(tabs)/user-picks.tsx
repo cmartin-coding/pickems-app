@@ -7,10 +7,7 @@ import { UserPicksScreen } from "@/src/components/screens/UserPicksScreen";
 import { NFL_START_DATE } from "@/src/constants/const";
 import { NFL_WEEKS } from "@/src/constants/weeks";
 import { getCurrentNFLWeek } from "@/src/helpers/helpers";
-import {
-  useGetPicksByLeagueIdAndUserAndSeason,
-  useSubmitPicksMutation,
-} from "@/src/services/user";
+import { useGetUserPicks, useSubmitPicksMutation } from "@/src/services/user";
 import { useAppSelector } from "@/src/store";
 import { Tables } from "@/src/types/supabaseTypes";
 import { tw } from "@/tailwind";
@@ -30,32 +27,26 @@ import { LinearGradient } from "expo-linear-gradient";
 
 export default function UserPicks() {
   const user = useAppSelector((state) => state.user);
-  const currentSelectedLeague = useAppSelector((state) => state.activeLeague);
-  // const { leagueId } = useLocalSearchParams<{ leagueId: string }>();
-  // let leagueID = leagueId;
-  // if (!leagueID) {
-  // leagueID = user.activeLeagues[0]?.league_id;
-  // }
-  if (!currentSelectedLeague.selectedLeagueID) {
+
+  if (!user.currentActiveLeague) {
     return <NoActiveLeaguesPlaceholder tab="user-picks" />;
   }
 
   const currWeek = getCurrentNFLWeek();
   const [selectedWeek, setSelectedWeek] = useState(currWeek);
 
-  const { isLoading, data, isFetching, refetch } =
-    useGetPicksByLeagueIdAndUserAndSeason({
-      leagueId: currentSelectedLeague.selectedLeagueID,
-      userId: user.user.id,
-      week_num: selectedWeek,
-    });
-
+  const { isLoading, data, isFetching, refetch } = useGetUserPicks({
+    leagueId: user.currentActiveLeague,
+    userId: user.user.id,
+    week_num: selectedWeek,
+  });
+  console.log(isLoading);
   useEffect(() => {
     refetch();
-  }, [currentSelectedLeague.selectedLeagueID]);
+  }, [user.currentActiveLeague]);
 
   const currLeague = user.activeLeagues.find(
-    (l) => l.league_id === currentSelectedLeague.selectedLeagueID
+    (l) => l.league_id === user.currentActiveLeague
   );
 
   return (
@@ -111,7 +102,6 @@ export default function UserPicks() {
           refetch={refetch}
           isFetching={isFetching}
           isLoadingInitial={isLoading}
-          leagueId={currentSelectedLeague.selectedLeagueID}
           currWeek={currWeek}
           isOverUnderEnabled={!!currLeague?.isOverUnderEnabled}
           matchups={data}

@@ -22,8 +22,7 @@ import { LinearGradient } from "expo-linear-gradient";
 
 export default function LeaguePicks() {
   const user = useAppSelector((state) => state.user);
-  const activeLeague = useAppSelector((state) => state.activeLeague);
-  if (user.activeLeagues.length === 0 || !activeLeague.selectedLeagueID) {
+  if (user.activeLeagues.length === 0 || !user.currentActiveLeague) {
     return <NoActiveLeaguesPlaceholder tab="league-picks" />;
   }
   const currWeek = getCurrentNFLWeek();
@@ -40,7 +39,7 @@ export default function LeaguePicks() {
     refetch: refetchMatchups,
   } = useGetAllLeaguePicks({
     week_num: selectedWeek,
-    leagueId: activeLeague.selectedLeagueID,
+    leagueId: user.currentActiveLeague as string,
   });
 
   const {
@@ -48,9 +47,7 @@ export default function LeaguePicks() {
     refetch: refetchUsers,
     isLoading,
     isFetching,
-  } = useGetLeagueUsersAndStandings({
-    leagueID: activeLeague.selectedLeagueID,
-  });
+  } = useGetLeagueUsersAndStandings(user.currentActiveLeague);
 
   useEffect(() => {
     if (isUserRefresh && !isFetching && isUserRefresh && !isMatchupsFetching) {
@@ -80,7 +77,9 @@ export default function LeaguePicks() {
 
   return (
     <View style={[tw`flex-1 bg-white`]}>
-      <View style={[tw`flex w-full p-4 flex-col items-start relative mb-2`]}>
+      <View
+        style={[tw`flex w-full px-4 py-2 flex-col items-start relative mb-2`]}
+      >
         <LinearGradient
           style={[
             tw` absolute top-0 bottom-0 flex flex-row justify-center left-0 right-0`,
