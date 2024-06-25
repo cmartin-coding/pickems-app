@@ -161,13 +161,43 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
       {props.overUnderInfo && (
         <OverUnderPicker
           isDisabled={props.matchup.isComplete}
-          style={[tw` border rounded-md `]}
+          style={[tw` border  rounded-md `]}
           currentSelection={
             pick.over_under_selection
               ? (pick.over_under_selection as "Over" | "Under")
               : null
           }
-          highlightStyle={[tw`rounded-md bg-slate-500/40`]}
+          highlightStyle={[
+            tw`${
+              pick.over_under_selection === "Over"
+                ? "rounded-t-md"
+                : "rounded-b-md"
+            } bg-blue-400/30 ${
+              pick.over_under_selection === "Over" &&
+              props.matchup.over_under_winner === "Over"
+                ? "bg-green-300"
+                : ""
+            }
+            ${
+              pick.over_under_selection === "Under" &&
+              props.matchup.over_under_winner === "Under"
+                ? "bg-green-300"
+                : ""
+            }
+            ${
+              pick.over_under_selection === "Over" &&
+              props.matchup.over_under_winner === "Under"
+                ? "bg-red-300"
+                : ""
+            }
+            ${
+              pick.over_under_selection === "Under" &&
+              props.matchup.over_under_winner === "Over"
+                ? "bg-red-300"
+                : ""
+            }
+            `,
+          ]}
           overUnderValue={40}
           onSelectOverUnder={(selection) => {
             if (selection !== pick.over_under_selection) {

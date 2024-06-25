@@ -31,6 +31,7 @@ import { PickemsPage } from "../core/PickemsPage";
 import { LinearGradient } from "expo-linear-gradient";
 import { PicksByGameTime } from "../PicksByGameTime";
 import { WeekSelectorHeader } from "../WeekSelectorHeader";
+import { PickemsAccordion } from "../PickemsAccordion";
 
 type UserPicksScreenType = {
   isOverUnderEnabled: boolean;
@@ -218,6 +219,22 @@ export function UserPicksScreen(props: UserPicksScreenType) {
               </PickemsText>
             </View>
           )}
+
+          <PickemsAccordion
+            title="Completed Matchups"
+            style={[tw`border-2 mb-6`]}
+          >
+            <View style={[tw`  bg-slate-300/40`]}>
+              <PicksByGameTime
+                gametimes={completedGameTimes}
+                isCurrentMatchupWeek={isCurrentMatchupWeek}
+                isLoadingPicksSubmission={false}
+                matchups={formattedCompleteMatchups}
+                onPickCompleted={() => {}}
+              />
+            </View>
+          </PickemsAccordion>
+
           <PicksByGameTime
             gametimes={upcomingGameTimes}
             isCurrentMatchupWeek={isCurrentMatchupWeek}
