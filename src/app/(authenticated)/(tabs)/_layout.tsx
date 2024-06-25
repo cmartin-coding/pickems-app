@@ -11,13 +11,13 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function PickemsTabBar() {
   return (
-    <Tabs screenOptions={{ tabBarActiveTintColor: "green" }}>
+    <Tabs screenOptions={{ tabBarActiveTintColor: "#0000FF" }}>
       <Tabs.Screen
         name="home"
         options={{
           title: `Home`,
-          headerRight: (props) => {
-            return <SettingsCogHeader />;
+          header: (props) => {
+            return <PickemsTabHeader title="Home" />;
           },
           // tabBarItemStyle: [tw`border-r mt-2 border-r-slate-300`],
 
@@ -32,7 +32,7 @@ export default function PickemsTabBar() {
         options={{
           title: "League Picks",
           tabBarIcon: ({ color }) => (
-            <Ionicons name="flag" size={25} color={color} />
+            <Ionicons name="people" size={25} color={color} />
             // <FontAwesome size={28} name="" color={color} />
           ),
           header: (props) => {
@@ -63,11 +63,12 @@ export default function PickemsTabBar() {
       <Tabs.Screen
         name="matchups"
         options={{
-          title: "Matchups",
+          title: "Chat",
           tabBarIcon: ({ color }) => (
-            <Ionicons name="contract" size={25} color={color} />
+            <Ionicons name="chatbox" size={25} color={color} />
             // <FontAwesome size={28} name="" color={color} />
           ),
+
           header: (props) => {
             return <PickemsTabHeader title="Matchups" />;
           },
@@ -76,9 +77,9 @@ export default function PickemsTabBar() {
       <Tabs.Screen
         name="standings"
         options={{
-          title: "Standings",
+          title: "League Info",
           tabBarIcon: ({ color }) => (
-            <Ionicons name="analytics" size={25} color={color} />
+            <Ionicons name="trophy" size={25} color={color} />
             // <FontAwesome size={28} name="" color={color} />
           ),
           header: (props) => {

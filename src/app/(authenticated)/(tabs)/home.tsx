@@ -29,12 +29,6 @@ export default function Home() {
     return <ActivityIndicator />;
   }
 
-  const test = async () => {
-    const { data } = await supabase.from("users").select("*");
-    console.log(data);
-  };
-  // test();
-
   return (
     <PickemsPage isTabBarScreen>
       <PickemsHeader style={[tw`mb-4 text-xl text-left `]}>
@@ -86,6 +80,7 @@ export default function Home() {
           <PickemsText style={[tw`font-semibold`]}>My Leagues</PickemsText>
           {user.activeLeagues.map((al) => (
             <TouchableOpacity
+              key={al.league_id}
               onPress={() => {
                 dispatch(
                   userActions.updateSelectedLeague({

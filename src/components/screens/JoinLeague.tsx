@@ -25,7 +25,6 @@ export function JoinLeague() {
   }>({ leaguePW: "", shareableId: 0, user_id: userId });
 
   const handleJoiningLeague = async () => {
-    console.log("Joining league");
     await createLeague(leagueDetails);
     if (router.canGoBack()) {
       router.back();
