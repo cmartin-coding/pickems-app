@@ -6,6 +6,8 @@ import { useGetLeagueUsersAndStandings } from "@/src/services/user";
 import { useAppSelector } from "@/src/store";
 import { NFLTeamNames } from "@/src/types/types";
 import { tw } from "@/tailwind";
+import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
 import { ActivityIndicator, View } from "react-native";
 
@@ -32,7 +34,8 @@ export default function Standings() {
     (a, b) => b.overUnderAccuracy - a.overUnderAccuracy
   );
 
-  const columns: Array<"Name" | "W" | "L" | "Acc."> = [
+  const columns: Array<"Name" | "W" | "L" | "Acc." | "Rank"> = [
+    "Rank",
     "Name",
     "W",
     "L",
@@ -50,21 +53,32 @@ export default function Standings() {
       isTabBarScreen
       childrenStyle={[tw`p-0 `]}
     >
-      <View style={[tw``]}>
+      <View style={[tw`border relative p-4 rounded-lg `]}>
+        <LinearGradient
+          style={[
+            tw` absolute top-0 bottom-0 flex rounded-md flex-row justify-center left-0 right-0`,
+          ]}
+          start={{ x: 0.2, y: 0.2 }}
+          end={{ x: 1, y: 1.5 }}
+          colors={["#000000", tw.color("pickems-blue") as string]}
+        >
+          <Ionicons
+            name="american-football"
+            size={175}
+            style={[tw`absolute bg-transparent  right-0 text-white/5`]}
+          />
+        </LinearGradient>
         <View
           style={[
-            tw`flex flex-row items-center  border-b pb-2 border-b-black/60 mb-4 gap-6`,
+            tw`flex flex-row items-center  border-b-2 pb-2 border-b-white mb-4 `,
           ]}
         >
           {columns.map((col, ix) => {
             return (
-              <View
-                key={col}
-                style={[
-                  tw`flex w-1/5   flex-col ${ix === 0 ? "" : "items-center"}`,
-                ]}
-              >
-                <PickemsText style={[tw`font-bold text-lg`]}>{col}</PickemsText>
+              <View key={col} style={[tw`flex w-1/5   flex-col items-center`]}>
+                <PickemsText style={[tw`font-bold text-lg text-white`]}>
+                  {col}
+                </PickemsText>
 
                 {/* <StandingsColumns colName={col} users={sortedUsers} /> */}
               </View>
@@ -72,7 +86,7 @@ export default function Standings() {
           })}
         </View>
         <View style={[tw`flex flex-col gap-2`]}>
-          {sortedUsers.map((user) => {
+          {sortedUsers.map((user, ix) => {
             const totalWins =
               user.total_over_under_selections_correct +
               user.total_team_selections_correct;
@@ -82,21 +96,22 @@ export default function Standings() {
                 user.total_team_selections_correct);
             return (
               <View
-                style={[
-                  tw`flex flex-row border-b border-slate-300/50 pb-2 gap-6`,
-                ]}
+                style={[tw`flex flex-row border-b border-slate-300/50 pb-2 `]}
                 key={user.user_id}
               >
-                <PickemsText style={[tw`w-1/5  `]}>
+                <PickemsText style={[tw`w-1/5  text-white text-center`]}>
+                  {ix + 1}
+                </PickemsText>
+                <PickemsText style={[tw`w-1/5  text-white text-center`]}>
                   {user.user_name}
                 </PickemsText>
-                <PickemsText style={[tw`w-1/5  text-center`]}>
+                <PickemsText style={[tw`w-1/5 text-white  text-center`]}>
                   {totalWins}
                 </PickemsText>
-                <PickemsText style={[tw`w-1/5  text-center`]}>
+                <PickemsText style={[tw`w-1/5 text-white text-center`]}>
                   {totalLosses}
                 </PickemsText>
-                <PickemsText style={[tw`w-1/5  text-center`]}>
+                <PickemsText style={[tw`w-1/5 text-white text-center`]}>
                   {(user.overallAccuracy * 100).toFixed(0)}%
                 </PickemsText>
               </View>

@@ -64,17 +64,14 @@ export default function SignUp() {
                   param.password,
                   param.name
                 );
-                console.log(user);
                 const result = await addUser({
                   id: user.user.id,
                   email: param.email,
                   favorite_team: param.favorite_team,
                   name: param.name,
                 }).unwrap();
-
-                console.log(result);
               } catch (ex) {
-                console.log("HERE", ex);
+                console.log("Error signing up", ex);
               }
             }}
           />
