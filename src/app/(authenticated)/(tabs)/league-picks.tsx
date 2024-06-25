@@ -1,25 +1,24 @@
 import { NoActiveLeaguesPlaceholder } from "@/src/components/NoActiveLeaguesPlaceholder";
-import { OverUnderPicker } from "@/src/components/OverUnderPicker";
 import { PickemsText } from "@/src/components/PickemsText";
 import { UserPicksHeader } from "@/src/components/UserPicksHeader";
-import { PickemsPage } from "@/src/components/core/PickemsPage";
 import { TeamLogo } from "@/src/constants/team-logos/TeamLogo";
 import { getCurrentNFLWeek } from "@/src/helpers/helpers";
 import {
   useGetAllLeaguePicks,
   useGetLeagueUsersAndStandings,
-  useGetMatchupsForCurrentSeasonQuery,
 } from "@/src/services/user";
 import { useAppSelector } from "@/src/store";
-import { MatchupPicksType, Matchups, NFLTeamNames } from "@/src/types/types";
+import { NFLTeamNames } from "@/src/types/types";
 import { tw } from "@/tailwind";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { Ionicons } from "@expo/vector-icons";
+import { useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
   RefreshControl,
   ScrollView,
   View,
 } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function LeaguePicks() {
   const user = useAppSelector((state) => state.user);
@@ -81,10 +80,29 @@ export default function LeaguePicks() {
 
   return (
     <View style={[tw`flex-1 bg-white`]}>
-      <View style={[tw`flex flex-row justify-start my-4`]}>
+      <View style={[tw`flex w-full p-4 flex-col items-start relative mb-2`]}>
+        <LinearGradient
+          style={[
+            tw` absolute top-0 bottom-0 flex flex-row justify-center left-0 right-0`,
+          ]}
+          start={{ x: 0.2, y: 0.2 }}
+          // end={{ x: 1, y: 1.5 }}
+          colors={["#000000", "#0000FF"]}
+        >
+          <Ionicons
+            name="american-football"
+            size={175}
+            style={[tw`absolute bg-transparent -top-10 right-0 text-white/20`]}
+          />
+        </LinearGradient>
+        <PickemsText style={[tw`text-white font-semibold mb-2 text-lg`]}>
+          League Picks
+        </PickemsText>
         <UserPicksHeader
+          // includeHeader
           selectedWeek={selectedWeek}
-          style={[tw`border-0 bg-white/0`]}
+          style={[tw`bg-white/0`]}
+          selectionStyle={[tw`border-0 bg-white`]}
           onWeekChange={(week) => {
             setSelectedWeek(week);
           }}
@@ -94,7 +112,7 @@ export default function LeaguePicks() {
         <ActivityIndicator />
       ) : (
         <>
-          <View style={[tw`border border-slate-300/70`]}>
+          <View style={[tw`border border-t-0 border-slate-300/70`]}>
             <View style={[tw`absolute bg-white z-20`]}>
               <View style={[tw`w-15 border-r border-r-slate-300/90 pr-3`]}>
                 <PickemsText style={[tw`h-6  text-xs text-right`]}>
@@ -154,7 +172,7 @@ export default function LeaguePicks() {
                       <PickemsText
                         style={[
                           tw`h-6 ${
-                            isCurrentUser ? "text-rose-500 font-bold" : ""
+                            isCurrentUser ? "text-pickems-blue font-bold" : ""
                           }`,
                         ]}
                       >
@@ -162,7 +180,7 @@ export default function LeaguePicks() {
                       </PickemsText>
                       <PickemsText
                         style={[
-                          tw`h-6 ${isCurrentUser ? "text-rose-500" : ""}`,
+                          tw`h-6 ${isCurrentUser ? "text-pickems-blue" : ""}`,
                         ]}
                       >
                         {totalWins} - {totalLosses}

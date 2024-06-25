@@ -19,30 +19,14 @@ export default function PickemsTabBar() {
           headerRight: (props) => {
             return <SettingsCogHeader />;
           },
-          tabBarItemStyle: [tw`border-r mt-2 border-r-slate-300`],
+          // tabBarItemStyle: [tw`border-r mt-2 border-r-slate-300`],
 
           tabBarIcon: ({ color }) => (
             <FontAwesome size={25} name="home" color={color} />
           ),
         }}
       />
-      <Tabs.Screen
-        name="user-picks"
-        options={{
-          title: "My Picks",
-          tabBarIcon: ({ color }) => (
-            <Ionicons name="american-football" size={25} color={color} />
-            // <FontAwesome size={28} name="" color={color} />
-          ),
 
-          header: (props) => {
-            return <PickemsTabHeader title="My Picks" includeLeagueSelector />;
-          },
-          // headerRight: (props) => {
-          //   return <SettingsCogHeader />;
-          // },
-        }}
-      />
       <Tabs.Screen
         name="league-picks"
         options={{
@@ -56,6 +40,24 @@ export default function PickemsTabBar() {
               <PickemsTabHeader title="League Picks" includeLeagueSelector />
             );
           },
+        }}
+      />
+      <Tabs.Screen
+        name="user-picks"
+        options={{
+          title: "My Picks",
+          // tabBarItemStyle: [tw`border rounded-full`],
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="american-football" size={25} color={color} />
+            // <FontAwesome size={28} name="" color={color} />
+          ),
+
+          header: (props) => {
+            return <PickemsTabHeader title="My Picks" includeLeagueSelector />;
+          },
+          // headerRight: (props) => {
+          //   return <SettingsCogHeader />;
+          // },
         }}
       />
       <Tabs.Screen

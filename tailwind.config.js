@@ -23,7 +23,9 @@ module.exports = {
         "4xl": "65px",
       },
 
-      colors: {},
+      colors: {
+        "pickems-blue": "#0000FF",
+      },
       borderRadius: {
         borderRadius: {
           lg: "18px",

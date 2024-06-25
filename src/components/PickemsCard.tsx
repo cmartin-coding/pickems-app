@@ -19,14 +19,14 @@ export function PickemsCard(props: PickemsCardType) {
     >
       <View style={[tw``]}>{props.children}</View>
 
-      <Ionicons name="chevron-forward-circle-sharp" size={30} color={"black"} />
-
+      <Ionicons name="chevron-forward-sharp" size={20} color={"black"} />
+      {/* 
       <Ionicons
         style={[tw`absolute right-5`]}
         name="american-football"
         color={"#80808040"}
         size={100}
-      />
+      /> */}
     </TouchableOpacity>
   );
 }

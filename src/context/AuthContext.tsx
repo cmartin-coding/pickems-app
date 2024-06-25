@@ -86,8 +86,6 @@ export function AuthProvider(props: { children: any }) {
       email: email,
       password: password,
     });
-
-    // return user;
   };
 
   const logout = async () => {

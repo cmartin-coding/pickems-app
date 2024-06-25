@@ -50,29 +50,20 @@ export const userApi = createApi({
   endpoints: (builder) => ({
     addUser: builder.mutation<User, User>({
       queryFn: async (param) => {
-        try {
-          const { error: errInsert } = await supabase.from("users").insert({
+        const { data, error: errInsert } = await supabase
+          .from("users")
+          .insert({
             id: param.id,
             email: param.email,
             name: param.name,
             favorite_team: param.favorite_team,
-          });
-
-          const { data, error: errGet } = await supabase
-            .from("users")
-            .select("*")
-            .eq("id", param.id)
-            .single();
-
-          if (errGet || errInsert) {
-            console.log("INSERT ERROR -->", errInsert, "GET ERROR -->", errGet);
-            throw new Error();
-          }
-
+          })
+          .select("*")
+          .single();
+        if (data) {
           return { data };
-        } catch (ex: any) {
-          // console.log("HERE", ex);
-          throw new Error("Did not add user");
+        } else {
+          throw new Error("No user inserted");
         }
       },
     }),
