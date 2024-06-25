@@ -69,8 +69,9 @@ export function OverUnderPicker(props: OverUnderPickerType) {
       </TouchableOpacity>
       <Animated.View
         style={[
+          tw`h-[49%]`,
           props.highlightStyle,
-          tw`absolute ${overUnderSelection ? "w-full" : ""} h-[50%]  
+          tw`absolute ${overUnderSelection ? "w-full" : ""} 
            `,
           { transform: [{ translateY: translateY }] },
         ]}
