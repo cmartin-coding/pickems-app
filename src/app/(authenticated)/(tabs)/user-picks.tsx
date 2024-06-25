@@ -40,7 +40,6 @@ export default function UserPicks() {
     userId: user.user.id,
     week_num: selectedWeek,
   });
-  console.log(isLoading);
   useEffect(() => {
     refetch();
   }, [user.currentActiveLeague]);

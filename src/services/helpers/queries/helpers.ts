@@ -1,5 +1,6 @@
 import { CURRENT_SEASON_ID } from "@/src/constants/const";
 import { supabase } from "@/src/supabase";
+import { Tables } from "@/src/types/supabaseTypes";
 import {
   ActiveLeagues,
   LeagueUsersAndStandings,

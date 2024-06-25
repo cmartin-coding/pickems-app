@@ -8,6 +8,7 @@ import { UserPicksHeader } from "./UserPicksHeader";
 type WeekSelectorHeaderProps = {
   selectedWeek: number;
   onWeekChange: (week: number) => void;
+  title?: string;
 };
 export function WeekSelectorHeader(props: WeekSelectorHeaderProps) {
   return (
@@ -27,7 +28,7 @@ export function WeekSelectorHeader(props: WeekSelectorHeaderProps) {
         />
       </LinearGradient>
       <PickemsText style={[tw`text-white font-semibold mb-2 text-lg`]}>
-        My Picks
+        {props.title ? props.title : "My Picks"}
       </PickemsText>
       <UserPicksHeader
         style={[tw`bg-transparent`]}
