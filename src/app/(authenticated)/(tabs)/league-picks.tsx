@@ -19,6 +19,7 @@ import {
   View,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { WeekSelectorHeader } from "@/src/components/WeekSelectorHeader";
 
 export default function LeaguePicks() {
   const user = useAppSelector((state) => state.user);
@@ -75,47 +76,31 @@ export default function LeaguePicks() {
     return 0;
   });
 
+  const currLeague = user.activeLeagues.find(
+    (l) => l.league_id === user.currentActiveLeague
+  );
+
   return (
     <View style={[tw`flex-1 bg-white`]}>
-      <View
-        style={[tw`flex w-full px-4 py-2 flex-col items-start relative mb-2`]}
-      >
-        <LinearGradient
-          style={[
-            tw` absolute top-0 bottom-0 flex flex-row justify-center left-0 right-0`,
-          ]}
-          start={{ x: 0.2, y: 0.2 }}
-          // end={{ x: 1, y: 1.5 }}
-          colors={["#000000", "#0000FF"]}
-        >
-          <Ionicons
-            name="american-football"
-            size={175}
-            style={[tw`absolute bg-transparent -top-10 right-0 text-white/20`]}
-          />
-        </LinearGradient>
-        <PickemsText style={[tw`text-white font-semibold mb-2 text-lg`]}>
-          League Picks
-        </PickemsText>
-        <UserPicksHeader
-          // includeHeader
-          selectedWeek={selectedWeek}
-          style={[tw`bg-white/0`]}
-          selectionStyle={[tw`border-0 bg-white`]}
-          onWeekChange={(week) => {
-            setSelectedWeek(week);
-          }}
-        />
-      </View>
+      <WeekSelectorHeader
+        selectedWeek={selectedWeek}
+        title="League Picks"
+        onWeekChange={(week) => {
+          setSelectedWeek(week);
+        }}
+      />
       {!isUserRefresh && (isFetching || isMatchupsFetching) ? (
-        <ActivityIndicator />
+        <ActivityIndicator style={[tw`mt-10`]} />
       ) : (
         <>
-          <View style={[tw`border border-t-0 border-slate-300/70`]}>
+          <View style={[tw`border border-t-0 mt-2 border-slate-300/70`]}>
             <View style={[tw`absolute bg-white z-20`]}>
               <View style={[tw`w-15 border-r border-r-slate-300/90 pr-3`]}>
                 <PickemsText style={[tw`h-6  text-xs text-right`]}>
                   Home
+                </PickemsText>
+                <PickemsText style={[tw`h-6  text-xs text-right`]}>
+                  O/U
                 </PickemsText>
                 <PickemsText style={[tw`h-6 text-xs text-right`]}>
                   Away
@@ -131,11 +116,14 @@ export default function LeaguePicks() {
             >
               <View style={[tw`flex flex-row gap-4 ml-18`]}>
                 {sortedMatchups.map((matchup) => (
-                  <View key={matchup.id} style={[tw`flex flex-col h-12 `]}>
-                    <PickemsText style={[tw`basis-1/2 w-10 text-xs`]}>
+                  <View key={matchup.id} style={[tw`flex flex-col h-18 `]}>
+                    <PickemsText style={[tw`basis-1/3 w-10 text-xs`]}>
                       {matchup.home_team.abbreviation}
                     </PickemsText>
-                    <PickemsText style={[tw`basis-1/2 w-10 text-xs`]}>
+                    <PickemsText style={[tw`basis-1/3 w-10 text-xs`]}>
+                      {matchup.over_under_number || 40}
+                    </PickemsText>
+                    <PickemsText style={[tw`basis-1/3 w-10 text-xs`]}>
                       {matchup.away_team.abbreviation}
                     </PickemsText>
                   </View>
@@ -156,9 +144,8 @@ export default function LeaguePicks() {
             }
             style={[tw`mt-3`]}
           >
-            {/* <View style={[tw``]}> */}
             <View style={[tw`absolute  bg-white z-20`]}>
-              <View style={[tw`w-15 flex  flex-col gap-4`]}>
+              <View style={[tw`w-15 flex flex-col gap-4`]}>
                 {sortedUsers?.map((u) => {
                   const totalWins =
                     u.total_over_under_selections_correct +
@@ -167,7 +154,7 @@ export default function LeaguePicks() {
 
                   const isCurrentUser = u.user_id === user.user.id;
                   return (
-                    <View key={u.user_id} style={[tw`relative pl-2`]}>
+                    <View key={u.user_id} style={[tw`relative h-16 pl-2`]}>
                       <PickemsText
                         style={[
                           tw`h-6 ${
@@ -215,7 +202,7 @@ export default function LeaguePicks() {
                         return (
                           <View
                             key={m.id}
-                            style={[tw`flex flex-col h-12 items-center `]}
+                            style={[tw`flex flex-col h-16 items-center `]}
                           >
                             <View style={[tw``]} />
                             <View style={[tw`w-10 `]}>
@@ -232,12 +219,25 @@ export default function LeaguePicks() {
                                   <PickemsText
                                     adjustsFontSizeToFit
                                     numberOfLines={1}
-                                    style={[tw`text-xs text-blue-900`]}
+                                    style={[
+                                      tw`text-xs text-blue-900 font-semibold`,
+                                    ]}
                                   >
                                     {homeTeamSelected
                                       ? m.home_team.abbreviation
                                       : m.away_team.abbreviation}
                                   </PickemsText>
+                                  {currLeague?.isOverUnderEnabled && (
+                                    <PickemsText
+                                      style={[
+                                        tw`text-center text-2xs font-bold text-pickems-blue`,
+                                      ]}
+                                    >
+                                      {pick.over_under_selection === "Over"
+                                        ? "O↑"
+                                        : "U↓"}
+                                    </PickemsText>
+                                  )}
                                 </View>
                               ) : (
                                 <View
