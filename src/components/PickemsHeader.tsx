@@ -3,7 +3,7 @@ import { PickemsText } from "./PickemsText";
 import { tw } from "@/tailwind";
 
 type PickemsHeaderType = {
-  children: string;
+  children: string | string[];
   style?: TextStyle[];
 };
 

@@ -25,6 +25,7 @@ export function DataProvider(props: { children: ReactNode }) {
 
   const handleInitialAppOpen = async (userId: string) => {
     setLoading(true);
+
     try {
       const { data: user, error } = await supabase
         .from("users")
@@ -32,6 +33,10 @@ export function DataProvider(props: { children: ReactNode }) {
         .eq("id", userId)
         .single();
 
+      if (!user) {
+        setLoading(false);
+        return;
+      }
       const leagues = await supabase
         .from("league_users_season")
         .select("leagues(*), role")
@@ -47,20 +52,16 @@ export function DataProvider(props: { children: ReactNode }) {
           }))
         : [];
 
-      if (error) {
-        throw new Error(`There is no user with id ${userId}`);
-      }
+      dispatch(
+        userActions.setUser({ user: user, activeLeagues: activeLeagues })
+      );
 
-      if (user) {
-        dispatch(
-          userActions.setUser({ user: user, activeLeagues: activeLeagues })
-        );
-        dispatch(
-          activeLeagueActions.setActiveLeague({
-            leagueID: activeLeagues[0]?.league_id || null,
-          })
-        );
-      }
+      dispatch(
+        activeLeagueActions.setActiveLeague({
+          leagueID: activeLeagues[0]?.league_id || null,
+        })
+      );
+
       setLoading(false);
     } catch (ex) {
       setLoading(false);

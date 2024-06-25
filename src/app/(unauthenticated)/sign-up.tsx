@@ -1,3 +1,4 @@
+import StandingsIcon from "@/src/assets/svg/standings";
 import { PickemsButton } from "@/src/components/PickemsButton";
 import { PickemsHeader } from "@/src/components/PickemsHeader";
 import { PickemsOptionSlider } from "@/src/components/PickemsOptionSlider";
@@ -26,15 +27,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 export default function SignUp() {
   const authCtx = useAuthContext();
-  const dispatch = useDispatch();
 
   const [addUser, { isLoading, isSuccess, error }] = useAddUserMutation();
-  const [signUpState, setSignUpState] = useState<{
-    email: string;
-    password: string;
-    name: string;
-    favorite_team: string;
-  }>({ email: "", name: "", password: "", favorite_team: "" });
   const [isSignUp, setIsSignUp] = useState(true);
 
   return (
@@ -87,7 +81,9 @@ export default function SignUp() {
         ) : (
           <LoginScreen
             onLogin={async (param) => {
-              await authCtx.signIn(param.email, param.password);
+              await authCtx
+                .signIn(param.email, param.password)
+                .then((ex) => console.log(ex));
             }}
           />
         )}

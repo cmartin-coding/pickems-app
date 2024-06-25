@@ -28,6 +28,7 @@ import { CurrentStats } from "../CurrentStats";
 import { UserPicksHeader } from "../UserPicksHeader";
 import Toast from "react-native-toast-message";
 import { PickemsPage } from "../core/PickemsPage";
+import { LinearGradient } from "expo-linear-gradient";
 
 type UserPicksScreenType = {
   isOverUnderEnabled: boolean;
@@ -122,9 +123,29 @@ export function UserPicksScreen(props: UserPicksScreenType) {
       }}
       isTabBarScreen
       aboveScrollViewChildren={
-        <View style={[tw`mt-2`]}>
+        <View style={[tw`flex w-full p-4 flex-col items-start relative mb-2`]}>
+          <LinearGradient
+            style={[
+              tw` absolute top-0 bottom-0 flex flex-row justify-center left-0 right-0`,
+            ]}
+            start={{ x: 0.2, y: 0.2 }}
+            // end={{ x: 1, y: 1.5 }}
+            colors={["#000000", "#0000FF"]}
+          >
+            <Ionicons
+              name="american-football"
+              size={175}
+              style={[
+                tw`absolute bg-transparent -top-10 right-0 text-white/20`,
+              ]}
+            />
+          </LinearGradient>
+          <PickemsText style={[tw`text-white font-semibold mb-2 text-lg`]}>
+            My Picks
+          </PickemsText>
           <UserPicksHeader
-            includeHeader
+            style={[tw`bg-transparent`]}
+            selectionStyle={[tw`bg-white`]}
             selectedWeek={selectedWeek}
             onWeekChange={(week) => {
               if (picks.length > 0) {

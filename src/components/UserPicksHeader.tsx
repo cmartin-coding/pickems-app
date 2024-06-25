@@ -12,6 +12,7 @@ type UserPicksHeaderType = {
   onWeekChange: (week: number) => void;
   selectedWeek: number;
   includeHeader?: boolean;
+  selectionStyle?: ViewStyle[];
   style?: ViewStyle[];
   // currWeek: number;
 };
@@ -22,7 +23,9 @@ export function UserPicksHeader(props: UserPicksHeaderType) {
   const currWeek = getCurrentNFLWeek();
   return (
     <>
-      <View style={[tw`flex flex-col bg-white items-center gap-2`]}>
+      <View
+        style={[tw`flex flex-col bg-white items-center gap-2`, props.style]}
+      >
         {props.includeHeader && (
           <PickemsHeader style={[tw`mb-0`]}>2024 Picks</PickemsHeader>
         )}
@@ -32,7 +35,7 @@ export function UserPicksHeader(props: UserPicksHeaderType) {
             tw`flex flex-row border p-1 ${
               currWeek === props.selectedWeek ? "" : "bg-blue-200"
             } rounded-lg items-center`,
-            props.style,
+            props.selectionStyle,
           ]}
         >
           <TouchableOpacity

@@ -26,6 +26,7 @@ import {
 import Home from "./home";
 import { PickemsButton } from "@/src/components/PickemsButton";
 import { NoActiveLeaguesPlaceholder } from "@/src/components/NoActiveLeaguesPlaceholder";
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function UserPicks() {
   const user = useAppSelector((state) => state.user);
@@ -60,16 +61,49 @@ export default function UserPicks() {
   return (
     <>
       {isLoading && !data && (
-        <View style={[tw`w-full h-full flex flex-col`]}>
-          <UserPicksHeader
-            includeHeader
-            onWeekChange={() => {}}
-            selectedWeek={currWeek}
-          />
-          <View style={[tw`flex-1 flex-row justify-center items-center`]}>
-            <ActivityIndicator style={[tw``]} />
+        <View style={[tw`flex-1 `]}>
+          <View
+            style={[tw`flex w-full p-4 flex-col items-start relative mb-2`]}
+          >
+            <LinearGradient
+              style={[
+                tw` absolute top-0 bottom-0 flex flex-row justify-center left-0 right-0`,
+              ]}
+              start={{ x: 0.2, y: 0.2 }}
+              // end={{ x: 1, y: 1.5 }}
+              colors={["#000000", "#0000FF"]}
+            >
+              <Ionicons
+                name="american-football"
+                size={175}
+                style={[
+                  tw`absolute bg-transparent -top-10 right-0 text-white/20`,
+                ]}
+              />
+            </LinearGradient>
+            <PickemsText style={[tw`text-white font-semibold mb-2 text-lg`]}>
+              My Picks
+            </PickemsText>
+            <UserPicksHeader
+              // includeHeader
+              selectedWeek={selectedWeek}
+              style={[tw`bg-white/0`]}
+              selectionStyle={[tw`border-0 bg-white`]}
+              onWeekChange={(week) => {
+                // setSelectedWeek(week);
+              }}
+            />
           </View>
+          <ActivityIndicator />
         </View>
+        // <View style={[tw`w-full h-full flex flex-col`]}>
+        //   <UserPicksHeader
+        //     includeHeader
+        //     onWeekChange={() => {}}
+        //     selectedWeek={currWeek}
+        //   />
+
+        // </View>
       )}
 
       {data && (
