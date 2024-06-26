@@ -11,22 +11,24 @@ import { useAuthContext } from "@/src/utils";
 import { tw } from "@/tailwind";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { ActivityIndicator, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View, useWindowDimensions } from "react-native";
 import { useDispatch } from "react-redux";
 import { LinearGradient } from "expo-linear-gradient";
 import { supabase } from "@/src/supabase";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { userActions } from "@/src/slices/user";
+import { FootballLoader } from "@/src/components/FootballLoader";
+
 export default function Home() {
   const dispatch = useDispatch();
   const authCtx = useAuthContext();
-
+  const { width } = useWindowDimensions();
   const user = useAppSelector((state) => state.user);
 
   const { isLoading } = useGetUserQuery(authCtx.user?.id as string);
 
   if (isLoading) {
-    return <ActivityIndicator />;
+    return <FootballLoader />;
   }
 
   return (
@@ -34,6 +36,7 @@ export default function Home() {
       <PickemsHeader style={[tw`mb-4 text-xl text-left `]}>
         Hello {user.user.name} 👋
       </PickemsHeader>
+
       <View style={[tw`border border-black rounded-md p-1 mb-4`]}>
         <LinearGradient
           // Background Linear Gradient
@@ -41,7 +44,6 @@ export default function Home() {
             tw` absolute top-0 bottom-0 flex flex-row justify-center rounded-md left-0 right-0`,
           ]}
           start={{ x: 0.2, y: 0.2 }}
-          // end={{ x: 1, y: 1.5 }}
           colors={["#000000", "#0000FF"]}
         >
           <Ionicons
@@ -112,30 +114,9 @@ export default function Home() {
               </View>
               <Ionicons name="chevron-forward" style={[tw``]} color={"black"} />
             </TouchableOpacity>
-            // <PickemsCard
-            //   style={[tw` `]}
-            //   key={al.league_id}
-            //   onPress={() => {
-            //     dispatch(
-            //       activeLeagueActions.setActiveLeague({
-            //         leagueID: al.league_id,
-            //       })
-            //     );
-            //     router.push({
-            //       pathname: "/user-picks",
-            //       // params: { leagueId: al.league_id },
-            //     });
-            //   }}
-            // >
-            //   <PickemsText style={[tw`ml-2`]}>{al.league_name}</PickemsText>
-            // </PickemsCard>
           ))}
         </View>
       )}
-
-      {/* <View>
-        <PickemsText style={[tw`text-md font-semibold`]}>News</PickemsText>
-      </View> */}
     </PickemsPage>
   );
 }

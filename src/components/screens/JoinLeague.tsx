@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { StatusBar, View } from "react-native";
 import { PickemsPage } from "../core/PickemsPage";
 import { PickemsHeader } from "../PickemsHeader";
 import { PickemsTextInput } from "../PickemsTextInput";
@@ -13,6 +13,8 @@ import { useAppSelector } from "@/src/store";
 import { router } from "expo-router";
 import { getLeagueShareableID } from "@/src/helpers/helpers";
 import { useJoinLeagueMutation } from "@/src/services/user";
+import { BlueSVGBackground } from "../BlueSVGBackground";
+import { Ionicons } from "@expo/vector-icons";
 export function JoinLeague() {
   const [createLeague, { isLoading, isSuccess, error }] =
     useJoinLeagueMutation();
@@ -33,42 +35,55 @@ export function JoinLeague() {
     }
   };
   return (
-    <PickemsPage showBackButton>
-      <PickemsHeader>Join a league</PickemsHeader>
-      <View
-        style={[
-          tw`flex flex-col border p-3 border-slate-300 bg-blue-100/20 rounded-md gap-4`,
-        ]}
+    <>
+      <BlueSVGBackground />
+      <PickemsPage
+        statusBarStyle="light-content"
+        showBackButton
+        backButtonColor="white"
+        style={[tw`flex flex-col bg-transparent z-20`]}
+        scrollViewContentStyle={[tw`flex flex-col justify-center h-full`]}
       >
-        <PickemsTextInput
-          onChangeText={(text) => {
-            setLeagueDetails((prev) => ({ ...prev, shareableId: +text }));
-          }}
-          keyboardType="number-pad"
-          value={
-            leagueDetails.shareableId ? `${leagueDetails.shareableId}` : ""
-          }
-          label={{ text: "League Code" }}
-          style={[tw`bg-white`]}
-        />
+        <View style={[tw`flex flex-col  p-3  bg-white  rounded-3xl gap-4`]}>
+          <Ionicons
+            name="people"
+            style={[tw`text-center`]}
+            color={tw.color("pickems-blue")}
+            size={40}
+          />
+          <PickemsHeader>Join a league</PickemsHeader>
+          <PickemsTextInput
+            onChangeText={(text) => {
+              setLeagueDetails((prev) => ({ ...prev, shareableId: +text }));
+            }}
+            keyboardType="number-pad"
+            value={
+              leagueDetails.shareableId ? `${leagueDetails.shareableId}` : ""
+            }
+            label={{ text: "League Code" }}
+            style={[tw`bg-white`]}
+          />
 
-        <PickemsTextInput
-          onChangeText={(text) => {
-            setLeagueDetails((prev) => ({ ...prev, leaguePW: text }));
-          }}
-          value={leagueDetails.leaguePW}
-          label={{
-            text: "League Password",
-          }}
-          style={[tw`bg-white`]}
-        />
-        <PickemsButton
-          onPress={() => {
-            handleJoiningLeague();
-          }}
-          buttonLabel="Join League"
-        />
-      </View>
-    </PickemsPage>
+          <PickemsTextInput
+            onChangeText={(text) => {
+              setLeagueDetails((prev) => ({ ...prev, leaguePW: text }));
+            }}
+            value={leagueDetails.leaguePW}
+            label={{
+              text: "League Password",
+            }}
+            style={[tw`bg-white`]}
+          />
+          <PickemsButton
+            style={[tw`bg-pickems-blue`]}
+            textStyle={[tw`text-white font-bold`]}
+            onPress={() => {
+              handleJoiningLeague();
+            }}
+            buttonLabel="Join League"
+          />
+        </View>
+      </PickemsPage>
+    </>
   );
 }

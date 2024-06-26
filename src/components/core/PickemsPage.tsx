@@ -8,8 +8,12 @@ import {
   ViewStyle,
   Text,
   RefreshControl,
+  useWindowDimensions,
+  StatusBar,
+  Dimensions,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import Svg, { Path } from "react-native-svg";
 import tw, { useDeviceContext } from "twrnc";
 
 export type PickemsPageProps = {
@@ -18,8 +22,11 @@ export type PickemsPageProps = {
   belowScrollViewChildren?: ReactNode;
   style?: ViewStyle[];
   showBackButton?: boolean;
+  backButtonColor?: string;
   isTabBarScreen?: boolean;
+  statusBarStyle?: "dark-content" | "light-content";
   scrollViewStyle?: ViewStyle[];
+  scrollViewContentStyle?: ViewStyle[];
   refreshControl?: { onRefresh: () => void; isRefreshing: boolean };
   aboveScrollViewChildren?: ReactNode;
 };
@@ -30,7 +37,26 @@ export function PickemsPage(props: PickemsPageProps) {
   const insets = useSafeAreaInsets();
 
   return (
-    <View style={[tw`flex-1 flex-col bg-white `, props.style]}>
+    <View style={[tw`flex-1 flex-col  relative bg-white `, props.style]}>
+      {/* <View style={[tw`w-[100%] h-30 bg-red-300 absolute`]}></View> */}
+      <StatusBar
+        barStyle={props.statusBarStyle ? props.statusBarStyle : "dark-content"}
+      />
+      {props.showBackButton && router.canGoBack() && (
+        <TouchableOpacity
+          style={[tw`pt-1  z-20 absolute left-4`, { paddingTop: insets.top }]}
+          onPress={() => {
+            router.back();
+          }}
+        >
+          <Ionicons
+            name="arrow-back"
+            color={props.backButtonColor ? props.backButtonColor : "black"}
+            style={[tw``]}
+            size={20}
+          />
+        </TouchableOpacity>
+      )}
       {props.children && (
         <>
           {props.aboveScrollViewChildren && props.aboveScrollViewChildren}
@@ -45,7 +71,7 @@ export function PickemsPage(props: PickemsPageProps) {
             }
             style={[
               props.scrollViewStyle,
-              tw`flex-1`,
+              tw`flex-1 `,
               {
                 paddingTop: props.isTabBarScreen ? 0 : insets.top,
                 paddingLeft: insets.left,
@@ -54,28 +80,15 @@ export function PickemsPage(props: PickemsPageProps) {
             ]}
             showsVerticalScrollIndicator={false}
             keyboardShouldPersistTaps="handled"
-            contentContainerStyle={{
-              paddingBottom: insets.bottom + 120,
-            }}
+            contentContainerStyle={[
+              tw``,
+              {
+                paddingBottom: insets.bottom + 80,
+              },
+              props.scrollViewContentStyle,
+            ]}
           >
-            <View style={[tw`flex-row justify-center items-center  py-4`]}>
-              {props.showBackButton && router.canGoBack() && (
-                <TouchableOpacity
-                  style={[tw`pt-1  z-20 absolute left-4`]}
-                  onPress={() => {
-                    router.back();
-                  }}
-                >
-                  <Ionicons
-                    name="arrow-back"
-                    style={[tw`text-black`]}
-                    size={20}
-                  />
-                </TouchableOpacity>
-              )}
-            </View>
-
-            <View style={[tw`p-2 mx-2`, props.childrenStyle]}>
+            <View style={[tw`p-2 my-6 mx-2`, props.childrenStyle]}>
               {props.children}
             </View>
           </ScrollView>

@@ -1,7 +1,6 @@
 import { tw } from "@/tailwind";
 import { useMemo, useRef, useState } from "react";
 import {
-  ActivityIndicator,
   Dimensions,
   FlatList,
   TouchableOpacity,
@@ -17,6 +16,8 @@ import {
   useGetMatchupsBySeasonQuery,
 } from "@/src/services/user";
 import { Ionicons } from "@expo/vector-icons";
+import { FootballLoader } from "../FootballLoader";
+import { PickemsLoadingPage } from "../PickemsLoadingPage";
 const matchupWeeks = [
   { season: 2024, week: 1 },
   { season: 2024, week: 2 },
@@ -70,6 +71,9 @@ export function MatchupsScreen() {
     scrollToIndex(index);
     setWeek(weekVal);
   };
+  if (isLoading) {
+    return <PickemsLoadingPage title="Fetching matchups!" />;
+  }
 
   return (
     <PickemsPage
@@ -79,86 +83,79 @@ export function MatchupsScreen() {
       }}
       isTabBarScreen
     >
-      {isLoading ? (
-        <View style={[tw`flex-1 flex flex-col justify-center items-center`]}>
-          <PickemsText>Fetching matchups...</PickemsText>
-          <ActivityIndicator />
+      <>
+        <View
+          style={[tw`flex flex-row mb-3 items-center justify-center  gap-2 `]}
+        >
+          {week > 1 ? (
+            <TouchableOpacity
+              style={[tw`w-8 `]}
+              onPress={() => {
+                handleWeekChange("backwards");
+              }}
+            >
+              <Ionicons size={30} name="chevron-back-circle-outline" />
+            </TouchableOpacity>
+          ) : (
+            <View style={[tw` w-8`]} />
+          )}
+          <PickemsText style={[tw`text-center text-lg `]}>
+            Week {week} Matchups
+          </PickemsText>
+          {week < 18 ? (
+            <TouchableOpacity
+              style={[tw`w-8`]}
+              onPress={() => {
+                handleWeekChange("forwards");
+              }}
+            >
+              <Ionicons size={30} name="chevron-forward-circle-outline" />
+            </TouchableOpacity>
+          ) : (
+            <View style={[tw`w-8`]} />
+          )}
         </View>
-      ) : (
-        <>
-          <View
-            style={[tw`flex flex-row mb-3 items-center justify-center  gap-2 `]}
-          >
-            {week > 1 ? (
-              <TouchableOpacity
-                style={[tw`w-8 `]}
-                onPress={() => {
-                  handleWeekChange("backwards");
-                }}
-              >
-                <Ionicons size={30} name="chevron-back-circle-outline" />
-              </TouchableOpacity>
-            ) : (
-              <View style={[tw` w-8`]} />
-            )}
-            <PickemsText style={[tw`text-center text-lg `]}>
-              Week {week} Matchups
-            </PickemsText>
-            {week < 18 ? (
-              <TouchableOpacity
-                style={[tw`w-8`]}
-                onPress={() => {
-                  handleWeekChange("forwards");
-                }}
-              >
-                <Ionicons size={30} name="chevron-forward-circle-outline" />
-              </TouchableOpacity>
-            ) : (
-              <View style={[tw`w-8`]} />
-            )}
-          </View>
-          <FlatList
-            horizontal={true}
-            // initialNumToRender={100}
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={[tw`flex flex-row`]}
-            style={[tw``, { width: width }]}
-            ref={flatlistRef}
-            pagingEnabled={true}
-            maxToRenderPerBatch={8}
-            onScrollToIndexFailed={() => {
-              return;
-            }}
-            windowSize={3}
-            initialNumToRender={3}
-            keyExtractor={(props) => `${props.season - props.week}`}
-            // inverted={true}
-            onMomentumScrollEnd={(ev) => {
-              const offset = ev.nativeEvent.contentOffset.x;
-              const index = Math.round(offset / width);
-              const week = matchupWeeks[index].week;
-              setWeek(week);
-              // const year = monthsAndYears[index].year;
-              // const month = monthsAndYears[index].month;
+        <FlatList
+          horizontal={true}
+          // initialNumToRender={100}
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={[tw`flex flex-row`]}
+          style={[tw``, { width: width }]}
+          ref={flatlistRef}
+          pagingEnabled={true}
+          maxToRenderPerBatch={8}
+          onScrollToIndexFailed={() => {
+            return;
+          }}
+          windowSize={3}
+          initialNumToRender={3}
+          keyExtractor={(props) => `${props.season - props.week}`}
+          // inverted={true}
+          onMomentumScrollEnd={(ev) => {
+            const offset = ev.nativeEvent.contentOffset.x;
+            const index = Math.round(offset / width);
+            const week = matchupWeeks[index].week;
+            setWeek(week);
+            // const year = monthsAndYears[index].year;
+            // const month = monthsAndYears[index].month;
 
-              // setYear(year);
-              // setMonth(month);
-            }}
-            data={matchupWeeks}
-            renderItem={(item) => {
-              return (
-                <View style={[tw`flex flex-row `, { width: width }]}>
-                  <MatchupsBySeasonAndWeek
-                    season={item.item.season}
-                    week={item.item.week}
-                    matchups={matchups}
-                  />
-                </View>
-              );
-            }}
-          />
-        </>
-      )}
+            // setYear(year);
+            // setMonth(month);
+          }}
+          data={matchupWeeks}
+          renderItem={(item) => {
+            return (
+              <View style={[tw`flex flex-row `, { width: width }]}>
+                <MatchupsBySeasonAndWeek
+                  season={item.item.season}
+                  week={item.item.week}
+                  matchups={matchups}
+                />
+              </View>
+            );
+          }}
+        />
+      </>
     </PickemsPage>
   );
 }

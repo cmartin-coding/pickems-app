@@ -1,11 +1,5 @@
 import { tw } from "@/tailwind";
-import {
-  ActivityIndicator,
-  Alert,
-  Switch,
-  View,
-  ViewStyle,
-} from "react-native";
+import { Alert, Switch, View, ViewStyle } from "react-native";
 import { MatchupsTeamCard } from "../MatchupsTeamCard";
 import { PickemsText } from "../PickemsText";
 import { MatchupPicksType } from "@/src/types/types";
@@ -32,6 +26,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { PicksByGameTime } from "../PicksByGameTime";
 import { WeekSelectorHeader } from "../WeekSelectorHeader";
 import { PickemsAccordion } from "../PickemsAccordion";
+import { FootballLoader } from "../FootballLoader";
 
 type UserPicksScreenType = {
   isOverUnderEnabled: boolean;
@@ -190,7 +185,7 @@ export function UserPicksScreen(props: UserPicksScreenType) {
     >
       {props.isLoadingInitial || (props.isFetching && !isAvoidingFullLoader) ? (
         <View style={[tw` h-full flex flex-row items-center justify-center`]}>
-          <ActivityIndicator />
+          <FootballLoader />
         </View>
       ) : (
         <>

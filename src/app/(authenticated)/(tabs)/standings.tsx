@@ -1,3 +1,4 @@
+import { FootballLoader } from "@/src/components/FootballLoader";
 import { NoActiveLeaguesPlaceholder } from "@/src/components/NoActiveLeaguesPlaceholder";
 import { PickemsText } from "@/src/components/PickemsText";
 import { PickemsPage } from "@/src/components/core/PickemsPage";
@@ -9,7 +10,7 @@ import { tw } from "@/tailwind";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
-import { ActivityIndicator, View } from "react-native";
+import { View } from "react-native";
 
 export default function Standings() {
   const user = useAppSelector((state) => state.user);
@@ -24,7 +25,7 @@ export default function Standings() {
     isLoading,
   } = useGetLeagueUsersAndStandings(user.currentActiveLeague);
   if (!leagueUsers && isLoading) {
-    return <ActivityIndicator />;
+    return <FootballLoader />;
   }
   if (!leagueUsers) {
     return <PickemsText>No League Users</PickemsText>;
