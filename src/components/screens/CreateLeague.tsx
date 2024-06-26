@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { StatusBar, View } from "react-native";
 import { PickemsPage } from "../core/PickemsPage";
 import { PickemsHeader } from "../PickemsHeader";
 import { PickemsTextInput } from "../PickemsTextInput";
@@ -13,6 +13,10 @@ import { useAppSelector } from "@/src/store";
 import { useCreateLeagueMutation } from "@/src/services/user";
 import { router } from "expo-router";
 import { getLeagueShareableID } from "@/src/helpers/helpers";
+import { WavyHeader } from "@/src/assets/svg/WavyHeader";
+import Svg, { Path } from "react-native-svg";
+import { BlueSVGBackground } from "../BlueSVGBackground";
+import { Ionicons } from "@expo/vector-icons";
 export function CreateLeague() {
   const [createLeague, { isLoading, isSuccess, error }] =
     useCreateLeagueMutation();
@@ -52,74 +56,94 @@ export function CreateLeague() {
   };
 
   return (
-    <PickemsPage showBackButton>
-      <PickemsHeader>Create a league</PickemsHeader>
-      <View
-        style={[
-          tw`flex flex-col border p-3 border-slate-300 bg-blue-100/20 rounded-md gap-4`,
-        ]}
+    <>
+      <BlueSVGBackground />
+      <PickemsPage
+        statusBarStyle="light-content"
+        backButtonColor="white"
+        style={[tw`flex flex-col bg-transparent z-20`]}
+        scrollViewContentStyle={[tw`flex flex-col justify-center h-full`]}
+        showBackButton
       >
-        <PickemsTextInput
-          onChangeText={(text) => {
-            setLeague((prev) => ({ ...prev, name: text }));
-          }}
-          value={league.name}
-          label={{ text: "League Name" }}
-          style={[tw`bg-white`]}
-        />
-        {noLeagueNameInputted && (
-          <PickemsText style={[tw`text-red-600 text-sm`]}>
-            Please add a league name
-          </PickemsText>
-        )}
-        <PickemsSwitch
-          label="Include Over/Under Selection?"
-          isActive={league.does_include_over_under}
-          onChange={(val) => {
-            setLeague((prev) => ({ ...prev, does_include_over_under: val }));
-          }}
-        />
+        <View
+          style={[
+            tw`flex flex-col shadow-2xl bg-white  p-3  rounded-3xl gap-4`,
+          ]}
+        >
+          <Ionicons
+            name="trophy-sharp"
+            style={[tw`text-center`]}
+            color={tw.color("pickems-blue")}
+            size={40}
+          />
+          <PickemsHeader>Create a league</PickemsHeader>
+          <PickemsTextInput
+            onChangeText={(text) => {
+              setLeague((prev) => ({ ...prev, name: text }));
+            }}
+            value={league.name}
+            label={{ text: "League Name" }}
+            style={[tw`bg-gray-200/30`]}
+          />
+          {noLeagueNameInputted && (
+            <PickemsText style={[tw`text-red-600 text-sm`]}>
+              Please add a league name
+            </PickemsText>
+          )}
+          <PickemsSwitch
+            label="Include Over/Under Selection?"
+            isActive={league.does_include_over_under}
+            onChange={(val) => {
+              setLeague((prev) => ({
+                ...prev,
+                does_include_over_under: val,
+              }));
+            }}
+          />
 
-        <PickemsSwitch
-          label="Include Playoffs?"
-          isActive={league.does_include_over_under}
-          onChange={(val) => {
-            setLeague((prev) => ({ ...prev, does_include_playoffs: val }));
-          }}
-        />
-        <PickemsTextInput
-          onChangeText={(text) => {
-            setLeague((prev) => ({ ...prev, shareable_pw: text }));
-          }}
-          value={league.shareable_pw || ""}
-          label={{
-            text: "League Password",
-            includeInfoIcon: {
-              modalChildren: (
-                <View>
-                  <PickemsHeader style={[tw`mb-2`]}>
-                    League Password
-                  </PickemsHeader>
-                  <PickemsText style={[tw`text-sm`]}>
-                    You will share this password with other users so they can
-                    join the league.
-                  </PickemsText>
-                </View>
-              ),
-            },
-          }}
-          style={[tw`bg-white`]}
-        />
-        <PickemsButton
-          onPress={() => {
-            handleCreateLeague();
-          }}
-          buttonLabel="Create League"
-        />
-        <PickemsText style={[tw`text-center`]}>
-          *You can have up to 10 players per league*
-        </PickemsText>
-      </View>
-    </PickemsPage>
+          <PickemsSwitch
+            label="Include Playoffs?"
+            isActive={league.does_include_over_under}
+            onChange={(val) => {
+              setLeague((prev) => ({ ...prev, does_include_playoffs: val }));
+            }}
+          />
+          <PickemsTextInput
+            onChangeText={(text) => {
+              setLeague((prev) => ({ ...prev, shareable_pw: text }));
+            }}
+            value={league.shareable_pw || ""}
+            label={{
+              text: "League Password",
+              includeInfoIcon: {
+                modalChildren: (
+                  <View>
+                    <PickemsHeader style={[tw`mb-2`]}>
+                      League Password
+                    </PickemsHeader>
+                    <PickemsText style={[tw`text-sm`]}>
+                      You will share this password with other users so they can
+                      join the league.
+                    </PickemsText>
+                  </View>
+                ),
+              },
+            }}
+            style={[tw`bg-gray-200/30`]}
+          />
+          <PickemsButton
+            onPress={() => {
+              handleCreateLeague();
+            }}
+            style={[tw`bg-pickems-blue`]}
+            textStyle={[tw`text-white font-bold`]}
+            buttonLabel="Create League"
+          />
+          <PickemsText style={[tw`text-center`]}>
+            *You can have up to 10 players per league*
+          </PickemsText>
+        </View>
+      </PickemsPage>
+    </>
   );
 }

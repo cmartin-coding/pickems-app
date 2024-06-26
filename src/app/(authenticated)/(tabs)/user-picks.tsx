@@ -14,16 +14,12 @@ import { tw } from "@/tailwind";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useRef, useState } from "react";
-import {
-  ActivityIndicator,
-  ScrollView,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { View } from "react-native";
 import Home from "./home";
 import { PickemsButton } from "@/src/components/PickemsButton";
 import { NoActiveLeaguesPlaceholder } from "@/src/components/NoActiveLeaguesPlaceholder";
 import { LinearGradient } from "expo-linear-gradient";
+import { FootballLoader } from "@/src/components/FootballLoader";
 
 export default function UserPicks() {
   const user = useAppSelector((state) => state.user);
@@ -84,7 +80,8 @@ export default function UserPicks() {
               }}
             />
           </View>
-          <ActivityIndicator />
+
+          <FootballLoader />
         </View>
         // <View style={[tw`w-full h-full flex flex-col`]}>
         //   <UserPicksHeader

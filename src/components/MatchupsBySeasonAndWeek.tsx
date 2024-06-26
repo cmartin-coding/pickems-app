@@ -1,5 +1,5 @@
 import { tw } from "@/tailwind";
-import { ActivityIndicator, View, ViewStyle } from "react-native";
+import { View, ViewStyle } from "react-native";
 import { useGetMatchupsBySeasonQuery } from "../services/user";
 import { PickemsText } from "./PickemsText";
 import Svg, { Path } from "react-native-svg";
@@ -18,18 +18,6 @@ type MatchupsBySeasonAndWeekType = {
 };
 
 export function MatchupsBySeasonAndWeek(props: MatchupsBySeasonAndWeekType) {
-  // const { data: matchups, isLoading } = useGetMatchupsBySeasonQuery({
-  //   season: props.season,
-  //   week: props.week,
-  // });
-
-  // if (isLoading) {
-  //   return <ActivityIndicator />;
-  // }
-
-  // if (!matchups) {
-  //   return <PickemsText>No matchups data.</PickemsText>;
-  // }
   const matchups = props.matchups.filter((m) => m.week === props.week);
 
   const formattedMatchups = formatMatchupsByTimeOfDay(matchups);

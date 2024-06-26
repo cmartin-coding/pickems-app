@@ -12,14 +12,10 @@ import { NFLTeamNames } from "@/src/types/types";
 import { tw } from "@/tailwind";
 import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useRef, useState } from "react";
-import {
-  ActivityIndicator,
-  RefreshControl,
-  ScrollView,
-  View,
-} from "react-native";
+import { RefreshControl, ScrollView, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { WeekSelectorHeader } from "@/src/components/WeekSelectorHeader";
+import { FootballLoader } from "@/src/components/FootballLoader";
 
 export default function LeaguePicks() {
   const user = useAppSelector((state) => state.user);
@@ -90,7 +86,7 @@ export default function LeaguePicks() {
         }}
       />
       {!isUserRefresh && (isFetching || isMatchupsFetching) ? (
-        <ActivityIndicator style={[tw`mt-10`]} />
+        <FootballLoader />
       ) : (
         <>
           <View style={[tw`border border-t-0 mt-2 border-slate-300/70`]}>

@@ -25,6 +25,8 @@ module.exports = {
 
       colors: {
         "pickems-blue": "#0000FF",
+        "pickems-base-blue": "#3F3FFF",
+        "pickems-light-blue": "#72BEFF",
         "pickems-blue-complement": "#ffff00",
       },
       borderRadius: {
