@@ -11,6 +11,7 @@ import uuid from "react-native-uuid";
 import { useAppSelector } from "../store";
 import { isAfter, isEqual } from "date-fns";
 import { OverUnderPicker } from "./OverUnderPicker";
+import { getMatchIsStartingSoonLockout } from "../helpers/helpers";
 type PicksMatchupCardType = {
   matchup: MatchupPicksType;
   leagueId: string;
@@ -61,16 +62,7 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
   const isAwayPickCorrect =
     props.matchup.isComplete && isSelectedAwayTeam && isAwayTeamWinner;
 
-  /**
-   * If the matchup is complete then style only the pick to be red or green depending if it is correct.
-   *  ex: IF MATCHUP COMPLETE AND WINNER IS HOME AND HOMETEAM SELECTED BE GREEN
-   *  ex: IF MATCHUP COMPLETE AND WINNER IS AWAY AND AWAY TEAM SELECTED BE GREEN
-   *  ex: IF MATCHUP COMPLETE AND WINNER IS HOME AND AWAY TEAM SELECTED AWAY BE RED
-   *  ex: IF MATCHUP COMPLETE AND WINNER IS AWAY AND HOME TEAM SELECTED HOME BE RED
-   * Get user selection
-   * If user selected and winner is not null
-   */
-
+  const isMatchupLocked = getMatchIsStartingSoonLockout(props.matchup.time);
   return (
     <View
       style={[
@@ -84,12 +76,12 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
       >
         <View style={[tw`flex flex-row gap-4 flex-1 items-center`]}>
           <TouchableOpacity
-            disabled={props.matchup.isComplete}
+            disabled={props.matchup.isComplete || isMatchupLocked}
             style={[
               tw`flex-1 flex flex-col  border rounded-lg p-1 items-center 
              
           ${
-            isSelectedAwayTeam && !props.matchup.isComplete
+            isSelectedAwayTeam && !props.matchup.isComplete && !isMatchupLocked
               ? "rounded-xl bg-blue-400/30"
               : ""
           }
@@ -111,7 +103,7 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
             <MatchupsTeamCard
               teamId={props.matchup.away_team.id}
               abbreviation={props.matchup.away_team.abbreviation as string}
-              isComplete={props.matchup.isComplete}
+              isComplete={props.matchup.isComplete || isMatchupLocked}
               isWinner={isAwayTeamWinner}
               score={props.matchup.score.away || 0}
               teamName={props.matchup.away_team.name}
@@ -124,7 +116,7 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
             @
           </PickemsText>
           <TouchableOpacity
-            disabled={props.matchup.isComplete}
+            disabled={props.matchup.isComplete || isMatchupLocked}
             onPress={() => {
               if (props.matchup.home_team.id !== pick.team_selection) {
                 setUserHasAlteredPick(true);
@@ -137,7 +129,9 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
             style={[
               tw`flex-1 relative border p-1 rounded-lg flex 
               ${
-                isSelectedHomeTeam && !props.matchup.isComplete
+                isSelectedHomeTeam &&
+                !props.matchup.isComplete &&
+                !isMatchupLocked
                   ? " bg-blue-400/30"
                   : ""
               }
@@ -149,7 +143,7 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
             <MatchupsTeamCard
               teamId={props.matchup.home_team.id}
               abbreviation={props.matchup.home_team.abbreviation as string}
-              isComplete={props.matchup.isComplete}
+              isComplete={props.matchup.isComplete || isMatchupLocked}
               isWinner={isHomeTeamWinner}
               score={props.matchup.score.home || 0}
               teamName={props.matchup.home_team.name}
@@ -160,7 +154,7 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
 
       {props.overUnderInfo && (
         <OverUnderPicker
-          isDisabled={props.matchup.isComplete}
+          isDisabled={props.matchup.isComplete || isMatchupLocked}
           style={[tw` border  rounded-md `]}
           currentSelection={
             pick.over_under_selection
