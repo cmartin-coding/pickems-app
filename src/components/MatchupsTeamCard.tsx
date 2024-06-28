@@ -1,4 +1,4 @@
-import { tw } from "@/tailwind";
+import tw from "@/tailwind";
 import { TouchableOpacity, View } from "react-native";
 import { PickemsText } from "./PickemsText";
 import { TeamLogo } from "../constants/team-logos/TeamLogo";

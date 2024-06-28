@@ -2,7 +2,7 @@ import { PickemsText } from "@/src/components/PickemsText";
 import { PickemsTabHeader } from "@/src/components/navigation/PickemsTabHeader";
 import { SettingsCogHeader } from "@/src/components/navigation/SettingsCogHeader";
 import { useAppSelector } from "@/src/store";
-import { tw } from "@/tailwind";
+import tw from "@/tailwind";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { Tabs, router } from "expo-router";
 import { useState } from "react";

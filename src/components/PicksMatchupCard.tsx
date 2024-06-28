@@ -1,7 +1,7 @@
 import { TouchableOpacity, View } from "react-native";
 import { MatchupsTeamCard } from "./MatchupsTeamCard";
 import { PickemsText } from "./PickemsText";
-import { tw } from "@/tailwind";
+import tw from "@/tailwind";
 import { Ionicons } from "@expo/vector-icons";
 import { MatchupPicksType } from "../types/types";
 import { PickemsOptionSlider } from "./PickemsOptionSlider";

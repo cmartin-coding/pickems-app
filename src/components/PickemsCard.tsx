@@ -1,4 +1,4 @@
-import { tw } from "@/tailwind";
+import tw from "@/tailwind";
 import { Ionicons } from "@expo/vector-icons";
 import { ReactNode } from "react";
 import { TouchableOpacity, View, ViewStyle } from "react-native";

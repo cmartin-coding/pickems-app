@@ -5,7 +5,7 @@ import {
   ViewStyle,
 } from "react-native";
 import { PickemsText } from "./PickemsText";
-import { tw } from "@/tailwind";
+import tw from "@/tailwind";
 
 type PickemsButtonType = {
   style?: ViewStyle;

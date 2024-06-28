@@ -1,4 +1,4 @@
-import { tw } from "@/tailwind";
+import tw from "@/tailwind";
 import { Modal, TouchableOpacity, View, ViewStyle } from "react-native";
 import { PickemsText } from "./PickemsText";
 import { ReactNode } from "react";

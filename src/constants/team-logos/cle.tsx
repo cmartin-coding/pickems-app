@@ -1,4 +1,4 @@
-import { tw } from "@/tailwind";
+import tw from "@/tailwind";
 import { Image, ImageStyle } from "react-native";
 export const CLE = (props: { style?: ImageStyle[] }) => {
   return (

@@ -1,7 +1,7 @@
 import { Switch, View } from "react-native";
 import { useAppSelector } from "../store";
 import { PickemsText } from "./PickemsText";
-import { tw } from "@/tailwind";
+import tw from "@/tailwind";
 import { useState } from "react";
 type CurrentStatsType = {
   stats: {

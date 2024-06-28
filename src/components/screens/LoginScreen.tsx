@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { PickemsButton } from "../PickemsButton";
 import { PickemsTextInput } from "../PickemsTextInput";
 import { PickemsText } from "../PickemsText";
-import { tw } from "@/tailwind";
+import tw from "@/tailwind";
 type LoginState = {
   email: string;
   password: string;

@@ -1,4 +1,4 @@
-import { tw } from "@/tailwind";
+import tw from "@/tailwind";
 import { View, ViewStyle } from "react-native";
 import { useGetMatchupsBySeasonQuery } from "../services/user";
 import { PickemsText } from "./PickemsText";

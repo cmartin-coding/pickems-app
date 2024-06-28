@@ -1,4 +1,4 @@
-import { tw } from "@/tailwind";
+import tw from "@/tailwind";
 import LottieView from "lottie-react-native";
 import { View } from "react-native";
 

@@ -1,7 +1,7 @@
 import { format, getDay } from "date-fns";
 import { MatchupPicksType } from "../types/types";
 import { daysOfWeek } from "../constants/const";
-import { tw } from "@/tailwind";
+import tw from "@/tailwind";
 import { ScrollView, View } from "react-native";
 import { PickemsText } from "./PickemsText";
 import { PicksMatchupCard } from "./PicksMatchupCard";

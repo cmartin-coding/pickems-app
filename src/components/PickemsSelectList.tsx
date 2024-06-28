@@ -1,4 +1,4 @@
-import { tw } from "@/tailwind";
+import tw from "@/tailwind";
 import { useState } from "react";
 import { Image, StyleProp, ViewStyle } from "react-native";
 import { SelectList } from "react-native-dropdown-select-list";

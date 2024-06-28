@@ -1,4 +1,4 @@
-import { tw } from "@/tailwind";
+import tw from "@/tailwind";
 import { BlueSVGBackground } from "./BlueSVGBackground";
 import { FootballLoader } from "./FootballLoader";
 import { PickemsText } from "./PickemsText";

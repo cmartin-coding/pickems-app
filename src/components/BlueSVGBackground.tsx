@@ -1,4 +1,4 @@
-import { tw } from "@/tailwind";
+import tw from "@/tailwind";
 import Svg, { Path } from "react-native-svg";
 
 export function BlueSVGBackground() {

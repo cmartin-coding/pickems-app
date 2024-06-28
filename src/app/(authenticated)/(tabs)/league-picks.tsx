@@ -9,7 +9,7 @@ import {
 } from "@/src/services/user";
 import { useAppSelector } from "@/src/store";
 import { NFLTeamNames } from "@/src/types/types";
-import { tw } from "@/tailwind";
+import tw from "@/tailwind";
 import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useRef, useState } from "react";
 import { RefreshControl, ScrollView, View } from "react-native";
