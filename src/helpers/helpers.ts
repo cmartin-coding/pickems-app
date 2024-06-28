@@ -1,5 +1,12 @@
 import { NFL_START_DATE } from "../constants/const";
-import { add, differenceInWeeks } from "date-fns";
+import {
+  add,
+  addMinutes,
+  differenceInWeeks,
+  isWithinInterval,
+  parseISO,
+  subMinutes,
+} from "date-fns";
 import { MatchupPicksType, Matchups } from "../types/types";
 export function isValidEmail(email: string): boolean {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -81,4 +88,22 @@ export function getLeagueStandings(completedMatchups: MatchupPicksType[]) {
 }
 export function getLeagueShareableID() {
   return Math.floor(1000 + Math.random() * 9000);
+}
+
+export function getMatchIsStartingSoonLockout(matchupTime: string) {
+  // Get the date to ISO
+  const parsedDate = parseISO(matchupTime);
+
+  // get Current Date/Time
+  const now = new Date();
+
+  // Get the time 15 minutes before
+  const interval = {
+    start: subMinutes(now, 15),
+    end: now,
+  };
+
+  // See if it is within 15 min
+  const isWithin15Minutes = isWithinInterval(parsedDate, interval);
+  return isWithin15Minutes;
 }
