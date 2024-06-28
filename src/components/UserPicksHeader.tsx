@@ -1,6 +1,6 @@
 import { ScrollView, TouchableOpacity, View, ViewStyle } from "react-native";
 import { PickemsHeader } from "./PickemsHeader";
-import { tw } from "@/tailwind";
+import tw from "@/tailwind";
 import { Ionicons } from "@expo/vector-icons";
 import { PickemsText } from "./PickemsText";
 import { PickemsInputModal } from "./PickemsInputModal";

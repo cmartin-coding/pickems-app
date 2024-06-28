@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Animated, TouchableOpacity, View, ViewStyle } from "react-native";
 import { PickemsText } from "./PickemsText";
-import { tw } from "@/tailwind";
+import tw from "@/tailwind";
 
 type OverUnderPickerType = {
   overUnderValue: number;

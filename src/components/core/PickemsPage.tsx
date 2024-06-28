@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Svg, { Path } from "react-native-svg";
-import tw, { useDeviceContext } from "twrnc";
+import tw from "twrnc";
 
 export type PickemsPageProps = {
   children: ReactNode;
@@ -32,12 +32,16 @@ export type PickemsPageProps = {
 };
 
 export function PickemsPage(props: PickemsPageProps) {
-  // useDeviceContext(tw);
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
   return (
-    <View style={[tw`flex-1 flex-col  relative bg-white `, props.style]}>
+    <View
+      style={[
+        tw`flex-1 flex-col  relative bg-white dark:bg-black`,
+        props.style,
+      ]}
+    >
       {/* <View style={[tw`w-[100%] h-30 bg-red-300 absolute`]}></View> */}
       <StatusBar
         barStyle={props.statusBarStyle ? props.statusBarStyle : "dark-content"}

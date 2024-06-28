@@ -31,7 +31,7 @@ import { SF } from "./sf";
 import { TB } from "./tb";
 import { TEN } from "./ten";
 import { WAS } from "./was";
-import { tw } from "@/tailwind";
+import tw from "@/tailwind";
 import { ImageStyle, ViewStyle } from "react-native";
 import { NFL } from "./nfl";
 

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { PickemsText } from "../PickemsText";
-import { tw } from "@/tailwind";
+import tw from "@/tailwind";
 import { PickemsTextInput } from "../PickemsTextInput";
 import { TouchableOpacity, View } from "react-native";
 import { PickemsButton } from "../PickemsButton";

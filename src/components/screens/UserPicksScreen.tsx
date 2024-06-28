@@ -1,4 +1,4 @@
-import { tw } from "@/tailwind";
+import tw from "@/tailwind";
 import { Alert, Switch, View, ViewStyle } from "react-native";
 import { MatchupsTeamCard } from "../MatchupsTeamCard";
 import { PickemsText } from "../PickemsText";

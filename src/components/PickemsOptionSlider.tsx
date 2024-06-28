@@ -1,4 +1,4 @@
-import { tw } from "@/tailwind";
+import tw from "@/tailwind";
 import {
   Animated,
   Easing,

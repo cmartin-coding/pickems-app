@@ -6,7 +6,7 @@ import { TeamLogo } from "@/src/constants/team-logos/TeamLogo";
 import { useGetLeagueUsersAndStandings } from "@/src/services/user";
 import { useAppSelector } from "@/src/store";
 import { NFLTeamNames } from "@/src/types/types";
-import { tw } from "@/tailwind";
+import tw from "@/tailwind";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";

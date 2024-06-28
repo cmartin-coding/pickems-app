@@ -1,6 +1,6 @@
 import { TextStyle } from "react-native";
 import { PickemsText } from "./PickemsText";
-import { tw } from "@/tailwind";
+import tw from "@/tailwind";
 
 type PickemsHeaderType = {
   children: string | string[];

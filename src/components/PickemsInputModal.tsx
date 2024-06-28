@@ -9,7 +9,7 @@ import {
 //   import { tw } from "../../tailwind";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useEffect, useRef } from "react";
-import { tw } from "../../tailwind";
+import tw from "../../tailwind";
 import React from "react";
 //   import { LinearGradient } from "expo-linear-gradient";
 

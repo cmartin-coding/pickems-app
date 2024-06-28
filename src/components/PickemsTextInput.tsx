@@ -1,4 +1,4 @@
-import { tw } from "@/tailwind";
+import tw from "@/tailwind";
 import { TextInput, TextInputProps, TextStyle, View } from "react-native";
 import { PickemsText } from "./PickemsText";
 import { ReactNode } from "react";

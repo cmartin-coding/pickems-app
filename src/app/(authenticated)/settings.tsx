@@ -6,7 +6,7 @@ import { View } from "react-native";
 
 export default function Settings() {
   const authCtx = useAuthContext();
-
+  console.log(authCtx.user?.email);
   return (
     <PickemsPage showBackButton>
       <View>

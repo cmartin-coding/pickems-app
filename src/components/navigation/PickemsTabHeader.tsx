@@ -1,4 +1,4 @@
-import { tw } from "@/tailwind";
+import tw from "@/tailwind";
 import { TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { PickemsText } from "../PickemsText";

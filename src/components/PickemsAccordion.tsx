@@ -1,7 +1,7 @@
 import { ReactNode, useState } from "react";
 import { TouchableOpacity, View, ViewStyle } from "react-native";
 import { PickemsText } from "./PickemsText";
-import { tw } from "@/tailwind";
+import tw from "@/tailwind";
 import { Ionicons } from "@expo/vector-icons";
 type PickemsAccordionProps = {
   title: string;

@@ -1,4 +1,4 @@
-import { tw } from "@/tailwind";
+import tw from "@/tailwind";
 import { Switch, View, ViewStyle } from "react-native";
 import { PickemsText } from "./PickemsText";
 import { useState } from "react";

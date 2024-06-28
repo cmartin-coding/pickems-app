@@ -8,7 +8,7 @@ import { useGetUserQuery } from "@/src/services/user";
 import { activeLeagueActions } from "@/src/slices/activeLeague";
 import { useAppSelector } from "@/src/store";
 import { useAuthContext } from "@/src/utils";
-import { tw } from "@/tailwind";
+import tw from "@/tailwind";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { TouchableOpacity, View, useWindowDimensions } from "react-native";

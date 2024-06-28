@@ -5,7 +5,7 @@ import { PickemsTextInput } from "../PickemsTextInput";
 import { useEffect, useState } from "react";
 import { Tables } from "@/src/types/supabaseTypes";
 import uuid from "react-native-uuid";
-import { tw } from "@/tailwind";
+import tw from "@/tailwind";
 import { PickemsSwitch } from "../PickemsSwitch";
 import { PickemsButton } from "../PickemsButton";
 import { PickemsText } from "../PickemsText";

@@ -1,4 +1,3 @@
-import { tw } from "@/tailwind";
 import { Slot, Stack } from "expo-router";
 import React from "react";
 import { Provider } from "react-redux";
@@ -7,9 +6,10 @@ import { store } from "../store";
 import { AuthProvider } from "../context/AuthContext";
 import { DataProvider } from "../context/DataContext";
 import Toast from "react-native-toast-message";
+import tw from "@/tailwind";
 
 export default function RootLayout() {
-  // useDeviceContext(tw);
+  useDeviceContext(tw);
   return (
     <Provider store={store}>
       <AuthProvider>

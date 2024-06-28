@@ -10,7 +10,7 @@ import {
   TextStyle,
   TextInputProps,
 } from "react-native";
-import { tw } from "../../tailwind";
+import tw from "../../tailwind";
 import { PickemsInputModal } from "./PickemsInputModal";
 
 type Props = {

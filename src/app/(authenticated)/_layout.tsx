@@ -4,11 +4,13 @@ import { PickemsText } from "@/src/components/PickemsText";
 import { PickemsPage } from "@/src/components/core/PickemsPage";
 import { useDataContext } from "@/src/context/DataContext";
 import { useAuthContext } from "@/src/utils";
+import tw from "@/tailwind";
 import { Redirect, Stack } from "expo-router";
 
 export default function AuthenticatedLayout() {
   const dataCtx = useDataContext();
   const authCtx = useAuthContext();
+
   if (!authCtx?.user?.id) {
     return <Redirect href={"/sign-up"} />;
   }

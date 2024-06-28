@@ -10,7 +10,7 @@ import { getCurrentNFLWeek } from "@/src/helpers/helpers";
 import { useGetUserPicks, useSubmitPicksMutation } from "@/src/services/user";
 import { useAppSelector } from "@/src/store";
 import { Tables } from "@/src/types/supabaseTypes";
-import { tw } from "@/tailwind";
+import tw from "@/tailwind";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useRef, useState } from "react";

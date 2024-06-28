@@ -1,4 +1,4 @@
-import { tw } from "@/tailwind";
+import tw from "@/tailwind";
 import { useMemo, useRef, useState } from "react";
 import {
   Dimensions,
