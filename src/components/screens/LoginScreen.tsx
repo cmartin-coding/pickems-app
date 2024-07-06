@@ -20,7 +20,7 @@ export function LoginScreen(props: LoginScreenType) {
     <>
       <View style={[tw`flex flex-col gap-4`]}>
         <PickemsTextInput
-          label={{ text: "Email" }}
+          label={{ text: "Email", style: [tw`text-black`] }}
           value={loginState.email}
           onChangeText={(val) => {
             setLoginState((prev) => ({ ...prev, email: val }));
@@ -29,7 +29,7 @@ export function LoginScreen(props: LoginScreenType) {
           keyboardType="email-address"
         />
         <PickemsTextInput
-          label={{ text: "Password" }}
+          label={{ text: "Password", style: [tw`text-black`] }}
           value={loginState.password}
           secureTextEntry={true}
           style={[tw`bg-gray-200/30`]}

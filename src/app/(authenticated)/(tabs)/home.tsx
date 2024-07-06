@@ -20,21 +20,21 @@ import {
 import { useDispatch } from "react-redux";
 import { LinearGradient } from "expo-linear-gradient";
 import { supabase } from "@/src/supabase";
-import React from "react";
+import React, { useContext } from "react";
 import { userActions } from "@/src/slices/user";
 import { FootballLoader } from "@/src/components/FootballLoader";
 import { useAppColorScheme } from "twrnc/dist/esm/hooks";
+import { ThemeContext, useThemeContext } from "@/src/context/ThemeContext";
 
 export default function Home() {
   const dispatch = useDispatch();
   const authCtx = useAuthContext();
 
-  const [colorScheme, toggleColorScheme, setColorScheme] =
-    useAppColorScheme(tw);
+  const { theme, toggleTheme } = useThemeContext();
   const user = useAppSelector((state) => state.user);
 
   const gradientColors =
-    colorScheme === "light"
+    theme === "light"
       ? ["#000000", "#0000FF"]
       : [tw.color("blue-900"), "#0000FF"];
 
@@ -43,12 +43,13 @@ export default function Home() {
       <PickemsHeader style={[tw`mb-4 text-xl text-left `]}>
         Hello {user.user.name} 👋
       </PickemsHeader>
-      <Switch
-        value={colorScheme === "light"}
+      {/* <Switch
+        value={theme === "light"}
         onChange={() => {
-          toggleColorScheme();
+          toggleTheme();
+          // toggleColorScheme();
         }}
-      />
+      /> */}
 
       <View style={[tw`border border-black rounded-md p-1 mb-4`]}>
         <LinearGradient
@@ -110,7 +111,7 @@ export default function Home() {
             >
               <LinearGradient
                 colors={[
-                  colorScheme === "light" ? "#000000" : tw.color("blue-800"),
+                  theme === "light" ? "#000000" : tw.color("blue-800"),
                   "#ffffff",
                 ]}
                 start={{ x: 0.1, y: 0.1 }}

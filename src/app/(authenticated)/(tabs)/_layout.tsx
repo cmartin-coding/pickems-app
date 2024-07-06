@@ -5,11 +5,18 @@ import { useAppSelector } from "@/src/store";
 import tw from "@/tailwind";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { Tabs, router } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useAppColorScheme } from "twrnc";
 
 export default function PickemsTabBar() {
+  const [colorScheme, toggleColorScheme, setColorScheme] =
+    useAppColorScheme(tw);
+
+  useEffect(() => {
+    console.log("HERE");
+  }, [colorScheme]);
   return (
     <Tabs screenOptions={{ tabBarActiveTintColor: "#0000FF" }}>
       <Tabs.Screen

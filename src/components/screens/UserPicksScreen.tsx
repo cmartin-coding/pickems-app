@@ -123,7 +123,7 @@ export function UserPicksScreen(props: UserPicksScreenType) {
       console.error(ex);
     }
   };
-
+  console.log(props.isFetching);
   return (
     <PickemsPage
       refreshControl={{

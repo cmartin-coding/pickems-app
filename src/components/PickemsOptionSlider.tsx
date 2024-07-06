@@ -71,7 +71,7 @@ export function PickemsOptionSlider(props: PickemsOptionSliderType) {
         }}
         style={[tw`flex-1 py-1`]}
       >
-        <PickemsText style={[tw`text-center `]}>
+        <PickemsText style={[tw`text-center text-black`]}>
           {props.buttonOneLabel}
         </PickemsText>
       </TouchableOpacity>
@@ -88,7 +88,7 @@ export function PickemsOptionSlider(props: PickemsOptionSliderType) {
         }}
         style={[tw`flex-1 py-1`]}
       >
-        <PickemsText style={[tw`text-center `]}>
+        <PickemsText style={[tw`text-center text-black`]}>
           {props.buttonTwoLabel}
         </PickemsText>
       </TouchableOpacity>

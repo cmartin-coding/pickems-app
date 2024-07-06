@@ -11,16 +11,17 @@ import { useAppSelector } from "@/src/store";
 import { NFLTeamNames } from "@/src/types/types";
 import tw from "@/tailwind";
 import { Ionicons } from "@expo/vector-icons";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { RefreshControl, ScrollView, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { WeekSelectorHeader } from "@/src/components/WeekSelectorHeader";
 import { FootballLoader } from "@/src/components/FootballLoader";
 import { useAppColorScheme } from "twrnc";
+import { ThemeContext, useThemeContext } from "@/src/context/ThemeContext";
 
 export default function LeaguePicks() {
+  const {} = useThemeContext();
   const user = useAppSelector((state) => state.user);
-
   const currWeek = getCurrentNFLWeek();
   const [selectedWeek, setSelectedWeek] = useState(currWeek);
   const [isUserRefresh, setIsUserRefresh] = useState(false);
@@ -78,10 +79,6 @@ export default function LeaguePicks() {
     return <NoActiveLeaguesPlaceholder tab="league-picks" />;
   }
 
-  const [colorScheme, toggleColorScheme, setColorScheme] =
-    useAppColorScheme(tw);
-
-  console.log(colorScheme);
   return (
     <View style={[tw`flex-1 bg-white dark:bg-pickems-dark-blue`]}>
       <WeekSelectorHeader

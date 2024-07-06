@@ -55,8 +55,8 @@ export function PickemsPage(props: PickemsPageProps) {
         >
           <Ionicons
             name="arrow-back"
-            color={props.backButtonColor ? props.backButtonColor : "black"}
-            style={[tw``]}
+            // color={props.backButtonColor ? props.backButtonColor : "black"}
+            style={[tw`text-black dark:text-white`]}
             size={20}
           />
         </TouchableOpacity>

@@ -34,7 +34,7 @@ export function SignUpScreen(props: SignUpProps) {
       <View style={[tw`flex flex-col gap-4`]}>
         <PickemsTextInput
           style={[tw`bg-gray-200/30`]}
-          label={{ text: "Name" }}
+          label={{ text: "Name", style: [tw`text-black`] }}
           value={signUpState.name}
           onChangeText={(val) => {
             setSignUpState((prev) => ({ ...prev, name: val }));
@@ -42,7 +42,7 @@ export function SignUpScreen(props: SignUpProps) {
         />
 
         <PickemsTextInput
-          label={{ text: "Email" }}
+          label={{ text: "Email", style: [tw`text-black`] }}
           style={[tw`bg-gray-200/30`]}
           value={signUpState.email}
           onChangeText={(val) => {
@@ -51,7 +51,7 @@ export function SignUpScreen(props: SignUpProps) {
           keyboardType="email-address"
         />
         <View style={[tw`flex flex-col gap-1`]}>
-          <PickemsText>Favorite Team</PickemsText>
+          <PickemsText style={[tw`text-black`]}>Favorite Team</PickemsText>
           <PickemsSelectList
             data={teamOptions}
             setSelected={(val) => {
@@ -72,7 +72,7 @@ export function SignUpScreen(props: SignUpProps) {
           }}
         /> */}
         <PickemsTextInput
-          label={{ text: "Password" }}
+          label={{ text: "Password", style: [tw`text-black`] }}
           style={[tw`bg-gray-200/30`]}
           value={signUpState.password}
           secureTextEntry={true}

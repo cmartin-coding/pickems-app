@@ -3,6 +3,7 @@ import { NoActiveLeaguesPlaceholder } from "@/src/components/NoActiveLeaguesPlac
 import { PickemsText } from "@/src/components/PickemsText";
 import { PickemsPage } from "@/src/components/core/PickemsPage";
 import { TeamLogo } from "@/src/constants/team-logos/TeamLogo";
+import { useThemeContext } from "@/src/context/ThemeContext";
 import { useGetLeagueUsersAndStandings } from "@/src/services/user";
 import { useAppSelector } from "@/src/store";
 import { NFLTeamNames } from "@/src/types/types";
@@ -15,6 +16,8 @@ import { useAppColorScheme } from "twrnc/dist/esm/hooks";
 
 export default function Standings() {
   const user = useAppSelector((state) => state.user);
+
+  const {} = useThemeContext();
 
   if (!user.currentActiveLeague) {
     return <NoActiveLeaguesPlaceholder tab="standings" />;

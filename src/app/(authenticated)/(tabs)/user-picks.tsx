@@ -20,8 +20,10 @@ import { PickemsButton } from "@/src/components/PickemsButton";
 import { NoActiveLeaguesPlaceholder } from "@/src/components/NoActiveLeaguesPlaceholder";
 import { LinearGradient } from "expo-linear-gradient";
 import { FootballLoader } from "@/src/components/FootballLoader";
+import { useThemeContext } from "@/src/context/ThemeContext";
 
 export default function UserPicks() {
+  const {} = useThemeContext();
   const user = useAppSelector((state) => state.user);
 
   const currWeek = getCurrentNFLWeek();
@@ -32,6 +34,7 @@ export default function UserPicks() {
     userId: user.user.id,
     week_num: selectedWeek,
   });
+
   useEffect(() => {
     refetch();
   }, [user.currentActiveLeague]);
@@ -43,6 +46,8 @@ export default function UserPicks() {
   if (!user.currentActiveLeague) {
     return <NoActiveLeaguesPlaceholder tab="user-picks" />;
   }
+
+  console.log(isLoading);
 
   return (
     <>
