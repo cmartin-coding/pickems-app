@@ -19,13 +19,10 @@ import { FootballLoader } from "@/src/components/FootballLoader";
 
 export default function LeaguePicks() {
   const user = useAppSelector((state) => state.user);
-  if (user.activeLeagues.length === 0 || !user.currentActiveLeague) {
-    return <NoActiveLeaguesPlaceholder tab="league-picks" />;
-  }
+
   const currWeek = getCurrentNFLWeek();
   const [selectedWeek, setSelectedWeek] = useState(currWeek);
   const [isUserRefresh, setIsUserRefresh] = useState(false);
-
   const usersScrollViewRef = useRef<any>(null);
   const matchupsScrollViewRef = useRef<any>(null);
 
@@ -36,7 +33,7 @@ export default function LeaguePicks() {
     refetch: refetchMatchups,
   } = useGetAllLeaguePicks({
     week_num: selectedWeek,
-    leagueId: user.currentActiveLeague as string,
+    leagueId: user.currentActiveLeague || "",
   });
 
   const {
@@ -44,7 +41,7 @@ export default function LeaguePicks() {
     refetch: refetchUsers,
     isLoading,
     isFetching,
-  } = useGetLeagueUsersAndStandings(user.currentActiveLeague);
+  } = useGetLeagueUsersAndStandings(user.currentActiveLeague || "");
 
   useEffect(() => {
     if (isUserRefresh && !isFetching && isUserRefresh && !isMatchupsFetching) {
@@ -75,6 +72,10 @@ export default function LeaguePicks() {
   const currLeague = user.activeLeagues.find(
     (l) => l.league_id === user.currentActiveLeague
   );
+
+  if (user.activeLeagues.length === 0 || !user.currentActiveLeague) {
+    return <NoActiveLeaguesPlaceholder tab="league-picks" />;
+  }
 
   return (
     <View style={[tw`flex-1 bg-white`]}>

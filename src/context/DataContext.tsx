@@ -51,9 +51,13 @@ export function DataProvider(props: { children: ReactNode }) {
           }))
         : [];
 
-      // dispatch(
-      //   userActions.setUser({ user: user, activeLeagues: activeLeagues })
-      // );
+      dispatch(
+        userActions.setUser({
+          user: user,
+          activeLeagues: activeLeagues,
+          currentActiveLeague: activeLeagues[0]?.league_id || null,
+        })
+      );
 
       dispatch(
         activeLeagueActions.setActiveLeague({
@@ -69,7 +73,7 @@ export function DataProvider(props: { children: ReactNode }) {
   };
   useEffect(() => {
     if (authCtx.user && authCtx.user?.id !== user.user.id) {
-      // handleInitialAppOpen(authCtx.user.id);
+      handleInitialAppOpen(authCtx.user.id);
     }
   }, [authCtx.user?.id]);
   return (

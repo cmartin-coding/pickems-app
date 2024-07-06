@@ -24,15 +24,11 @@ import { FootballLoader } from "@/src/components/FootballLoader";
 export default function UserPicks() {
   const user = useAppSelector((state) => state.user);
 
-  if (!user.currentActiveLeague) {
-    return <NoActiveLeaguesPlaceholder tab="user-picks" />;
-  }
-
   const currWeek = getCurrentNFLWeek();
   const [selectedWeek, setSelectedWeek] = useState(currWeek);
 
   const { isLoading, data, isFetching, refetch } = useGetUserPicks({
-    leagueId: user.currentActiveLeague,
+    leagueId: user.currentActiveLeague || "",
     userId: user.user.id,
     week_num: selectedWeek,
   });
@@ -43,6 +39,10 @@ export default function UserPicks() {
   const currLeague = user.activeLeagues.find(
     (l) => l.league_id === user.currentActiveLeague
   );
+
+  if (!user.currentActiveLeague) {
+    return <NoActiveLeaguesPlaceholder tab="user-picks" />;
+  }
 
   return (
     <>

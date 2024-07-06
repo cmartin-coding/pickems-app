@@ -15,7 +15,7 @@ import { TouchableOpacity, View, useWindowDimensions } from "react-native";
 import { useDispatch } from "react-redux";
 import { LinearGradient } from "expo-linear-gradient";
 import { supabase } from "@/src/supabase";
-import React, { useEffect } from "react";
+import React from "react";
 import { userActions } from "@/src/slices/user";
 import { FootballLoader } from "@/src/components/FootballLoader";
 
@@ -24,12 +24,12 @@ export default function Home() {
   const authCtx = useAuthContext();
   const { width } = useWindowDimensions();
   const user = useAppSelector((state) => state.user);
+  console.log("home", user);
+  // const { isLoading } = useGetUserQuery(authCtx.user?.id as string);
 
-  const { isLoading } = useGetUserQuery(authCtx.user?.id as string);
-
-  if (isLoading) {
-    return <FootballLoader />;
-  }
+  // if (isLoading) {
+  //   return <FootballLoader />;
+  // }
 
   return (
     <PickemsPage isTabBarScreen>

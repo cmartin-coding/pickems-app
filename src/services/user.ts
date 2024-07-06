@@ -111,7 +111,6 @@ export const userApi = createApi({
       MatchupPicksType[],
       { week_num: number; leagueId: string }
     >({
-      //@ts-ignore
       queryFn: getLeaguePicks,
       providesTags: ["Picks"],
     }),

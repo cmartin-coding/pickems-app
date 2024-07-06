@@ -31,16 +31,16 @@ export async function getUser(
   const { data, error } = await supabase
     .from("users")
     .select("*")
-    .eq("id", userId)
-    .single();
+    .eq("id", userId);
+  console.log(data, "User DATA");
   if (error) {
     throw new Error(error.message);
   }
-  const { data: leagues } = await supabase
+  const { data: leagues, error: leagueError } = await supabase
     .from("league_users_season")
     .select("leagues(*), role")
     .eq("user_id", userId);
-
+  console.log(leagues, "League DATA");
   const activeLeagues: ActiveLeagues[] = leagues
     ? leagues.map((l) => ({
         league_id: l.leagues?.id || "",
@@ -52,7 +52,7 @@ export async function getUser(
     : [];
 
   if (data) {
-    return { data: { user: data, activeLeagues: activeLeagues } };
+    return { data: { user: data[0], activeLeagues: activeLeagues } };
   } else {
     throw new Error("Problem creating user");
   }
@@ -103,7 +103,7 @@ export async function getLeagueUsersAndStandings(leagueID: string) {
   );
 
   if (!users) {
-    return [] as any;
+    return { data: [] };
   }
 
   const leagueUsersAndStanding = [];
@@ -135,6 +135,10 @@ export async function getUserPicksByLeague(params: {
   leagueId: string;
   week_num: number;
 }): Promise<MatchupPicksType[]> {
+  if (params.leagueId.length === 0) {
+    //@ts-ignore
+    return { data: [] };
+  }
   const { data, error } = await supabase
     .from("nfl_matchups")
     .select("*, home_team(*), away_team(*), picks(*)")
@@ -153,6 +157,9 @@ export async function getLeaguePicks(params: {
   week_num: number;
   leagueId: string;
 }) {
+  if (params.leagueId.length === 0) {
+    return { data: [] };
+  }
   const { data, error } = await supabase
     .from("nfl_matchups")
     .select("*, home_team(*), away_team(*), picks(*)")
@@ -161,8 +168,13 @@ export async function getLeaguePicks(params: {
     .eq("picks.league_id", params.leagueId);
 
   if (error) {
+    console.log(error);
     throw new Error("Problem getting picks");
   }
 
-  return { data };
+  if (!data) {
+    return { data: [] };
+  } else {
+    return { data };
+  }
 }

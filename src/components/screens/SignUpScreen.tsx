@@ -7,6 +7,7 @@ import { PickemsButton } from "../PickemsButton";
 import { router } from "expo-router";
 import { PickemsSelectList } from "../PickemsSelectList";
 import { NflTeams } from "@/src/constants/nfl_teams";
+import { supabase } from "@/src/supabase";
 type SignUpState = {
   email: string;
   password: string;
@@ -27,6 +28,7 @@ export function SignUpScreen(props: SignUpProps) {
   const teamOptions = ["I don't have a favorite team", ...NflTeams.sort()].map(
     (option) => ({ value: option, key: option })
   );
+
   return (
     <>
       <View style={[tw`flex flex-col gap-4`]}>
