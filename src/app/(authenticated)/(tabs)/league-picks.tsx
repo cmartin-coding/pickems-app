@@ -83,7 +83,7 @@ export default function LeaguePicks() {
 
   console.log(colorScheme);
   return (
-    <View style={[tw`flex-1 bg-white dark:bg-black`]}>
+    <View style={[tw`flex-1 bg-white dark:bg-pickems-dark-blue`]}>
       <WeekSelectorHeader
         selectedWeek={selectedWeek}
         title="League Picks"
@@ -100,7 +100,9 @@ export default function LeaguePicks() {
               tw`border border-t-0 mt-2 border-slate-300/70 dark:border-l-0 dark:border-r-0`,
             ]}
           >
-            <View style={[tw`absolute bg-white dark:bg-black z-20`]}>
+            <View
+              style={[tw`absolute bg-white dark:bg-pickems-dark-blue z-20`]}
+            >
               <View style={[tw`w-15 border-r border-r-slate-300/90 pr-3`]}>
                 <PickemsText style={[tw`h-6  text-xs text-right`]}>
                   Home
@@ -150,7 +152,9 @@ export default function LeaguePicks() {
             }
             style={[tw`mt-3`]}
           >
-            <View style={[tw`absolute  bg-white dark:bg-black z-20`]}>
+            <View
+              style={[tw`absolute  bg-white dark:bg-pickems-dark-blue z-20`]}
+            >
               <View style={[tw`w-15 flex flex-col gap-4`]}>
                 {sortedUsers?.map((u) => {
                   const totalWins =

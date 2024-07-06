@@ -6,14 +6,20 @@ import { PickemsInfoBubbleButton } from "./PickemsInfoBubbleButton";
 
 type PickemsTextInputProps = {
   style?: TextStyle;
-  label?: { text: string; includeInfoIcon?: { modalChildren: ReactNode } };
+  label?: {
+    text: string;
+    includeInfoIcon?: { modalChildren: ReactNode };
+    style?: TextStyle[];
+  };
 } & TextInputProps;
 export function PickemsTextInput(props: PickemsTextInputProps) {
   return (
     <View style={[tw`flex flex-col gap-1`]}>
       {props.label && (
         <View style={[tw`flex flex-row gap-2 items-center`]}>
-          <PickemsText>{props.label.text}</PickemsText>
+          <PickemsText style={props.label.style}>
+            {props.label.text}
+          </PickemsText>
           {props.label.includeInfoIcon && (
             <PickemsInfoBubbleButton
               modalChildren={props.label.includeInfoIcon.modalChildren}

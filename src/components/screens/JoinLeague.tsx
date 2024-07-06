@@ -51,7 +51,7 @@ export function JoinLeague() {
             color={tw.color("pickems-blue")}
             size={40}
           />
-          <PickemsHeader>Join a league</PickemsHeader>
+          <PickemsHeader style={[tw`text-black`]}>Join a league</PickemsHeader>
           <PickemsTextInput
             onChangeText={(text) => {
               setLeagueDetails((prev) => ({ ...prev, shareableId: +text }));
@@ -60,7 +60,7 @@ export function JoinLeague() {
             value={
               leagueDetails.shareableId ? `${leagueDetails.shareableId}` : ""
             }
-            label={{ text: "League Code" }}
+            label={{ text: "League Code", style: [tw`text-black`] }}
             style={[tw`bg-white`]}
           />
 
@@ -71,6 +71,7 @@ export function JoinLeague() {
             value={leagueDetails.leaguePW}
             label={{
               text: "League Password",
+              style: [tw`text-black`],
             }}
             style={[tw`bg-white`]}
           />

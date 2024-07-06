@@ -17,7 +17,7 @@ export default function PickemsTabBar() {
         options={{
           title: `Home`,
           header: (props) => {
-            return <PickemsTabHeader title="Home" />;
+            return <PickemsTabHeader title="" />;
           },
           // tabBarItemStyle: [tw`border-r mt-2 border-r-slate-300`],
 

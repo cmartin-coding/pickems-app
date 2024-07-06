@@ -17,6 +17,7 @@ import { WavyHeader } from "@/src/assets/svg/WavyHeader";
 import Svg, { Path } from "react-native-svg";
 import { BlueSVGBackground } from "../BlueSVGBackground";
 import { Ionicons } from "@expo/vector-icons";
+import { useAppColorScheme } from "twrnc/dist/esm/hooks";
 export function CreateLeague() {
   const [createLeague, { isLoading, isSuccess, error }] =
     useCreateLeagueMutation();
@@ -76,13 +77,15 @@ export function CreateLeague() {
             color={tw.color("pickems-blue")}
             size={40}
           />
-          <PickemsHeader>Create a league</PickemsHeader>
+          <PickemsHeader style={[tw`text-black`]}>
+            Create a league
+          </PickemsHeader>
           <PickemsTextInput
             onChangeText={(text) => {
               setLeague((prev) => ({ ...prev, name: text }));
             }}
             value={league.name}
-            label={{ text: "League Name" }}
+            label={{ text: "League Name", style: [tw`text-black`] }}
             style={[tw`bg-gray-200/30`]}
           />
           {noLeagueNameInputted && (
@@ -91,6 +94,7 @@ export function CreateLeague() {
             </PickemsText>
           )}
           <PickemsSwitch
+            labelStyle={[tw`text-black`]}
             label="Include Over/Under Selection?"
             isActive={league.does_include_over_under}
             onChange={(val) => {
@@ -102,6 +106,7 @@ export function CreateLeague() {
           />
 
           <PickemsSwitch
+            labelStyle={[tw`text-black`]}
             label="Include Playoffs?"
             isActive={league.does_include_over_under}
             onChange={(val) => {
@@ -115,13 +120,14 @@ export function CreateLeague() {
             value={league.shareable_pw || ""}
             label={{
               text: "League Password",
+              style: [tw`text-black`],
               includeInfoIcon: {
                 modalChildren: (
                   <View>
-                    <PickemsHeader style={[tw`mb-2`]}>
+                    <PickemsHeader style={[tw`mb-2 text-black`]}>
                       League Password
                     </PickemsHeader>
-                    <PickemsText style={[tw`text-sm`]}>
+                    <PickemsText style={[tw`text-sm text-black`]}>
                       You will share this password with other users so they can
                       join the league.
                     </PickemsText>
@@ -139,7 +145,7 @@ export function CreateLeague() {
             textStyle={[tw`text-white font-bold`]}
             buttonLabel="Create League"
           />
-          <PickemsText style={[tw`text-center`]}>
+          <PickemsText style={[tw`text-center text-black`]}>
             *You can have up to 10 players per league*
           </PickemsText>
         </View>

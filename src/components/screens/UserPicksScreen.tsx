@@ -218,7 +218,7 @@ export function UserPicksScreen(props: UserPicksScreenType) {
 
           <PickemsAccordion
             title="Completed Matchups"
-            style={[tw`border-2 mb-6`]}
+            style={[tw`border-2 dark:border-white mb-6`]}
           >
             <View style={[tw`  bg-slate-300/40`]}>
               <PicksByGameTime

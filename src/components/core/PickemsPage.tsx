@@ -38,7 +38,7 @@ export function PickemsPage(props: PickemsPageProps) {
   return (
     <View
       style={[
-        tw`flex-1 flex-col  relative bg-white dark:bg-black`,
+        tw`flex-1 flex-col  relative bg-white dark:bg-pickems-dark-blue`,
         props.style,
       ]}
     >

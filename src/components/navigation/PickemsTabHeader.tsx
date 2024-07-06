@@ -36,7 +36,7 @@ export function PickemsTabHeader(props: PickemsTabHeaderProps) {
   return (
     <View
       style={[
-        tw`bg-white  border-b-[1px] border-b-slate-300/30 pb-2`,
+        tw`bg-white dark:bg-white border-b-[1px] border-b-slate-300/30 pb-2`,
         { paddingTop: insets.top },
       ]}
     >
