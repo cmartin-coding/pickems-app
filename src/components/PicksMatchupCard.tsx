@@ -78,7 +78,7 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
           <TouchableOpacity
             disabled={props.matchup.isComplete || isMatchupLocked}
             style={[
-              tw`flex-1 flex flex-col  border rounded-lg p-1 items-center 
+              tw`flex-1 flex flex-col dark:border-white border rounded-lg p-1 items-center 
              
           ${
             isSelectedAwayTeam && !props.matchup.isComplete && !isMatchupLocked
@@ -110,9 +110,7 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
             />
           </TouchableOpacity>
 
-          <PickemsText
-            style={[tw`text-center text-lg text-black font-extrabold`]}
-          >
+          <PickemsText style={[tw`text-center text-lg  font-extrabold`]}>
             @
           </PickemsText>
           <TouchableOpacity
@@ -127,7 +125,7 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
               }));
             }}
             style={[
-              tw`flex-1 relative border p-1 rounded-lg flex 
+              tw`flex-1 relative dark:border-white border p-1 rounded-lg flex 
               ${
                 isSelectedHomeTeam &&
                 !props.matchup.isComplete &&

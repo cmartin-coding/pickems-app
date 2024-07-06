@@ -40,7 +40,7 @@ export function PickemsTabHeader(props: PickemsTabHeaderProps) {
         { paddingTop: insets.top },
       ]}
     >
-      <PickemsText style={[tw`text-center text-lg font-bold`]}>
+      <PickemsText style={[tw`text-center text-black text-lg font-bold`]}>
         {props.title}
       </PickemsText>
       {props.children && <>{props.children}</>}
@@ -67,7 +67,7 @@ export function PickemsTabHeader(props: PickemsTabHeaderProps) {
             }}
           >
             <View style={[tw`flex flex-row items-center gap-1 justify-center`]}>
-              <PickemsText style={[tw`text-xs`]}>
+              <PickemsText style={[tw`text-xs text-black`]}>
                 {leagueDetails?.league_name}
               </PickemsText>
               <Ionicons name="chevron-down" size={14} />

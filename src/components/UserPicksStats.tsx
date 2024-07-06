@@ -32,16 +32,16 @@ export function UserPickStats(props: CurrentStatsType) {
       style={[
         tw` border -mt-6 ${
           props.stats.hasCompletedWeeklyPicks ? "mb-6" : "mb-0"
-        } bg-blue-200/10 rounded-md p-2 flex  flex-col gap-1`,
+        } bg-white rounded-md p-2 flex  flex-col gap-1`,
       ]}
     >
       <View>
-        <PickemsText>{user.user.name}</PickemsText>
+        <PickemsText style={[tw`text-black`]}>{user.user.name}</PickemsText>
         <View style={[tw`flex flex-col mt-2 gap-2`]}>
           <View style={[tw`flex flex-col gap-1`]}>
             {/* <PickemsText>Over Under Picks</PickemsText> */}
             <View style={[tw`flex flex-row`]}>
-              <PickemsText>
+              <PickemsText style={[tw`text-black`]}>
                 {props.stats.numberOfCorrectOverUnderPicks +
                   props.stats.numberOfCorrectPicks}
                 -{incorrectPicks + incorrectOverUnder} | {totalAccuracy}%
@@ -52,7 +52,9 @@ export function UserPickStats(props: CurrentStatsType) {
         </View>
       </View>
       <View style={[tw`flex  flex-row items-center justify-between`]}>
-        <PickemsText>Include submitted picks?</PickemsText>
+        <PickemsText style={[tw`text-black`]}>
+          Include submitted picks?
+        </PickemsText>
         <Switch
           value={isSubmittedPicksIncluded}
           onChange={() => {

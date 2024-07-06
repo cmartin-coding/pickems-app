@@ -11,6 +11,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
 import { View } from "react-native";
+import { useAppColorScheme } from "twrnc/dist/esm/hooks";
 
 export default function Standings() {
   const user = useAppSelector((state) => state.user);
@@ -43,6 +44,13 @@ export default function Standings() {
     "Acc.",
   ];
 
+  const [colorScheme, toggleColorScheme, setColorScheme] =
+    useAppColorScheme(tw);
+  const gradientColors =
+    colorScheme === "light"
+      ? ["#000000", "#0000FF"]
+      : [tw.color("blue-900"), "#0000FF"];
+
   return (
     <PickemsPage
       refreshControl={{
@@ -61,7 +69,7 @@ export default function Standings() {
           ]}
           start={{ x: 0.2, y: 0.2 }}
           end={{ x: 1, y: 1.5 }}
-          colors={["#000000", tw.color("pickems-blue") as string]}
+          colors={gradientColors}
         >
           <Ionicons
             name="american-football"

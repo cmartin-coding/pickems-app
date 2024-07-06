@@ -24,7 +24,7 @@ export function PickemsButton(props: PickemsButtonType) {
         [tw`${disabled ? props.disabledStyle || "" : ""}`],
       ]}
     >
-      <PickemsText style={[tw`text-center`, props.textStyle]}>
+      <PickemsText style={[tw`text-center text-black`, props.textStyle]}>
         {props.buttonLabel}
       </PickemsText>
     </TouchableOpacity>

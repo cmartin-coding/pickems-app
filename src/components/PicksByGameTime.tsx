@@ -33,7 +33,7 @@ export function PicksByGameTime(props: PicksByGameTimeProps) {
           <View key={d} style={[tw`flex flex-col w-full`]}>
             <View
               style={[
-                tw`flex flex-row m-2 border-b  border-b-black justify-between`,
+                tw`flex flex-row m-2 border-b  border-b-black dark:border-b-slate-200 justify-between`,
               ]}
             >
               <PickemsText style={[tw`font-bold text-lg`]}>

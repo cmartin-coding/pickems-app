@@ -22,7 +22,7 @@ export function PickemsLoadingPage(props: LoadingPageProps) {
             tw`bg-white shadow-black  shadow-2xl p-3 flex flex-col items-center rounded-3xl`,
           ]}
         >
-          <PickemsHeader style={[tw`mb-0`]}>
+          <PickemsHeader style={[tw`mb-0 text-black`]}>
             {props.title ? props.title : "Loading your information!"}
           </PickemsHeader>
           <FootballLoader />

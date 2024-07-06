@@ -16,6 +16,7 @@ import { RefreshControl, ScrollView, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { WeekSelectorHeader } from "@/src/components/WeekSelectorHeader";
 import { FootballLoader } from "@/src/components/FootballLoader";
+import { useAppColorScheme } from "twrnc";
 
 export default function LeaguePicks() {
   const user = useAppSelector((state) => state.user);
@@ -77,8 +78,12 @@ export default function LeaguePicks() {
     return <NoActiveLeaguesPlaceholder tab="league-picks" />;
   }
 
+  const [colorScheme, toggleColorScheme, setColorScheme] =
+    useAppColorScheme(tw);
+
+  console.log(colorScheme);
   return (
-    <View style={[tw`flex-1 bg-white`]}>
+    <View style={[tw`flex-1 bg-white dark:bg-black`]}>
       <WeekSelectorHeader
         selectedWeek={selectedWeek}
         title="League Picks"
@@ -90,8 +95,12 @@ export default function LeaguePicks() {
         <FootballLoader />
       ) : (
         <>
-          <View style={[tw`border border-t-0 mt-2 border-slate-300/70`]}>
-            <View style={[tw`absolute bg-white z-20`]}>
+          <View
+            style={[
+              tw`border border-t-0 mt-2 border-slate-300/70 dark:border-l-0 dark:border-r-0`,
+            ]}
+          >
+            <View style={[tw`absolute bg-white dark:bg-black z-20`]}>
               <View style={[tw`w-15 border-r border-r-slate-300/90 pr-3`]}>
                 <PickemsText style={[tw`h-6  text-xs text-right`]}>
                   Home
@@ -141,7 +150,7 @@ export default function LeaguePicks() {
             }
             style={[tw`mt-3`]}
           >
-            <View style={[tw`absolute  bg-white z-20`]}>
+            <View style={[tw`absolute  bg-white dark:bg-black z-20`]}>
               <View style={[tw`w-15 flex flex-col gap-4`]}>
                 {sortedUsers?.map((u) => {
                   const totalWins =
@@ -155,7 +164,9 @@ export default function LeaguePicks() {
                       <PickemsText
                         style={[
                           tw`h-6 ${
-                            isCurrentUser ? "text-pickems-blue font-bold" : ""
+                            isCurrentUser
+                              ? "text-pickems-blue dark:text-red-500 font-bold"
+                              : ""
                           }`,
                         ]}
                       >
@@ -163,14 +174,18 @@ export default function LeaguePicks() {
                       </PickemsText>
                       <PickemsText
                         style={[
-                          tw`h-6 ${isCurrentUser ? "text-pickems-blue" : ""}`,
+                          tw`h-6 ${
+                            isCurrentUser
+                              ? "text-pickems-blue dark:text-red-500"
+                              : ""
+                          }`,
                         ]}
                       >
                         {totalWins} - {totalLosses}
                       </PickemsText>
                       <View
                         style={[
-                          tw`absolute h-[1px] bg-slate-300/70 w-100 -bottom-1`,
+                          tw`absolute h-[1px] bg-slate-300/70  w-120 -bottom-1`,
                         ]}
                       />
                     </View>

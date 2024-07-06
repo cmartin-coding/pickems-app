@@ -1,5 +1,5 @@
 import { Slot, Stack } from "expo-router";
-import React from "react";
+import React, { useEffect } from "react";
 import { Provider } from "react-redux";
 import { useDeviceContext } from "twrnc";
 import { store } from "../store";
@@ -9,7 +9,13 @@ import Toast from "react-native-toast-message";
 import tw from "@/tailwind";
 
 export default function RootLayout() {
-  useDeviceContext(tw);
+  useDeviceContext(tw, {
+    // 1️⃣  opt OUT of listening to DEVICE color scheme events
+    observeDeviceColorSchemeChanges: false,
+    // 2️⃣  and supply an initial color scheme
+    initialColorScheme: `device`, // 'light' | 'dark' | 'device'
+  });
+
   return (
     <Provider store={store}>
       <AuthProvider>

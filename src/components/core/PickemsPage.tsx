@@ -1,3 +1,4 @@
+import tw from "@/tailwind";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React, { ReactNode, useState } from "react";
@@ -14,7 +15,6 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Svg, { Path } from "react-native-svg";
-import tw from "twrnc";
 
 export type PickemsPageProps = {
   children: ReactNode;

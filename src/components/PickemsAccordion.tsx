@@ -22,7 +22,11 @@ export function PickemsAccordion(props: PickemsAccordionProps) {
         }}
       >
         <PickemsText style={[tw`font-bold `]}>{props.title}</PickemsText>
-        <Ionicons name={isOpen ? "chevron-up" : "chevron-down"} size={20} />
+        <Ionicons
+          name={isOpen ? "chevron-up" : "chevron-down"}
+          style={[tw`dark:text-white text-black`]}
+          size={20}
+        />
       </TouchableOpacity>
       {isOpen && props.children}
     </View>

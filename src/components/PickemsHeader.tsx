@@ -10,7 +10,10 @@ type PickemsHeaderType = {
 export function PickemsHeader(props: PickemsHeaderType) {
   return (
     <PickemsText
-      style={[tw`text-center text-lg text-black font-bold`, props.style]}
+      style={[
+        tw`text-center text-lg text-black  dark:text-white font-bold`,
+        props.style,
+      ]}
     >
       {props.children}
     </PickemsText>

@@ -55,7 +55,9 @@ export function UserPicksHeader(props: UserPicksHeaderType) {
             }}
             style={[tw`flex px-2 flex-row gap-1 items-center`]}
           >
-            <PickemsText>Week {props.selectedWeek}</PickemsText>
+            <PickemsText style={[tw`text-black`]}>
+              Week {props.selectedWeek}
+            </PickemsText>
           </TouchableOpacity>
           <TouchableOpacity
             style={[tw`border-l  flex flex-row justify-center border-l-black`]}

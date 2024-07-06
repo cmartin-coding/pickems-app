@@ -6,7 +6,8 @@ import { useDataContext } from "@/src/context/DataContext";
 import { useAuthContext } from "@/src/utils";
 import tw from "@/tailwind";
 import { Redirect, Stack } from "expo-router";
-
+import { useEffect } from "react";
+import { useAppColorScheme } from "twrnc/dist/esm/hooks";
 export default function AuthenticatedLayout() {
   const dataCtx = useDataContext();
   const authCtx = useAuthContext();

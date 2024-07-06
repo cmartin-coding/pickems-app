@@ -27,6 +27,7 @@ import { PicksByGameTime } from "../PicksByGameTime";
 import { WeekSelectorHeader } from "../WeekSelectorHeader";
 import { PickemsAccordion } from "../PickemsAccordion";
 import { FootballLoader } from "../FootballLoader";
+import { useAppColorScheme } from "twrnc/dist/esm/hooks";
 
 type UserPicksScreenType = {
   isOverUnderEnabled: boolean;

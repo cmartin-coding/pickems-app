@@ -11,31 +11,44 @@ import { useAuthContext } from "@/src/utils";
 import tw from "@/tailwind";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { TouchableOpacity, View, useWindowDimensions } from "react-native";
+import {
+  Switch,
+  TouchableOpacity,
+  View,
+  useWindowDimensions,
+} from "react-native";
 import { useDispatch } from "react-redux";
 import { LinearGradient } from "expo-linear-gradient";
 import { supabase } from "@/src/supabase";
 import React from "react";
 import { userActions } from "@/src/slices/user";
 import { FootballLoader } from "@/src/components/FootballLoader";
+import { useAppColorScheme } from "twrnc/dist/esm/hooks";
 
 export default function Home() {
   const dispatch = useDispatch();
   const authCtx = useAuthContext();
-  const { width } = useWindowDimensions();
-  const user = useAppSelector((state) => state.user);
-  console.log("home", user);
-  // const { isLoading } = useGetUserQuery(authCtx.user?.id as string);
 
-  // if (isLoading) {
-  //   return <FootballLoader />;
-  // }
+  const [colorScheme, toggleColorScheme, setColorScheme] =
+    useAppColorScheme(tw);
+  const user = useAppSelector((state) => state.user);
+
+  const gradientColors =
+    colorScheme === "light"
+      ? ["#000000", "#0000FF"]
+      : [tw.color("blue-900"), "#0000FF"];
 
   return (
     <PickemsPage isTabBarScreen>
       <PickemsHeader style={[tw`mb-4 text-xl text-left `]}>
         Hello {user.user.name} 👋
       </PickemsHeader>
+      <Switch
+        value={colorScheme === "light"}
+        onChange={() => {
+          toggleColorScheme();
+        }}
+      />
 
       <View style={[tw`border border-black rounded-md p-1 mb-4`]}>
         <LinearGradient
@@ -44,7 +57,7 @@ export default function Home() {
             tw` absolute top-0 bottom-0 flex flex-row justify-center rounded-md left-0 right-0`,
           ]}
           start={{ x: 0.2, y: 0.2 }}
-          colors={["#000000", "#0000FF"]}
+          colors={gradientColors}
         >
           <Ionicons
             name="american-football"
@@ -92,14 +105,17 @@ export default function Home() {
                 router.push("/user-picks");
               }}
               style={[
-                tw`flex mx-1  relative border rounded-lg items-center p-2 flex-row gap-2`,
+                tw`flex mx-1  relative  rounded-lg items-center p-2 flex-row gap-2`,
               ]}
             >
               <LinearGradient
-                colors={["#000000", "#ffffff"]}
-                start={{ x: 0.4, y: 0.1 }}
-                end={{ x: 0.7, y: 1.2 }}
-                style={[tw`absolute top-0 right-0 rounded-md left-0 bottom-0`]}
+                colors={[
+                  colorScheme === "light" ? "#000000" : tw.color("blue-800"),
+                  "#ffffff",
+                ]}
+                start={{ x: 0.1, y: 0.1 }}
+                end={{ x: 1.2, y: 1.2 }}
+                style={[tw`absolute top-0 right-0 rounded-lg left-0 bottom-0`]}
               />
               <View style={[tw`flex-1 flex-row gap-2`]}>
                 <Ionicons
