@@ -35,7 +35,11 @@ export default function SignUp() {
   return (
     <>
       <BlueSVGBackground />
-      <PickemsPage showBackButton={true} style={[tw`bg-transparent`]}>
+      <PickemsPage
+        showBackButton={true}
+        statusBarStyle="light-content"
+        style={[tw`bg-transparent`]}
+      >
         <View style={[tw`bg-white p-3 rounded-lg`]}>
           <View
             style={[tw`flex flex-col items-center mt-2 relative gap-2 mb-6`]}
