@@ -9,9 +9,13 @@ export function SettingsCogHeader() {
       onPress={() => {
         router.push("/settings");
       }}
-      style={[tw`mr-2`]}
+      style={[tw``]}
     >
-      <Ionicons name="cog" size={30} style={[tw`text-black dark:text-white`]} />
+      <Ionicons
+        name="cog"
+        size={30}
+        style={[tw`text-black  dark:text-white`]}
+      />
     </TouchableOpacity>
   );
 }

@@ -48,7 +48,7 @@ export function PickemsTabHeader(props: PickemsTabHeaderProps) {
           {props.title}
         </PickemsText>
         {props.children && <>{props.children}</>}
-        <View style={[tw`absolute bottom-2 right-2`]}>
+        <View style={[tw`absolute bottom-2  right-2`]}>
           <SettingsCogHeader />
         </View>
         <View

@@ -31,15 +31,11 @@ export function PicksByGameTime(props: PicksByGameTimeProps) {
 
         return (
           <View key={d} style={[tw`flex flex-col w-full`]}>
-            <View
-              style={[
-                tw`flex flex-row m-2 border-b  border-b-black dark:border-b-slate-200 justify-between`,
-              ]}
-            >
+            <View style={[tw`flex flex-row m-2 justify-between`]}>
               <PickemsText style={[tw`font-bold text-lg`]}>
                 {day} {dateStr}
               </PickemsText>
-              <PickemsText>{timeStr}</PickemsText>
+              <PickemsText style={[tw`font-bold`]}>{timeStr}</PickemsText>
             </View>
             <View style={[tw`flex flex-col mx-2 my-4 items-center gap-4 `]}>
               {props.matchups[d].map((matchup) => {

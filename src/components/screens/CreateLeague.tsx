@@ -13,7 +13,6 @@ import { useAppSelector } from "@/src/store";
 import { useCreateLeagueMutation } from "@/src/services/user";
 import { router } from "expo-router";
 import { getLeagueShareableID } from "@/src/helpers/helpers";
-import { WavyHeader } from "@/src/assets/svg/WavyHeader";
 import Svg, { Path } from "react-native-svg";
 import { BlueSVGBackground } from "../BlueSVGBackground";
 import { Ionicons } from "@expo/vector-icons";

@@ -4,6 +4,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Alert, View } from "react-native";
 import { PickemsText } from "./PickemsText";
 import { UserPicksHeader } from "./UserPicksHeader";
+import { useThemeContext } from "../context/ThemeContext";
 
 type WeekSelectorHeaderProps = {
   selectedWeek: number;
@@ -11,6 +12,9 @@ type WeekSelectorHeaderProps = {
   title?: string;
 };
 export function WeekSelectorHeader(props: WeekSelectorHeaderProps) {
+  const { theme } = useThemeContext();
+  const linearGradientColors =
+    theme === "light" ? ["#000000", "#0000FF"] : ["#000000", "#000000"];
   return (
     <View style={[tw`flex w-full px-4 py-2 flex-col items-start relative `]}>
       <LinearGradient
@@ -19,7 +23,7 @@ export function WeekSelectorHeader(props: WeekSelectorHeaderProps) {
         ]}
         start={{ x: 0.2, y: 0.2 }}
         // end={{ x: 1, y: 1.5 }}
-        colors={["#000000", "#0000FF"]}
+        colors={linearGradientColors}
       >
         <Ionicons
           name="american-football"

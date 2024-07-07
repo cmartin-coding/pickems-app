@@ -166,7 +166,7 @@ export default function LeaguePicks() {
                         style={[
                           tw`h-6 ${
                             isCurrentUser
-                              ? "text-pickems-blue dark:text-red-500 font-bold"
+                              ? "text-pickems-blue dark:text-pickems-blue-complement font-bold"
                               : ""
                           }`,
                         ]}
@@ -177,7 +177,7 @@ export default function LeaguePicks() {
                         style={[
                           tw`h-6 ${
                             isCurrentUser
-                              ? "text-pickems-blue dark:text-red-500"
+                              ? "text-pickems-blue dark:text-pickems-blue-complement"
                               : ""
                           }`,
                         ]}
@@ -233,7 +233,7 @@ export default function LeaguePicks() {
                                     adjustsFontSizeToFit
                                     numberOfLines={1}
                                     style={[
-                                      tw`text-xs text-blue-900 font-semibold`,
+                                      tw`text-xs text-blue-900 dark:text-white font-semibold`,
                                     ]}
                                   >
                                     {homeTeamSelected
@@ -243,7 +243,7 @@ export default function LeaguePicks() {
                                   {currLeague?.isOverUnderEnabled && (
                                     <PickemsText
                                       style={[
-                                        tw`text-center text-2xs font-bold text-pickems-blue`,
+                                        tw`text-center text-2xs font-bold text-pickems-blue dark:text-white`,
                                       ]}
                                     >
                                       {pick.over_under_selection === "Over"

@@ -39,7 +39,10 @@ export default function Home() {
       : [tw.color("blue-900"), "#0000FF"];
 
   return (
-    <PickemsPage isTabBarScreen>
+    <PickemsPage
+      statusBarStyle={theme === "light" ? "dark-content" : "light-content"}
+      isTabBarScreen
+    >
       <PickemsHeader style={[tw`mb-4 text-xl text-left `]}>
         Hello {user.user.name} 👋
       </PickemsHeader>

@@ -59,7 +59,7 @@ export function UserPicksScreen(props: UserPicksScreenType) {
   const formattedTBDMatchups = useMemo(() => {
     let matchups = props.matchups.filter((m) => !m.isComplete);
     if (!includeCompletedPicks) {
-      matchups = props.matchups.filter((x) => !x.picks[0]?.id);
+      matchups = matchups.filter((x) => !x.picks[0]?.id);
     }
 
     return formatMatchupsByTimeOfDay(matchups);
@@ -215,21 +215,22 @@ export function UserPicksScreen(props: UserPicksScreenType) {
               </PickemsText>
             </View>
           )}
-
-          <PickemsAccordion
-            title="Completed Matchups"
-            style={[tw`border-2 dark:border-white mb-6`]}
-          >
-            <View style={[tw`  bg-slate-300/40`]}>
-              <PicksByGameTime
-                gametimes={completedGameTimes}
-                isCurrentMatchupWeek={isCurrentMatchupWeek}
-                isLoadingPicksSubmission={false}
-                matchups={formattedCompleteMatchups}
-                onPickCompleted={() => {}}
-              />
-            </View>
-          </PickemsAccordion>
+          {completedGameTimes.length > 0 && (
+            <PickemsAccordion
+              title="Completed Matchups"
+              style={[tw`border-2 dark:border-white mb-6`]}
+            >
+              <View style={[tw`  bg-slate-300/40`]}>
+                <PicksByGameTime
+                  gametimes={completedGameTimes}
+                  isCurrentMatchupWeek={isCurrentMatchupWeek}
+                  isLoadingPicksSubmission={false}
+                  matchups={formattedCompleteMatchups}
+                  onPickCompleted={() => {}}
+                />
+              </View>
+            </PickemsAccordion>
+          )}
 
           <PicksByGameTime
             gametimes={upcomingGameTimes}
