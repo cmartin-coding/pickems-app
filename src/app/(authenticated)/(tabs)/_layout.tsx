@@ -1,6 +1,7 @@
 import { PickemsText } from "@/src/components/PickemsText";
 import { PickemsTabHeader } from "@/src/components/navigation/PickemsTabHeader";
 import { SettingsCogHeader } from "@/src/components/navigation/SettingsCogHeader";
+import { useThemeContext } from "@/src/context/ThemeContext";
 import { useAppSelector } from "@/src/store";
 import tw from "@/tailwind";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
@@ -11,14 +12,17 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useAppColorScheme } from "twrnc";
 
 export default function PickemsTabBar() {
-  const [colorScheme, toggleColorScheme, setColorScheme] =
-    useAppColorScheme(tw);
+  const { theme } = useThemeContext();
 
-  useEffect(() => {
-    console.log("HERE");
-  }, [colorScheme]);
+  const tabBarColor = theme === "light" ? "#03002e" : "#ffff00";
+  const tabBarBackgroundColor = theme === "light" ? "#ffffff" : "#03002e";
   return (
-    <Tabs screenOptions={{ tabBarActiveTintColor: "#0000FF" }}>
+    <Tabs
+      screenOptions={{
+        tabBarActiveTintColor: tabBarColor,
+        tabBarStyle: { backgroundColor: tabBarBackgroundColor },
+      }}
+    >
       <Tabs.Screen
         name="home"
         options={{

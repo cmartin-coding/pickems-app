@@ -16,7 +16,8 @@ type PickemsOptionSliderType = {
   highlightColor?: string;
 };
 export function PickemsOptionSlider(props: PickemsOptionSliderType) {
-  const transitionValue = useRef(new Animated.Value(0)).current;
+  const initialVal = props.selectedOption === true ? 0 : 1;
+  const transitionValue = useRef(new Animated.Value(initialVal)).current;
 
   const [buttonWidths, setButtonWidths] = useState({
     [props.buttonOneLabel]: 0,

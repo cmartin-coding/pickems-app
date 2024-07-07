@@ -10,7 +10,9 @@ export function NoActiveLeaguesPlaceholder(props: {
 }) {
   return (
     <View
-      style={[tw`flex-1 flex mx-4 flex-col gap-2 justify-center items-center`]}
+      style={[
+        tw`flex-1 bg-white dark:bg-pickems-dark-blue flex flex-col gap-2 justify-center items-center`,
+      ]}
     >
       <PickemsText style={[tw`text-center text-lg`]}>
         Create or join a league on the Home tab to{" "}
@@ -22,7 +24,7 @@ export function NoActiveLeaguesPlaceholder(props: {
         !
       </PickemsText>
       <PickemsButton
-        style={[tw`w-full`]}
+        style={[tw`w-[90%]`]}
         buttonLabel="Go home"
         onPress={() => {
           router.push("/home");

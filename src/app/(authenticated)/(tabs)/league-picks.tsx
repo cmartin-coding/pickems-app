@@ -20,7 +20,7 @@ import { useAppColorScheme } from "twrnc";
 import { ThemeContext, useThemeContext } from "@/src/context/ThemeContext";
 
 export default function LeaguePicks() {
-  const {} = useThemeContext();
+  const theme = useThemeContext();
   const user = useAppSelector((state) => state.user);
   const currWeek = getCurrentNFLWeek();
   const [selectedWeek, setSelectedWeek] = useState(currWeek);

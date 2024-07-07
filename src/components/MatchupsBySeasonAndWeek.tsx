@@ -82,9 +82,7 @@ export function MatchupsBySeasonAndWeek(props: MatchupsBySeasonAndWeekType) {
                         />
                       </View>
                       <PickemsText
-                        style={[
-                          tw`flex-1 text-center  text-black font-extrabold`,
-                        ]}
+                        style={[tw`flex-1 text-center  font-extrabold`]}
                       >
                         @
                       </PickemsText>

@@ -14,8 +14,6 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     toggleColorScheme();
   };
 
-  console.log(colorScheme, theme);
-
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       {children}

@@ -11,7 +11,7 @@ export function SettingsCogHeader() {
       }}
       style={[tw`mr-2`]}
     >
-      <Ionicons name="cog" size={30} style={[tw`text-black`]} />
+      <Ionicons name="cog" size={30} style={[tw`text-black dark:text-white`]} />
     </TouchableOpacity>
   );
 }
