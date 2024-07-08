@@ -1,6 +1,5 @@
 import StandingsIcon from "@/src/assets/svg/standings";
 import { BlueSVGBackground } from "@/src/components/BlueSVGBackground";
-import { PickemsButton } from "@/src/components/PickemsButton";
 import { PickemsHeader } from "@/src/components/PickemsHeader";
 import { PickemsOptionSlider } from "@/src/components/PickemsOptionSlider";
 import { PickemsText } from "@/src/components/PickemsText";

@@ -12,6 +12,8 @@ import { User } from "@supabase/supabase-js";
 import { AppState } from "react-native";
 import { supabase } from "../supabase";
 import { useAddUserMutation } from "../services/user";
+import { useDispatch } from "react-redux";
+import { userActions } from "../slices/user";
 interface AuthContextType {
   user: User | undefined;
   loading: boolean;
@@ -37,6 +39,7 @@ AppState.addEventListener("change", (state) => {
 });
 
 export function AuthProvider(props: { children: any }) {
+  const dispatch = useDispatch();
   const [authState, setAuthState] = useState<
     | {
         user: User;
@@ -90,6 +93,7 @@ export function AuthProvider(props: { children: any }) {
 
   const logout = async () => {
     setAuthState({ user: undefined, loading: false });
+    dispatch(userActions.resetUser());
     await supabase.auth.signOut();
   };
 

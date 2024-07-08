@@ -7,7 +7,6 @@ import { Tables } from "@/src/types/supabaseTypes";
 import uuid from "react-native-uuid";
 import tw from "@/tailwind";
 import { PickemsSwitch } from "../PickemsSwitch";
-import { PickemsButton } from "../PickemsButton";
 import { PickemsText } from "../PickemsText";
 import { useAppSelector } from "@/src/store";
 import { router } from "expo-router";
@@ -15,6 +14,7 @@ import { getLeagueShareableID } from "@/src/helpers/helpers";
 import { useJoinLeagueMutation } from "@/src/services/user";
 import { BlueSVGBackground } from "../BlueSVGBackground";
 import { Ionicons } from "@expo/vector-icons";
+import { PickemsButton } from "../PickemsButton";
 export function JoinLeague() {
   const [createLeague, { isLoading, isSuccess, error }] =
     useJoinLeagueMutation();

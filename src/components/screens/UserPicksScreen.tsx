@@ -4,7 +4,6 @@ import { MatchupsTeamCard } from "../MatchupsTeamCard";
 import { PickemsText } from "../PickemsText";
 import { MatchupPicksType } from "@/src/types/types";
 import { PickemsOptionSlider } from "../PickemsOptionSlider";
-import { PickemsButton } from "../PickemsButton";
 import { useEffect, useMemo, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { PicksMatchupCard } from "../PicksMatchupCard";
@@ -28,6 +27,7 @@ import { WeekSelectorHeader } from "../WeekSelectorHeader";
 import { PickemsAccordion } from "../PickemsAccordion";
 import { FootballLoader } from "../FootballLoader";
 import { useAppColorScheme } from "twrnc/dist/esm/hooks";
+import { PickemsButton } from "../PickemsButton";
 
 type UserPicksScreenType = {
   isOverUnderEnabled: boolean;
@@ -50,6 +50,7 @@ const showSuccessfulSavingToastMessage = () => {
   });
 };
 export function UserPicksScreen(props: UserPicksScreenType) {
+  // console.log(props.matchups, props.currWeek);
   const matchupsWeek = props.matchups[0].week;
   const isCurrentMatchupWeek = matchupsWeek === props.currWeek;
 

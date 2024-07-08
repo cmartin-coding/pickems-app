@@ -7,7 +7,6 @@ import { Tables } from "@/src/types/supabaseTypes";
 import uuid from "react-native-uuid";
 import tw from "@/tailwind";
 import { PickemsSwitch } from "../PickemsSwitch";
-import { PickemsButton } from "../PickemsButton";
 import { PickemsText } from "../PickemsText";
 import { useAppSelector } from "@/src/store";
 import { useCreateLeagueMutation } from "@/src/services/user";
@@ -17,6 +16,7 @@ import Svg, { Path } from "react-native-svg";
 import { BlueSVGBackground } from "../BlueSVGBackground";
 import { Ionicons } from "@expo/vector-icons";
 import { useAppColorScheme } from "twrnc/dist/esm/hooks";
+import { PickemsButton } from "../PickemsButton";
 export function CreateLeague() {
   const [createLeague, { isLoading, isSuccess, error }] =
     useCreateLeagueMutation();

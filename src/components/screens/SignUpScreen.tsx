@@ -3,11 +3,11 @@ import { PickemsText } from "../PickemsText";
 import tw from "@/tailwind";
 import { PickemsTextInput } from "../PickemsTextInput";
 import { TouchableOpacity, View } from "react-native";
-import { PickemsButton } from "../PickemsButton";
 import { router } from "expo-router";
 import { PickemsSelectList } from "../PickemsSelectList";
 import { NflTeams } from "@/src/constants/nfl_teams";
 import { supabase } from "@/src/supabase";
+import { PickemsButton } from "../PickemsButton";
 type SignUpState = {
   email: string;
   password: string;

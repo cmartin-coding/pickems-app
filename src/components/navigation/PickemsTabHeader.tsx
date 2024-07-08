@@ -63,7 +63,7 @@ export function PickemsTabHeader(props: PickemsTabHeaderProps) {
           }}
           style={[tw`flex flex-row justify-center`]}
         >
-          {props.includeLeagueSelector && user.activeLeagues.length > 0 && (
+          {props.includeLeagueSelector && user.activeLeagues.length > 1 ? (
             <TouchableOpacity
               style={[tw` `]}
               onPress={() => {
@@ -73,12 +73,20 @@ export function PickemsTabHeader(props: PickemsTabHeaderProps) {
               <View
                 style={[tw`flex flex-row items-center gap-1 justify-center`]}
               >
-                <PickemsText style={[tw`text-xs text-black`]}>
+                <PickemsText style={[tw`text-xs `]}>
                   {leagueDetails?.league_name}
                 </PickemsText>
-                <Ionicons name="chevron-down" size={14} />
+                <Ionicons
+                  name="chevron-down"
+                  style={[tw`text-black dark:text-white`]}
+                  size={14}
+                />
               </View>
             </TouchableOpacity>
+          ) : (
+            <PickemsText style={[tw`text-xs `]}>
+              {leagueDetails?.league_name}
+            </PickemsText>
           )}
         </View>
         {isLeagueSelectionShown && (
@@ -124,7 +132,9 @@ export function PickemsTabHeader(props: PickemsTabHeaderProps) {
                       ]}
                       key={al.league_id}
                     >
-                      <PickemsText>{al.league_name}</PickemsText>
+                      <PickemsText style={[tw`text-black`]}>
+                        {al.league_name}
+                      </PickemsText>
                     </TouchableOpacity>
                   ))}
                 </View>

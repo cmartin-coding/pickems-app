@@ -71,7 +71,7 @@ export default function PickemsTabBar() {
           // },
         }}
       />
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="matchups"
         options={{
           title: "Chat",
@@ -84,7 +84,7 @@ export default function PickemsTabBar() {
             return <PickemsTabHeader title="Matchups" />;
           },
         }}
-      />
+      /> */}
       <Tabs.Screen
         name="standings"
         options={{

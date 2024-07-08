@@ -16,7 +16,6 @@ import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import { View } from "react-native";
 import Home from "./home";
-import { PickemsButton } from "@/src/components/PickemsButton";
 import { NoActiveLeaguesPlaceholder } from "@/src/components/NoActiveLeaguesPlaceholder";
 import { LinearGradient } from "expo-linear-gradient";
 import { FootballLoader } from "@/src/components/FootballLoader";
@@ -47,7 +46,7 @@ export default function UserPicks() {
     return <NoActiveLeaguesPlaceholder tab="user-picks" />;
   }
 
-  console.log(isLoading);
+  console.log(data);
 
   return (
     <>

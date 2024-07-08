@@ -8,7 +8,6 @@ import { PicksMatchupCard } from "./PicksMatchupCard";
 import { useAppSelector } from "../store";
 import { Tables } from "../types/supabaseTypes";
 import { useState } from "react";
-import { PickemsButton } from "./PickemsButton";
 
 type PicksByGameTimeProps = {
   gametimes: string[];

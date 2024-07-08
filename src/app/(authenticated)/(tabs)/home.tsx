@@ -36,8 +36,8 @@ export default function Home() {
   const gradientColors =
     theme === "light"
       ? ["#000000", "#0000FF"]
-      : [tw.color("blue-900"), "#0000FF"];
-
+      : [tw.color("blue-900") as string, "#0000FF"];
+  console.log(user);
   return (
     <PickemsPage
       statusBarStyle={theme === "light" ? "dark-content" : "light-content"}
@@ -114,7 +114,9 @@ export default function Home() {
             >
               <LinearGradient
                 colors={[
-                  theme === "light" ? "#000000" : tw.color("blue-800"),
+                  theme === "light"
+                    ? "#000000"
+                    : (tw.color("blue-800") as string),
                   "#ffffff",
                 ]}
                 start={{ x: 0.1, y: 0.1 }}
