@@ -32,7 +32,7 @@ export function UserPickStats(props: CurrentStatsType) {
       style={[
         tw` border -mt-6 ${
           props.stats.hasCompletedWeeklyPicks ? "mb-6" : "mb-0"
-        } bg-white dark:bg-blue-200 rounded-md p-2 flex  flex-col gap-1`,
+        } bg-white dark:bg-pickems-background-blue rounded-md p-2 flex  flex-col gap-1`,
       ]}
     >
       <View>

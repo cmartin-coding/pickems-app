@@ -28,7 +28,9 @@ export default function PickemsTabBar() {
         options={{
           title: `Home`,
           header: (props) => {
-            return <PickemsTabHeader title="" />;
+            return (
+              <PickemsTabHeader title="Home" includeLeagueSelector={false} />
+            );
           },
           // tabBarItemStyle: [tw`border-r mt-2 border-r-slate-300`],
 
@@ -71,7 +73,7 @@ export default function PickemsTabBar() {
           // },
         }}
       />
-      {/* <Tabs.Screen
+      <Tabs.Screen
         name="matchups"
         options={{
           title: "Chat",
@@ -84,7 +86,7 @@ export default function PickemsTabBar() {
             return <PickemsTabHeader title="Matchups" />;
           },
         }}
-      /> */}
+      />
       <Tabs.Screen
         name="standings"
         options={{

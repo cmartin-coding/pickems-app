@@ -12,7 +12,7 @@ import { NFLTeamNames } from "@/src/types/types";
 import tw from "@/tailwind";
 import { Ionicons } from "@expo/vector-icons";
 import { useContext, useEffect, useRef, useState } from "react";
-import { RefreshControl, ScrollView, View } from "react-native";
+import { RefreshControl, ScrollView, StatusBar, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { WeekSelectorHeader } from "@/src/components/WeekSelectorHeader";
 import { FootballLoader } from "@/src/components/FootballLoader";
@@ -81,6 +81,9 @@ export default function LeaguePicks() {
 
   return (
     <View style={[tw`flex-1 bg-white dark:bg-pickems-dark-blue`]}>
+      <StatusBar
+        barStyle={theme.theme === "light" ? "dark-content" : "light-content"}
+      />
       <WeekSelectorHeader
         selectedWeek={selectedWeek}
         title="League Picks"

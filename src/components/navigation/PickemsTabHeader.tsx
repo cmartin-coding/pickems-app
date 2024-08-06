@@ -63,31 +63,32 @@ export function PickemsTabHeader(props: PickemsTabHeaderProps) {
           }}
           style={[tw`flex flex-row justify-center`]}
         >
-          {props.includeLeagueSelector && user.activeLeagues.length > 1 ? (
-            <TouchableOpacity
-              style={[tw` `]}
-              onPress={() => {
-                setIsLeagueSelectionShown((prev) => !prev);
-              }}
-            >
-              <View
-                style={[tw`flex flex-row items-center gap-1 justify-center`]}
+          {props.includeLeagueSelector &&
+            (user.activeLeagues.length > 1 ? (
+              <TouchableOpacity
+                style={[tw` `]}
+                onPress={() => {
+                  setIsLeagueSelectionShown((prev) => !prev);
+                }}
               >
-                <PickemsText style={[tw`text-xs `]}>
-                  {leagueDetails?.league_name}
-                </PickemsText>
-                <Ionicons
-                  name="chevron-down"
-                  style={[tw`text-black dark:text-white`]}
-                  size={14}
-                />
-              </View>
-            </TouchableOpacity>
-          ) : (
-            <PickemsText style={[tw`text-xs `]}>
-              {leagueDetails?.league_name}
-            </PickemsText>
-          )}
+                <View
+                  style={[tw`flex flex-row items-center gap-1 justify-center`]}
+                >
+                  <PickemsText style={[tw`text-xs `]}>
+                    {leagueDetails?.league_name}
+                  </PickemsText>
+                  <Ionicons
+                    name="chevron-down"
+                    style={[tw`text-black dark:text-white`]}
+                    size={14}
+                  />
+                </View>
+              </TouchableOpacity>
+            ) : (
+              <PickemsText style={[tw`text-xs `]}>
+                {leagueDetails?.league_name}
+              </PickemsText>
+            ))}
         </View>
         {isLeagueSelectionShown && (
           <>

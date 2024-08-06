@@ -65,6 +65,7 @@ export function PickemsPage(props: PickemsPageProps) {
         <>
           {props.aboveScrollViewChildren && props.aboveScrollViewChildren}
           <ScrollView
+            automaticallyAdjustKeyboardInsets={true}
             refreshControl={
               props.refreshControl && (
                 <RefreshControl

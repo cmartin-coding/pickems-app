@@ -14,7 +14,7 @@ type WeekSelectorHeaderProps = {
 export function WeekSelectorHeader(props: WeekSelectorHeaderProps) {
   const { theme } = useThemeContext();
   const linearGradientColors =
-    theme === "light" ? ["#000000", "#0000FF"] : ["#000000", "#000000"];
+    theme === "light" ? ["#000000", "#0000FF"] : ["#03002e", "#03002e"];
   return (
     <View style={[tw`flex w-full px-4 py-2 flex-col items-start relative `]}>
       <LinearGradient

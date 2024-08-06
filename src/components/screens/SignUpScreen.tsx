@@ -2,7 +2,7 @@ import { useState } from "react";
 import { PickemsText } from "../PickemsText";
 import tw from "@/tailwind";
 import { PickemsTextInput } from "../PickemsTextInput";
-import { TouchableOpacity, View } from "react-native";
+import { KeyboardAvoidingView, TouchableOpacity, View } from "react-native";
 import { router } from "expo-router";
 import { PickemsSelectList } from "../PickemsSelectList";
 import { NflTeams } from "@/src/constants/nfl_teams";
