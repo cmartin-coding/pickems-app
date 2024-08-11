@@ -32,7 +32,6 @@ export async function getUser(
     .from("users")
     .select("*")
     .eq("id", userId);
-  console.log(data, "User DATA");
   if (error) {
     throw new Error(error.message);
   }
@@ -40,7 +39,6 @@ export async function getUser(
     .from("league_users_season")
     .select("leagues(*), role")
     .eq("user_id", userId);
-  console.log(leagues, "League DATA");
   const activeLeagues: ActiveLeagues[] = leagues
     ? leagues.map((l) => ({
         league_id: l.leagues?.id || "",

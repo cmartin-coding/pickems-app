@@ -76,9 +76,9 @@ export default function PickemsTabBar() {
       <Tabs.Screen
         name="matchups"
         options={{
-          title: "Chat",
+          title: "Matchups",
           tabBarIcon: ({ color }) => (
-            <Ionicons name="chatbox" size={25} color={color} />
+            <Ionicons name="medal" size={25} color={color} />
             // <FontAwesome size={28} name="" color={color} />
           ),
 

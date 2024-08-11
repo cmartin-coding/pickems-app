@@ -11,6 +11,7 @@ import { Switch, View } from "react-native";
 export default function Settings() {
   const authCtx = useAuthContext();
   const { theme, toggleTheme } = useThemeContext();
+
   return (
     <PickemsPage showBackButton>
       <View style={[tw`flex flex-col  flex-1 border-white gap-4`]}>
@@ -23,7 +24,10 @@ export default function Settings() {
             buttonOneLabel="Light Mode"
             buttonTwoLabel="Dark Mode"
             onClickOption={(option) => {
-              toggleTheme();
+              let optionChoice = option ? "light" : "dark";
+              if (theme !== optionChoice) {
+                toggleTheme();
+              }
             }}
             selectedOption={theme === "light"}
           />

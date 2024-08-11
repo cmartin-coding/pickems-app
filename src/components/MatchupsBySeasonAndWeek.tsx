@@ -7,7 +7,7 @@ import { NFL } from "../constants/team-logos/nfl";
 import { TeamLogo } from "../constants/team-logos/TeamLogo";
 import { NFLTeamNames } from "../types/types";
 import { MatchupsTeamCard } from "./MatchupsTeamCard";
-import { formatMatchupsByTimeOfDay } from "../helpers/helpers";
+import { formatMatchupsByTimeOfDay, getTeamColors } from "../helpers/helpers";
 import { format, getDay } from "date-fns";
 import { daysOfWeek } from "../constants/const";
 type MatchupsBySeasonAndWeekType = {
@@ -57,6 +57,16 @@ export function MatchupsBySeasonAndWeek(props: MatchupsBySeasonAndWeekType) {
                   matchup.winner && matchup.winner === matchup.home_team.id;
                 const isAwayTeamWinner =
                   matchup.winner && matchup.winner === matchup.away_team.id;
+                const homeTeamBG = getTeamColors(
+                  matchup.home_team.name as NFLTeamNames,
+                  "primary",
+                  "background"
+                );
+                const awayTeamBG = getTeamColors(
+                  matchup.away_team.name as NFLTeamNames,
+                  "primary",
+                  "background"
+                );
                 return (
                   <View
                     style={[
@@ -69,8 +79,17 @@ export function MatchupsBySeasonAndWeek(props: MatchupsBySeasonAndWeekType) {
                     key={matchup.id}
                   >
                     <View style={[tw`flex flex-row  flex-1 items-center`]}>
-                      <View style={[tw`pl-2 `]}>
+                      <View
+                        style={[
+                          tw`pl-2 flex-1 ${
+                            isAwayTeamWinner ? awayTeamBG : ""
+                          }  rounded-sm flex flex-col items-center `,
+                        ]}
+                      >
                         <MatchupsTeamCard
+                          textStyle={[
+                            tw`${isAwayTeamWinner ? "text-white" : ""}`,
+                          ]}
                           teamId={matchup.away_team.id}
                           abbreviation={
                             matchup.away_team.abbreviation as string
@@ -81,13 +100,20 @@ export function MatchupsBySeasonAndWeek(props: MatchupsBySeasonAndWeekType) {
                           teamName={matchup.away_team.name}
                         />
                       </View>
-                      <PickemsText
-                        style={[tw`flex-1 text-center  font-extrabold`]}
-                      >
+                      <PickemsText style={[tw` text-center  font-extrabold`]}>
                         @
                       </PickemsText>
-                      <View style={[tw`pr-2`]}>
+                      <View
+                        style={[
+                          tw`pr-2 flex-1  ${
+                            isHomeTeamWinner ? homeTeamBG : ""
+                          } rounded-sm flex flex-col items-center`,
+                        ]}
+                      >
                         <MatchupsTeamCard
+                          textStyle={[
+                            tw`${isHomeTeamWinner ? "text-white" : ""}`,
+                          ]}
                           teamId={matchup.home_team.id}
                           abbreviation={
                             matchup.home_team.abbreviation as string

@@ -18,21 +18,27 @@ export default function Standings() {
   const user = useAppSelector((state) => state.user);
 
   const {} = useThemeContext();
-
-  if (!user.currentActiveLeague) {
-    return <NoActiveLeaguesPlaceholder tab="standings" />;
-  }
+  const [colorScheme, toggleColorScheme, setColorScheme] =
+    useAppColorScheme(tw);
+  const gradientColors =
+    colorScheme === "light"
+      ? ["#000000", "#0000FF"]
+      : [tw.color("blue-900"), "#0000FF"];
   const {
     data: leagueUsers,
     refetch,
     isFetching,
     isLoading,
-  } = useGetLeagueUsersAndStandings(user.currentActiveLeague);
+  } = useGetLeagueUsersAndStandings(user?.currentActiveLeague || "");
   if (!leagueUsers && isLoading) {
     return <FootballLoader />;
   }
+
   if (!leagueUsers) {
     return <PickemsText>No League Users</PickemsText>;
+  }
+  if (!user.currentActiveLeague) {
+    return <NoActiveLeaguesPlaceholder tab="standings" />;
   }
 
   const sortedUsers = leagueUsers?.sort(
@@ -46,13 +52,6 @@ export default function Standings() {
     "L",
     "Acc.",
   ];
-
-  const [colorScheme, toggleColorScheme, setColorScheme] =
-    useAppColorScheme(tw);
-  const gradientColors =
-    colorScheme === "light"
-      ? ["#000000", "#0000FF"]
-      : [tw.color("blue-900"), "#0000FF"];
 
   return (
     <PickemsPage

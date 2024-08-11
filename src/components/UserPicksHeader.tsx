@@ -128,7 +128,7 @@ export function UserPicksHeader(props: UserPicksHeaderType) {
                       Week {x}
                     </PickemsText>
                     {x === currWeek && (
-                      <PickemsText style={[tw`text-xs`]}>
+                      <PickemsText style={[tw`text-xs text-black`]}>
                         Current Week
                       </PickemsText>
                     )}

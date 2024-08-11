@@ -37,7 +37,6 @@ export default function Home() {
     theme === "light"
       ? ["#000000", "#0000FF"]
       : [tw.color("blue-900") as string, "#0000FF"];
-  console.log(user);
   return (
     <PickemsPage
       statusBarStyle={theme === "light" ? "dark-content" : "light-content"}

@@ -11,11 +11,18 @@ type PickemsAccordionProps = {
 export function PickemsAccordion(props: PickemsAccordionProps) {
   const [isOpen, setIsOpen] = useState(false);
 
+  const isOpenTitleStyles = {
+    true: "bg-pickems-blue rounded-none",
+    false: "bg-transparent",
+  };
+
   return (
     <View style={[props.style, tw`flex flex-col `]}>
       <TouchableOpacity
         style={[
-          tw` p-2 flex flex-row  justify-between items-center rounded-md`,
+          tw` p-2 flex flex-row ${
+            isOpenTitleStyles[`${isOpen}`]
+          }  justify-between items-center `,
         ]}
         onPress={() => {
           setIsOpen((prev) => !prev);

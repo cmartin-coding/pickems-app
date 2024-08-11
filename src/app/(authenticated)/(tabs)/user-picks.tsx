@@ -46,8 +46,6 @@ export default function UserPicks() {
     return <NoActiveLeaguesPlaceholder tab="user-picks" />;
   }
 
-  console.log(data);
-
   return (
     <>
       {isLoading && !data && (

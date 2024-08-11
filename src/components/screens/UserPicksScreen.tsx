@@ -124,7 +124,6 @@ export function UserPicksScreen(props: UserPicksScreenType) {
       console.error(ex);
     }
   };
-  console.log(props.isFetching);
   return (
     <PickemsPage
       refreshControl={{
@@ -221,7 +220,7 @@ export function UserPicksScreen(props: UserPicksScreenType) {
               title="Completed Matchups"
               style={[tw`border-2 dark:border-white mb-6`]}
             >
-              <View style={[tw`  bg-slate-300/40`]}>
+              <View style={[tw``]}>
                 <PicksByGameTime
                   gametimes={completedGameTimes}
                   isCurrentMatchupWeek={isCurrentMatchupWeek}

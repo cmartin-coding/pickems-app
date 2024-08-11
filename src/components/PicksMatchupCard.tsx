@@ -3,7 +3,7 @@ import { MatchupsTeamCard } from "./MatchupsTeamCard";
 import { PickemsText } from "./PickemsText";
 import tw from "@/tailwind";
 import { Ionicons } from "@expo/vector-icons";
-import { MatchupPicksType } from "../types/types";
+import { MatchupPicksType, NFLTeamNames } from "../types/types";
 import { PickemsOptionSlider } from "./PickemsOptionSlider";
 import { useEffect, useState } from "react";
 import { Tables } from "../types/supabaseTypes";
@@ -11,7 +11,10 @@ import uuid from "react-native-uuid";
 import { useAppSelector } from "../store";
 import { isAfter, isEqual } from "date-fns";
 import { OverUnderPicker } from "./OverUnderPicker";
-import { getMatchIsStartingSoonLockout } from "../helpers/helpers";
+import {
+  getMatchIsStartingSoonLockout,
+  getTeamColors,
+} from "../helpers/helpers";
 type PicksMatchupCardType = {
   matchup: MatchupPicksType;
   leagueId: string;
@@ -63,10 +66,21 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
     props.matchup.isComplete && isSelectedAwayTeam && isAwayTeamWinner;
 
   const isMatchupLocked = getMatchIsStartingSoonLockout(props.matchup.time);
+
+  const homeTeamBgColor = getTeamColors(
+    props.matchup.home_team.name as NFLTeamNames,
+    "primary",
+    "background"
+  );
+  const awayTeamColor = getTeamColors(
+    props.matchup.away_team.name as NFLTeamNames,
+    "primary",
+    "background"
+  );
   return (
     <View
       style={[
-        tw`flex h-17  rounded-md flex-row gap-4 w-full 
+        tw`flex  min-h-17 rounded-md flex-row gap-4 w-full 
         `,
       ]}
     >
@@ -82,12 +96,12 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
              
           ${
             isSelectedAwayTeam && !props.matchup.isComplete && !isMatchupLocked
-              ? "rounded-xl bg-blue-400/30"
+              ? `rounded-xl ${awayTeamColor}`
               : ""
           }
-            ${isAwayPickCorrect ? "bg-green-300" : ""}
-            ${isHomeTeamWinner && isSelectedAwayTeam ? "bg-red-300" : ""}
-         
+          ${isAwayPickCorrect ? "bg-green-800" : ""}
+            ${isHomeTeamWinner && isSelectedAwayTeam ? "bg-red-700" : ""}
+          
           `,
             ]}
             onPress={() => {
@@ -101,6 +115,7 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
             }}
           >
             <MatchupsTeamCard
+              textStyle={[tw`${isSelectedAwayTeam ? "text-white" : ""}`]}
               teamId={props.matchup.away_team.id}
               abbreviation={props.matchup.away_team.abbreviation as string}
               isComplete={props.matchup.isComplete || isMatchupLocked}
@@ -126,19 +141,21 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
             }}
             style={[
               tw`flex-1 relative dark:border-white border p-1 rounded-lg flex 
+              
               ${
                 isSelectedHomeTeam &&
                 !props.matchup.isComplete &&
                 !isMatchupLocked
-                  ? " bg-blue-400/30"
+                  ? `${homeTeamBgColor}`
                   : ""
               }
-                ${isHomePickCorrect ? "bg-green-300" : ""}
+                ${isHomePickCorrect ? "bg-green-800" : ""}
                 ${isAwayTeamWinner && isSelectedHomeTeam ? "bg-red-300" : ""}
               flex-col items-center`,
             ]}
           >
             <MatchupsTeamCard
+              textStyle={[tw`${isSelectedHomeTeam ? "text-white" : ""}`]}
               teamId={props.matchup.home_team.id}
               abbreviation={props.matchup.home_team.abbreviation as string}
               isComplete={props.matchup.isComplete || isMatchupLocked}
@@ -185,7 +202,7 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
             ${
               pick.over_under_selection === "Under" &&
               props.matchup.over_under_winner === "Over"
-                ? "bg-red-300"
+                ? "bg-red-700"
                 : ""
             }
             `,

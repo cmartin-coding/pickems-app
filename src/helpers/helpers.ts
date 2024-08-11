@@ -7,7 +7,7 @@ import {
   parseISO,
   subMinutes,
 } from "date-fns";
-import { MatchupPicksType, Matchups } from "../types/types";
+import { MatchupPicksType, Matchups, NFLTeamNames } from "../types/types";
 export function isValidEmail(email: string): boolean {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
@@ -106,4 +106,17 @@ export function getMatchIsStartingSoonLockout(matchupTime: string) {
   // See if it is within 15 min
   const isWithin15Minutes = isWithinInterval(parsedDate, interval);
   return isWithin15Minutes;
+}
+
+export function getTeamColors(
+  team: NFLTeamNames,
+  level: "primary" | "secondary",
+  type: "background" | "text"
+) {
+  const teamStr = team.toLocaleLowerCase();
+  const styleStr = `${
+    type === "background" ? "bg" : "text"
+  }-${teamStr}-${level}`;
+
+  return styleStr;
 }
