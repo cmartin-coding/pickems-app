@@ -1,3 +1,4 @@
+import { useThemeContext } from "@/src/context/ThemeContext";
 import tw from "@/tailwind";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
@@ -34,6 +35,7 @@ export type PickemsPageProps = {
 export function PickemsPage(props: PickemsPageProps) {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const { theme } = useThemeContext();
 
   return (
     <View
@@ -44,7 +46,13 @@ export function PickemsPage(props: PickemsPageProps) {
     >
       {/* <View style={[tw`w-[100%] h-30 bg-red-300 absolute`]}></View> */}
       <StatusBar
-        barStyle={props.statusBarStyle ? props.statusBarStyle : "dark-content"}
+        barStyle={
+          props.statusBarStyle
+            ? props.statusBarStyle
+            : theme === "dark"
+            ? "light-content"
+            : "dark-content"
+        }
       />
       {props.showBackButton && router.canGoBack() && (
         <TouchableOpacity
