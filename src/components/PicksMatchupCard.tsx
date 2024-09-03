@@ -42,6 +42,7 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
     season_id: props.matchup.season,
     team_selection: props.matchup.picks[0]?.team_selection,
   };
+
   const [pick, setPick] = useState<Tables<"picks">>(initialPickVal);
 
   const pickIsMade = !!props.overUnderInfo
@@ -121,7 +122,7 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
               isComplete={props.matchup.isComplete || isMatchupLocked}
               isWinner={isAwayTeamWinner}
               score={props.matchup.score.away || 0}
-              teamName={props.matchup.away_team.name}
+              teamName={props.matchup.away_team.name as NFLTeamNames}
             />
           </TouchableOpacity>
 
@@ -161,7 +162,7 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
               isComplete={props.matchup.isComplete || isMatchupLocked}
               isWinner={isHomeTeamWinner}
               score={props.matchup.score.home || 0}
-              teamName={props.matchup.home_team.name}
+              teamName={props.matchup.home_team.name as NFLTeamNames}
             />
           </TouchableOpacity>
         </View>

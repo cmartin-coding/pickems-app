@@ -18,9 +18,13 @@ type PicksByGameTimeProps = {
 };
 
 export function PicksByGameTime(props: PicksByGameTimeProps) {
+  const activeLeagues = useAppSelector((state) => state.user.activeLeagues);
   const leagueId = useAppSelector((state) => state.user.currentActiveLeague);
   //   const [picks, setPicks] = useState<Tables<"picks">[]>([]);
 
+  const leagueDetail = activeLeagues.find((l) => l.league_id === leagueId);
+
+  const isLeagueOverUnder = leagueDetail?.isOverUnderEnabled;
   return (
     <>
       {props.gametimes.map((d) => {
@@ -54,10 +58,14 @@ export function PicksByGameTime(props: PicksByGameTimeProps) {
                     isSelectedAwayTeam={selectedAwayTeam}
                     isSelectedHomeTeam={selectedHomeTeam}
                     matchup={matchup}
-                    overUnderInfo={{
-                      over: overUnderVal,
-                      under: overUnderVal,
-                    }}
+                    overUnderInfo={
+                      isLeagueOverUnder
+                        ? {
+                            over: overUnderVal,
+                            under: overUnderVal,
+                          }
+                        : undefined
+                    }
                     onPickCompleted={(pick) => {
                       props.onPickCompleted(pick);
                     }}

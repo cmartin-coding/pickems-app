@@ -86,7 +86,6 @@ export default function LeaguePicks() {
     return <NoActiveLeaguesPlaceholder tab="league-picks" />;
   }
 
-  console.log(sortedUsers);
   return (
     <View style={[tw`flex-1 bg-white dark:bg-pickems-dark-blue`]}>
       <StatusBar
