@@ -2,6 +2,7 @@ import { NFL_START_DATE } from "../constants/const";
 import {
   add,
   addMinutes,
+  differenceInMinutes,
   differenceInWeeks,
   isWithinInterval,
   parseISO,
@@ -24,6 +25,7 @@ export function getMatchupWeeks(season_year: number) {
 
 export function getCurrentNFLWeek() {
   const currDate = new Date();
+
   if (currDate < NFL_START_DATE) {
     return 1;
   } else {
@@ -119,4 +121,13 @@ export function getTeamColors(
   }-${teamStr}-${level}`;
 
   return styleStr;
+}
+
+export function getIsGameStartingWithin15Minutes(matchupTime: string) {
+  const currTime = new Date();
+  const currMatchupTime = new Date(matchupTime);
+
+  const diff = differenceInMinutes(currMatchupTime, currTime);
+  console.log(currTime, currMatchupTime, diff);
+  return diff < 15;
 }

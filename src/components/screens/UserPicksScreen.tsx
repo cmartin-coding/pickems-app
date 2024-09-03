@@ -10,6 +10,7 @@ import { PicksMatchupCard } from "../PicksMatchupCard";
 import {
   formatMatchupsByTimeOfDay,
   getCurrentNFLWeek,
+  getIsGameStartingWithin15Minutes,
   getWeeklyResults,
 } from "@/src/helpers/helpers";
 import { daysOfWeek } from "@/src/constants/const";
@@ -51,29 +52,43 @@ const showSuccessfulSavingToastMessage = () => {
 };
 export function UserPicksScreen(props: UserPicksScreenType) {
   // console.log(props.matchups, props.currWeek);
-  const matchupsWeek = props.matchups[0].week;
+
+  const matchupsWeek = props.matchups[0]?.week ?? 1;
+
   const isCurrentMatchupWeek = matchupsWeek === props.currWeek;
 
   const [includeCompletedPicks, setIncludeCompletedPicks] = useState(true);
   const [picks, setPicks] = useState<Tables<"picks">[]>([]);
 
   const formattedTBDMatchups = useMemo(() => {
-    let matchups = props.matchups.filter((m) => !m.isComplete);
+    let matchups = props.matchups.filter((m) => {
+      const isMatchupStartingWithin15Minutes = getIsGameStartingWithin15Minutes(
+        m.time
+      );
+      // console.log(isMatchupStartingWithin15Minutes);
+      return !m.isComplete && !isMatchupStartingWithin15Minutes;
+    });
     if (!includeCompletedPicks) {
       matchups = matchups.filter((x) => !x.picks[0]?.id);
     }
 
     return formatMatchupsByTimeOfDay(matchups);
   }, [includeCompletedPicks, props.matchups]);
+
   const upcomingGameTimes = Object.keys(formattedTBDMatchups).sort(
     (a, b) => new Date(a).getTime() - new Date(b).getTime()
   );
 
   const formattedCompleteMatchups = useMemo(() => {
     return formatMatchupsByTimeOfDay(
-      props.matchups.filter((m) => m.isComplete)
+      props.matchups.filter((m) => {
+        const isMatchupStartingWithin15Minutes =
+          getIsGameStartingWithin15Minutes(m.time);
+        return m.isComplete || isMatchupStartingWithin15Minutes;
+      })
     );
   }, [props.matchups]);
+
   const completedGameTimes = Object.keys(formattedCompleteMatchups).sort(
     (a, b) => new Date(a).getTime() - new Date(b).getTime()
   );
@@ -217,7 +232,7 @@ export function UserPicksScreen(props: UserPicksScreenType) {
           )}
           {completedGameTimes.length > 0 && (
             <PickemsAccordion
-              title="Completed Matchups"
+              title="In Progress/Completed Matchups"
               style={[tw`border-2 dark:border-white mb-6`]}
             >
               <View style={[tw``]}>

@@ -118,7 +118,8 @@ export async function getLeagueUsersAndStandings(leagueID: string) {
 
     const updUser = {
       ...users[i],
-      totalCompleteMatchups: total_matchups_completed,
+
+      totalCompleteMatchups: total_matchups_completed as number,
       overUnderAccuracy,
       teamSelectionAccuracy,
       overallAccuracy,
@@ -128,6 +129,67 @@ export async function getLeagueUsersAndStandings(leagueID: string) {
 
   return { data: leagueUsersAndStanding };
 }
+
+export const getLeagueUsersAndStandingsByWeek = async ({
+  leagueId,
+  week_num,
+}: {
+  leagueId: string;
+  week_num: number;
+}) => {
+  const { count: total_matchups_completed } = await supabase
+    .from("nfl_matchups")
+    .select("*", { count: "exact" })
+    .eq("isComplete", true)
+    .eq("week", week_num);
+
+  const { data: users, error } = await supabase.rpc("get_users_stats_by_week", {
+    input_league_id: leagueId,
+    input_season_id: CURRENT_SEASON_ID,
+    input_week_number: week_num,
+  });
+
+  console.log(users, error);
+  if (!users) {
+    return { data: [] };
+  }
+
+  const leagueUsersAndStanding: {
+    totalCompleteMatchups: number;
+    overUnderAccuracy: number;
+    teamSelectionAccuracy: number;
+    overallAccuracy: number;
+    user_name: string;
+    user_id: string;
+    favorite_team: string;
+    total_team_selections_correct: number;
+    total_over_under_selections_correct: number;
+  }[] = [];
+  for (let i = 0; i < users?.length; i++) {
+    const overUnderAccuracy =
+      users[i].total_over_under_selections_correct /
+      (total_matchups_completed || 0);
+    const teamSelectionAccuracy =
+      users[i].total_team_selections_correct / (total_matchups_completed || 0);
+    const overallAccuracy =
+      (users[i].total_over_under_selections_correct +
+        users[i].total_team_selections_correct) /
+        ((total_matchups_completed || 0) * 2) || 0;
+
+    const updUser = {
+      ...users[i],
+      user_name: users[i].name,
+      user_id: users[i].id,
+      totalCompleteMatchups: total_matchups_completed as number,
+      overUnderAccuracy,
+      teamSelectionAccuracy,
+      overallAccuracy,
+    };
+    leagueUsersAndStanding.push(updUser);
+  }
+
+  return { data: leagueUsersAndStanding };
+};
 export async function getUserPicksByLeague(params: {
   userId: string;
   leagueId: string;

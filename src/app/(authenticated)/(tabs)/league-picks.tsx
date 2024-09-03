@@ -2,10 +2,14 @@ import { NoActiveLeaguesPlaceholder } from "@/src/components/NoActiveLeaguesPlac
 import { PickemsText } from "@/src/components/PickemsText";
 import { UserPicksHeader } from "@/src/components/UserPicksHeader";
 import { TeamLogo } from "@/src/constants/team-logos/TeamLogo";
-import { getCurrentNFLWeek } from "@/src/helpers/helpers";
+import {
+  getCurrentNFLWeek,
+  getIsGameStartingWithin15Minutes,
+} from "@/src/helpers/helpers";
 import {
   useGetAllLeaguePicks,
   useGetLeagueUsersAndStandings,
+  useGetLeagueUsersAndStandingsByWeek,
 } from "@/src/services/user";
 import { useAppSelector } from "@/src/store";
 import { NFLTeamNames } from "@/src/types/types";
@@ -43,7 +47,10 @@ export default function LeaguePicks() {
     refetch: refetchUsers,
     isLoading,
     isFetching,
-  } = useGetLeagueUsersAndStandings(user.currentActiveLeague || "");
+  } = useGetLeagueUsersAndStandingsByWeek({
+    leagueId: user.currentActiveLeague || "",
+    week_num: selectedWeek,
+  });
 
   useEffect(() => {
     if (isUserRefresh && !isFetching && isUserRefresh && !isMatchupsFetching) {
@@ -79,6 +86,7 @@ export default function LeaguePicks() {
     return <NoActiveLeaguesPlaceholder tab="league-picks" />;
   }
 
+  console.log(sortedUsers);
   return (
     <View style={[tw`flex-1 bg-white dark:bg-pickems-dark-blue`]}>
       <StatusBar
@@ -160,6 +168,7 @@ export default function LeaguePicks() {
                   const totalWins =
                     u.total_over_under_selections_correct +
                     u.total_team_selections_correct;
+
                   const totalLosses = u.totalCompleteMatchups * 2 - totalWins;
 
                   const isCurrentUser = u.user_id === user.user.id;
@@ -205,15 +214,34 @@ export default function LeaguePicks() {
               scrollEventThrottle={16}
             >
               <View style={[tw`flex  flex-col gap-4  ml-18`]}>
-                {sortedUsers?.map((user, ix) => {
+                {sortedUsers?.map((u, ix) => {
                   return (
-                    <View key={user.user_id} style={[tw`flex flex-row gap-4`]}>
+                    <View key={u.user_id} style={[tw`flex flex-row gap-4`]}>
                       {sortedMatchups.map((m) => {
                         const pick = m.picks.find(
-                          (p) => p.user_id === user.user_id
+                          (p) => p.user_id === u.user_id
                         );
                         const homeTeamSelected =
                           m.home_team.id === pick?.team_selection;
+                        const isCurrentUser = u.user_id === user.user.id;
+                        const isMatchupWithin15Minutes =
+                          getIsGameStartingWithin15Minutes(m.time);
+
+                        let logo = <></>;
+                        if (!isCurrentUser && !isMatchupWithin15Minutes) {
+                          return <TeamLogo team={"NFL"} size={24} />;
+                        } else {
+                          logo = (
+                            <TeamLogo
+                              team={
+                                homeTeamSelected
+                                  ? (m.home_team.name as NFLTeamNames)
+                                  : (m.away_team.name as NFLTeamNames)
+                              }
+                              size={24}
+                            />
+                          );
+                        }
 
                         return (
                           <View
@@ -224,14 +252,18 @@ export default function LeaguePicks() {
                             <View style={[tw`w-10 `]}>
                               {pick ? (
                                 <View style={[tw`flex flex-col w-6 `]}>
-                                  <TeamLogo
-                                    team={
-                                      homeTeamSelected
-                                        ? (m.home_team.name as NFLTeamNames)
-                                        : (m.away_team.name as NFLTeamNames)
-                                    }
-                                    size={24}
-                                  />
+                                  {isCurrentUser ? (
+                                    <TeamLogo
+                                      team={
+                                        homeTeamSelected
+                                          ? (m.home_team.name as NFLTeamNames)
+                                          : (m.away_team.name as NFLTeamNames)
+                                      }
+                                      size={24}
+                                    />
+                                  ) : (
+                                    logo
+                                  )}
                                   <PickemsText
                                     adjustsFontSizeToFit
                                     numberOfLines={1}
@@ -249,9 +281,11 @@ export default function LeaguePicks() {
                                         tw`text-center text-2xs font-bold text-pickems-blue dark:text-white`,
                                       ]}
                                     >
-                                      {pick.over_under_selection === "Over"
-                                        ? "O↑"
-                                        : "U↓"}
+                                      {isCurrentUser || isMatchupWithin15Minutes
+                                        ? pick.over_under_selection === "Over"
+                                          ? "O↑"
+                                          : "U↓"
+                                        : "↑↓"}
                                     </PickemsText>
                                   )}
                                 </View>

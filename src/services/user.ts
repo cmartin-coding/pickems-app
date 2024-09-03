@@ -15,6 +15,7 @@ import {
   getAllMatchupsForCurrentSeason,
   getLeaguePicks,
   getLeagueUsersAndStandings,
+  getLeagueUsersAndStandingsByWeek,
   getMatchupsBySeasonAndWeek,
   getUser,
   getUserPicksByLeague,
@@ -118,6 +119,12 @@ export const userApi = createApi({
       invalidatesTags: ["Picks"],
       queryFn: submitPicks,
     }),
+    getLeagueStandingsByWeek: builder.query<
+      LeagueUsersAndStandings[],
+      { week_num: number; leagueId: string }
+    >({
+      queryFn: getLeagueUsersAndStandingsByWeek,
+    }),
   }),
 });
 
@@ -128,6 +135,8 @@ export const useGetAllMatchups =
   userApi.endpoints.getAllMatchupsForCurrentSeason.useQuery;
 export const useGetLeagueUsersAndStandings =
   userApi.endpoints.getLeagueUsersAndStandings.useQuery;
+export const useGetLeagueUsersAndStandingsByWeek =
+  userApi.endpoints.getLeagueStandingsByWeek.useQuery;
 export const useGetAllLeaguePicks = userApi.endpoints.getLeaguePicks.useQuery;
 export const useGetUserPicks = userApi.endpoints.getUserPicks.useQuery;
 

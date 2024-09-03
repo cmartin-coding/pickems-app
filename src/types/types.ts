@@ -92,4 +92,5 @@ export type NFLTeamNames =
   | "Seahawks"
   | "Buccaneers"
   | "Titans"
-  | "Commanders";
+  | "Commanders"
+  | "NFL";

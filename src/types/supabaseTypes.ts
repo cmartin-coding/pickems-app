@@ -332,6 +332,20 @@ export type Database = {
           total_over_under_selections_correct: number;
         }[];
       };
+      get_users_stats_by_week: {
+        Args: {
+          input_league_id: string;
+          input_season_id: string;
+          input_week_number: number;
+        };
+        Returns: {
+          name: string;
+          id: string;
+          favorite_team: string;
+          total_team_selections_correct: number;
+          total_over_under_selections_correct: number;
+        }[];
+      };
     };
     Enums: {
       Conference: "AFC" | "NFC";

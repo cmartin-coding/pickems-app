@@ -58,6 +58,9 @@ export function TeamLogo(props: {
   if (props.team === "Browns") {
     return <NFL size={props.size} />;
   }
+  if (props.team === "NFL") {
+    return <NFL size={props.size} />;
+  }
   if (props.team === "Buccaneers") {
     return <TB size={props.size} />;
   }
