@@ -128,6 +128,5 @@ export function getIsGameStartingWithin15Minutes(matchupTime: string) {
   const currMatchupTime = new Date(matchupTime);
 
   const diff = differenceInMinutes(currMatchupTime, currTime);
-  console.log(currTime, currMatchupTime, diff);
   return diff < 15;
 }

@@ -208,7 +208,7 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
             }
             `,
           ]}
-          overUnderValue={40}
+          overUnderValue={props.matchup.over_under_number}
           onSelectOverUnder={(selection) => {
             if (selection !== pick.over_under_selection) {
               setUserHasAlteredPick(true);

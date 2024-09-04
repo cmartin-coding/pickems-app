@@ -129,7 +129,7 @@ export default function LeaguePicks() {
               scrollEventThrottle={16}
               style={[tw`pr-20`]}
             >
-              <View style={[tw`flex flex-row gap-4 ml-18`]}>
+              <View style={[tw`flex flex-row gap-4 ml-20`]}>
                 {sortedMatchups.map((matchup) => (
                   <View key={matchup.id} style={[tw`flex flex-col h-18 `]}>
                     <PickemsText style={[tw`basis-1/3 w-10 text-xs`]}>
@@ -162,7 +162,7 @@ export default function LeaguePicks() {
             <View
               style={[tw`absolute  bg-white dark:bg-pickems-dark-blue z-20`]}
             >
-              <View style={[tw`w-15 flex flex-col gap-4`]}>
+              <View style={[tw`w-20 flex flex-col gap-4`]}>
                 {sortedUsers?.map((u) => {
                   const totalWins =
                     u.total_over_under_selections_correct +
@@ -212,10 +212,13 @@ export default function LeaguePicks() {
               onScroll={handleScroll}
               scrollEventThrottle={16}
             >
-              <View style={[tw`flex  flex-col gap-4  ml-18`]}>
+              <View style={[tw`flex  flex-col gap-4  ml-20`]}>
                 {sortedUsers?.map((u, ix) => {
                   return (
-                    <View key={u.user_id} style={[tw`flex flex-row gap-4`]}>
+                    <View
+                      key={u.user_id + ix}
+                      style={[tw`flex flex-row gap-4`]}
+                    >
                       {sortedMatchups.map((m) => {
                         const pick = m.picks.find(
                           (p) => p.user_id === u.user_id
@@ -228,7 +231,14 @@ export default function LeaguePicks() {
 
                         let logo = <></>;
                         if (!isCurrentUser && !isMatchupWithin15Minutes) {
-                          return <TeamLogo team={"NFL"} size={24} />;
+                          return (
+                            <View
+                              key={m.id + u.user_id}
+                              style={[tw`flex flex-col w-10 `]}
+                            >
+                              <TeamLogo team={"NFL"} size={24} />
+                            </View>
+                          );
                         } else {
                           logo = (
                             <TeamLogo
@@ -241,15 +251,15 @@ export default function LeaguePicks() {
                             />
                           );
                         }
-
+                        console.log(pick, "here");
                         return (
                           <View
-                            key={m.id}
+                            key={m.id + u.user_id}
                             style={[tw`flex flex-col h-16 items-center `]}
                           >
                             <View style={[tw``]} />
                             <View style={[tw`w-10 `]}>
-                              {pick ? (
+                              {!!pick ? (
                                 <View style={[tw`flex flex-col w-6 `]}>
                                   {isCurrentUser ? (
                                     <TeamLogo
@@ -280,11 +290,9 @@ export default function LeaguePicks() {
                                         tw`text-center text-2xs font-bold text-pickems-blue dark:text-white`,
                                       ]}
                                     >
-                                      {isCurrentUser || isMatchupWithin15Minutes
-                                        ? pick.over_under_selection === "Over"
-                                          ? "O↑"
-                                          : "U↓"
-                                        : "↑↓"}
+                                      {pick.over_under_selection === "Over"
+                                        ? "O↑"
+                                        : "U↓"}
                                     </PickemsText>
                                   )}
                                 </View>

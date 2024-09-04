@@ -42,7 +42,9 @@ export function PicksByGameTime(props: PicksByGameTimeProps) {
             </View>
             <View style={[tw`flex flex-col mx-2 my-4 items-center gap-4 `]}>
               {props.matchups[d].map((matchup) => {
-                const overUnderVal = matchup.odds.over ? matchup.odds.over : 56;
+                const overUnderVal = matchup.over_under_number
+                  ? matchup.over_under_number
+                  : 56;
                 const pick = matchup.picks[0];
 
                 const selectedHomeTeam =
