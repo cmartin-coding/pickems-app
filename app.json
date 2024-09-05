@@ -8,7 +8,8 @@
     "scheme": "myapp",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.chadmartin.pickems"
+      "bundleIdentifier": "com.chadmartin.pickems",
+      "buildNumber": "2"
     },
     "android": {
      

@@ -162,7 +162,7 @@ export default function LeaguePicks() {
             <View
               style={[tw`absolute  bg-white dark:bg-pickems-dark-blue z-20`]}
             >
-              <View style={[tw`w-20 flex flex-col gap-4`]}>
+              <View style={[tw`w-15  flex flex-col gap-4`]}>
                 {sortedUsers?.map((u) => {
                   const totalWins =
                     u.total_over_under_selections_correct +
@@ -172,10 +172,13 @@ export default function LeaguePicks() {
 
                   const isCurrentUser = u.user_id === user.user.id;
                   return (
-                    <View key={u.user_id} style={[tw`relative h-16 pl-2`]}>
+                    <View key={u.user_id} style={[tw`relative h-16 pl-1`]}>
                       <PickemsText
+                        adjustsFontSizeToFit
+                        minimumFontScale={0.8}
+                        numberOfLines={1}
                         style={[
-                          tw`h-6 ${
+                          tw`h-6  ${
                             isCurrentUser
                               ? "text-pickems-blue dark:text-pickems-blue-complement font-bold"
                               : ""
@@ -234,7 +237,7 @@ export default function LeaguePicks() {
                           return (
                             <View
                               key={m.id + u.user_id}
-                              style={[tw`flex flex-col w-10 `]}
+                              style={[tw`flex flex-col w-10 h-16`]}
                             >
                               <TeamLogo team={"NFL"} size={24} />
                             </View>
@@ -251,7 +254,6 @@ export default function LeaguePicks() {
                             />
                           );
                         }
-                        console.log(pick, "here");
                         return (
                           <View
                             key={m.id + u.user_id}

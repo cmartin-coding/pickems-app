@@ -2,6 +2,7 @@ import { NFL_START_DATE } from "../constants/const";
 import {
   add,
   addMinutes,
+  differenceInDays,
   differenceInMinutes,
   differenceInWeeks,
   isWithinInterval,
@@ -26,10 +27,11 @@ export function getMatchupWeeks(season_year: number) {
 export function getCurrentNFLWeek() {
   const currDate = new Date();
 
+  const daysSinceStart = differenceInDays(currDate, NFL_START_DATE);
   if (currDate < NFL_START_DATE) {
     return 1;
   } else {
-    return differenceInWeeks(currDate, NFL_START_DATE);
+    return Math.floor(daysSinceStart / 5) + 1;
   }
 }
 
