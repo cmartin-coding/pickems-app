@@ -41,8 +41,8 @@ export default function Standings() {
     return <NoActiveLeaguesPlaceholder tab="standings" />;
   }
 
-  const sortedUsers = leagueUsers?.sort(
-    (a, b) => b.overUnderAccuracy - a.overUnderAccuracy
+  const sortedUsers = [...leagueUsers].sort(
+    (a, b) => b.overallAccuracy - a.overallAccuracy
   );
 
   const columns: Array<"Name" | "W" | "L" | "Acc." | "Rank"> = [

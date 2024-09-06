@@ -139,6 +139,8 @@ export function UserPicksScreen(props: UserPicksScreenType) {
       console.error(ex);
     }
   };
+
+  console.log(pickResults);
   return (
     <PickemsPage
       refreshControl={{

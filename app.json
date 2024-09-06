@@ -9,7 +9,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.chadmartin.pickems",
-      "buildNumber": "2"
+      "buildNumber": "3"
     },
     "android": {
      

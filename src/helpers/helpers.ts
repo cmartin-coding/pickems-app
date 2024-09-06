@@ -62,6 +62,7 @@ export function getWeeklyResults(
   numberOfCorrectPicks: number;
   numberOfCorrectOverUnderPicks: number;
 } {
+  console.log(completedMatchups);
   const numberOfCorrectPicks = completedMatchups.reduce((prev, acc) => {
     const isCorrect = acc.picks[0]?.team_selection === acc.winner;
     if (isCorrect) {
