@@ -171,6 +171,9 @@ export default function LeaguePicks() {
                   const totalLosses = u.totalCompleteMatchups * 2 - totalWins;
 
                   const isCurrentUser = u.user_id === user.user.id;
+                  const totalPoints =
+                    u.total_team_selections_correct +
+                    u.total_over_under_selections_correct / 2;
                   return (
                     <View key={u.user_id} style={[tw`relative h-16 pl-1`]}>
                       <PickemsText
@@ -198,9 +201,23 @@ export default function LeaguePicks() {
                       >
                         {totalWins} - {totalLosses}
                       </PickemsText>
+                      {selectedWeek >= 3 && (
+                        <PickemsText
+                          style={[
+                            tw`h-6 text-sm ${
+                              isCurrentUser
+                                ? "text-pickems-blue dark:text-pickems-blue-complement"
+                                : ""
+                            }`,
+                          ]}
+                        >
+                          {totalPoints} pts
+                        </PickemsText>
+                      )}
+
                       <View
                         style={[
-                          tw`absolute h-[1px] bg-slate-300/70  w-120 -bottom-1`,
+                          tw`absolute h-[1px] bg-slate-300/70  w-120 -bottom-2`,
                         ]}
                       />
                     </View>
@@ -232,7 +249,25 @@ export default function LeaguePicks() {
                         const isMatchupWithin15Minutes =
                           getIsGameStartingWithin15Minutes(m.time);
 
+                        const isSelectionCorrect =
+                          pick?.team_selection === m.winner;
+                        const isOverUnderCorrect =
+                          pick?.over_under_selection === m.over_under_winner;
+
+                        let overUnderBgColor = "";
+                        let teamBgColor = "";
+
+                        if (m.isComplete) {
+                          overUnderBgColor = isOverUnderCorrect
+                            ? "bg-green-700/60"
+                            : "bg-red-700/60";
+                          teamBgColor = isSelectionCorrect
+                            ? "bg-green-700/60"
+                            : "bg-red-700/60";
+                        }
+
                         let logo = <></>;
+
                         if (!isCurrentUser && !isMatchupWithin15Minutes) {
                           return (
                             <View
@@ -244,14 +279,16 @@ export default function LeaguePicks() {
                           );
                         } else {
                           logo = (
-                            <TeamLogo
-                              team={
-                                homeTeamSelected
-                                  ? (m.home_team.name as NFLTeamNames)
-                                  : (m.away_team.name as NFLTeamNames)
-                              }
-                              size={24}
-                            />
+                            <View style={[tw`rounded-sm  `]}>
+                              <TeamLogo
+                                team={
+                                  homeTeamSelected
+                                    ? (m.home_team.name as NFLTeamNames)
+                                    : (m.away_team.name as NFLTeamNames)
+                                }
+                                size={24}
+                              />
+                            </View>
                           );
                         }
                         return (
@@ -264,14 +301,16 @@ export default function LeaguePicks() {
                               {!!pick ? (
                                 <View style={[tw`flex flex-col w-6 `]}>
                                   {isCurrentUser ? (
-                                    <TeamLogo
-                                      team={
-                                        homeTeamSelected
-                                          ? (m.home_team.name as NFLTeamNames)
-                                          : (m.away_team.name as NFLTeamNames)
-                                      }
-                                      size={24}
-                                    />
+                                    <View style={[tw` rounded-sm`]}>
+                                      <TeamLogo
+                                        team={
+                                          homeTeamSelected
+                                            ? (m.home_team.name as NFLTeamNames)
+                                            : (m.away_team.name as NFLTeamNames)
+                                        }
+                                        size={24}
+                                      />
+                                    </View>
                                   ) : (
                                     logo
                                   )}
@@ -279,7 +318,7 @@ export default function LeaguePicks() {
                                     adjustsFontSizeToFit
                                     numberOfLines={1}
                                     style={[
-                                      tw`text-xs text-blue-900 dark:text-white font-semibold`,
+                                      tw`text-xs ${teamBgColor} text-blue-900 dark:text-white font-semibold`,
                                     ]}
                                   >
                                     {homeTeamSelected
@@ -289,7 +328,7 @@ export default function LeaguePicks() {
                                   {currLeague?.isOverUnderEnabled && (
                                     <PickemsText
                                       style={[
-                                        tw`text-center text-2xs font-bold text-pickems-blue dark:text-white`,
+                                        tw`text-center rounded-sm ${overUnderBgColor} text-2xs font-bold text-pickems-blue dark:text-white`,
                                       ]}
                                     >
                                       {pick.over_under_selection === "Over"

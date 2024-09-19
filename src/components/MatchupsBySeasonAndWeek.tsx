@@ -97,7 +97,7 @@ export function MatchupsBySeasonAndWeek(props: MatchupsBySeasonAndWeekType) {
                           isComplete={matchup.isComplete}
                           isWinner={!!isAwayTeamWinner}
                           score={matchup.score.away || 0}
-                          teamName={matchup.away_team.name}
+                          teamName={matchup.away_team.name as NFLTeamNames}
                         />
                       </View>
                       <PickemsText style={[tw` text-center  font-extrabold`]}>
@@ -121,7 +121,7 @@ export function MatchupsBySeasonAndWeek(props: MatchupsBySeasonAndWeekType) {
                           isComplete={matchup.isComplete}
                           isWinner={!!isHomeTeamWinner}
                           score={matchup.score.home || 0}
-                          teamName={matchup.home_team.name}
+                          teamName={matchup.home_team.name as NFLTeamNames}
                         />
                       </View>
                     </View>

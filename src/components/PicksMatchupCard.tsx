@@ -151,7 +151,7 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
                   : ""
               }
                 ${isHomePickCorrect ? "bg-green-800" : ""}
-                ${isAwayTeamWinner && isSelectedHomeTeam ? "bg-red-300" : ""}
+                ${isAwayTeamWinner && isSelectedHomeTeam ? "bg-red-700" : ""}
               flex-col items-center`,
             ]}
           >
@@ -185,19 +185,19 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
             } bg-blue-400/30 ${
               pick.over_under_selection === "Over" &&
               props.matchup.over_under_winner === "Over"
-                ? "bg-green-300"
+                ? "bg-green-700"
                 : ""
             }
             ${
               pick.over_under_selection === "Under" &&
               props.matchup.over_under_winner === "Under"
-                ? "bg-green-300"
+                ? "bg-green-700"
                 : ""
             }
             ${
               pick.over_under_selection === "Over" &&
               props.matchup.over_under_winner === "Under"
-                ? "bg-red-300"
+                ? "bg-red-700"
                 : ""
             }
             ${

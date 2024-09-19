@@ -1,4 +1,4 @@
-export const NFL_START_DATE = new Date("2024-09-05T00:00:00Z");
+export const NFL_START_DATE = new Date("2024-09-02T00:00:00Z");
 export const daysOfWeek = [
   "Sunday",
   "Monday",

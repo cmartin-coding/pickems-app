@@ -45,8 +45,8 @@ export function UserPickStats(props: CurrentStatsType) {
               <PickemsText style={[tw`text-black`]}>
                 {props.stats.numberOfCorrectOverUnderPicks +
                   props.stats.numberOfCorrectPicks}
-                -{incorrectPicks + incorrectOverUnder} | {totalAccuracy}%
-                Accuracy
+                -{incorrectPicks + incorrectOverUnder} |{" "}
+                {totalAccuracy.toFixed(0)}% Accuracy
               </PickemsText>
             </View>
           </View>

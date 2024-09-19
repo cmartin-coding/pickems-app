@@ -45,13 +45,18 @@ export default function Standings() {
     (a, b) => b.overallAccuracy - a.overallAccuracy
   );
 
-  const columns: Array<"Name" | "W" | "L" | "Acc." | "Rank"> = [
-    "Rank",
-    "Name",
-    "W",
-    "L",
-    "Acc.",
-  ];
+  const columns: Array<
+    | "Name"
+    | "W"
+    | "L"
+    | "Acc."
+    | "Rank"
+    | "Team W"
+    | "O/U W"
+    | "Team L"
+    | "O/U L"
+    | ""
+  > = ["", "Name", "Team W", "Team L", "O/U W", "O/U L", "Acc."];
 
   return (
     <PickemsPage
@@ -64,7 +69,7 @@ export default function Standings() {
       isTabBarScreen
       childrenStyle={[tw`p-0 `]}
     >
-      <View style={[tw`border relative p-4 rounded-lg `]}>
+      <View style={[tw`border relative py-3 rounded-lg `]}>
         <LinearGradient
           style={[
             tw` absolute top-0 bottom-0 flex rounded-md flex-row justify-center left-0 right-0`,
@@ -86,8 +91,19 @@ export default function Standings() {
         >
           {columns.map((col, ix) => {
             return (
-              <View key={col} style={[tw`flex w-1/5   flex-col items-center`]}>
-                <PickemsText style={[tw`font-bold text-lg text-white`]}>
+              <View
+                key={col}
+                style={[
+                  tw`flex  ${
+                    ix !== 0 ? "w-[15.7%]" : "w-[5%]"
+                  } flex-col items-center`,
+                ]}
+              >
+                <PickemsText
+                  adjustsFontSizeToFit
+                  numberOfLines={1}
+                  style={[tw`font-bold text-xs text-white`]}
+                >
                   {col}
                 </PickemsText>
 
@@ -96,7 +112,7 @@ export default function Standings() {
             );
           })}
         </View>
-        <View style={[tw`flex flex-col gap-2`]}>
+        <View style={[tw`flex flex-col gap-6 `]}>
           {sortedUsers.map((user, ix) => {
             const totalWins =
               user.total_over_under_selections_correct +
@@ -105,24 +121,44 @@ export default function Standings() {
               user.totalCompleteMatchups * 2 -
               (user.total_over_under_selections_correct +
                 user.total_team_selections_correct);
+            const teamPickWins = user.total_team_selections_correct;
+            const overUnderWins = user.total_over_under_selections_correct;
+
+            const teamPickLs = user.totalCompleteMatchups - teamPickWins;
+            const overUnderLs = user.totalCompleteMatchups - overUnderWins;
             return (
               <View
-                style={[tw`flex flex-row border-b border-slate-300/50 pb-2 `]}
+                style={[
+                  tw`flex  flex-row ${
+                    ix !== sortedUsers.length - 1
+                      ? "border-b border-slate-300/50 "
+                      : ""
+                  } pb-6`,
+                ]}
                 key={user.user_id}
               >
-                <PickemsText style={[tw`w-1/5  text-white text-center`]}>
+                <PickemsText style={[tw`w-[5%]  text-white text-center`]}>
                   {ix + 1}
                 </PickemsText>
-                <PickemsText style={[tw`w-1/5  text-white text-center`]}>
+                <PickemsText
+                  numberOfLines={1}
+                  style={[tw`w-[15.7%]  text-white text-center`]}
+                >
                   {user.user_name}
                 </PickemsText>
-                <PickemsText style={[tw`w-1/5 text-white  text-center`]}>
-                  {totalWins}
+                <PickemsText style={[tw`w-[15.7%] text-white  text-center`]}>
+                  {teamPickWins}
                 </PickemsText>
-                <PickemsText style={[tw`w-1/5 text-white text-center`]}>
-                  {totalLosses}
+                <PickemsText style={[tw`w-[15.7%] text-white text-center`]}>
+                  {teamPickLs}
                 </PickemsText>
-                <PickemsText style={[tw`w-1/5 text-white text-center`]}>
+                <PickemsText style={[tw`w-[15.7%] text-white  text-center`]}>
+                  {overUnderWins}
+                </PickemsText>
+                <PickemsText style={[tw`w-[15.7%] text-white text-center`]}>
+                  {overUnderLs}
+                </PickemsText>
+                <PickemsText style={[tw`w-[15.7%] text-white text-center`]}>
                   {(user.overallAccuracy * 100).toFixed(0)}%
                 </PickemsText>
               </View>

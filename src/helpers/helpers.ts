@@ -26,12 +26,15 @@ export function getMatchupWeeks(season_year: number) {
 
 export function getCurrentNFLWeek() {
   const currDate = new Date();
+  // const test = add(currDate, { days: 13 });
 
   const daysSinceStart = differenceInDays(currDate, NFL_START_DATE);
+
+  // console.log(daysSinceStart / 5, Math.round(daysSinceStart / 5));
   if (currDate < NFL_START_DATE) {
     return 1;
   } else {
-    return Math.floor(daysSinceStart / 5) + 1;
+    return Math.ceil(daysSinceStart / 7);
   }
 }
 
