@@ -74,13 +74,14 @@ export function MatchupsScreen() {
   if (isLoading) {
     return <PickemsLoadingPage title="Fetching matchups!" />;
   }
-
+  console.log(width, "width");
   return (
     <PickemsPage
       refreshControl={{
         isRefreshing: isFetching && !isLoading,
         onRefresh: refetch,
       }}
+      childrenStyle={[tw`p-0`]}
       isTabBarScreen
     >
       <>
@@ -94,7 +95,11 @@ export function MatchupsScreen() {
                 handleWeekChange("backwards");
               }}
             >
-              <Ionicons size={30} name="chevron-back-circle-outline" />
+              <Ionicons
+                size={30}
+                name="chevron-back-circle-outline"
+                style={[tw`dark:text-white text-black`]}
+              />
             </TouchableOpacity>
           ) : (
             <View style={[tw` w-8`]} />
@@ -109,7 +114,11 @@ export function MatchupsScreen() {
                 handleWeekChange("forwards");
               }}
             >
-              <Ionicons size={30} name="chevron-forward-circle-outline" />
+              <Ionicons
+                size={30}
+                style={[tw`dark:text-white text-black`]}
+                name="chevron-forward-circle-outline"
+              />
             </TouchableOpacity>
           ) : (
             <View style={[tw`w-8`]} />
@@ -145,7 +154,9 @@ export function MatchupsScreen() {
           data={matchupWeeks}
           renderItem={(item) => {
             return (
-              <View style={[tw`flex flex-row `, { width: width }]}>
+              <View
+                style={[tw`flex flex-row justify-center`, { width: width }]}
+              >
                 <MatchupsBySeasonAndWeek
                   season={item.item.season}
                   week={item.item.week}

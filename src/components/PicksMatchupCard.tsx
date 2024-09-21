@@ -90,7 +90,7 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
         style={[tw`flex flex-1 relative  flex-col   `]}
         key={props.matchup.id}
       >
-        <View style={[tw`flex flex-row gap-4 flex-1 items-center`]}>
+        <View style={[tw`flex flex-row gap-2 flex-1 items-center`]}>
           <TouchableOpacity
             disabled={props.matchup.isComplete || isMatchupLocked}
             style={[
@@ -127,7 +127,7 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
             />
           </TouchableOpacity>
 
-          <PickemsText style={[tw`text-center text-lg  font-extrabold`]}>
+          <PickemsText style={[tw`text-center  text-lg  font-extrabold`]}>
             @
           </PickemsText>
           <TouchableOpacity

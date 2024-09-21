@@ -29,10 +29,7 @@ export function MatchupsBySeasonAndWeek(props: MatchupsBySeasonAndWeekType) {
 
   return (
     <View
-      style={[
-        tw`flex flex-col  mt-5 items-center  w-[92%] px-4 gap-3 `,
-        props.style,
-      ]}
+      style={[tw`flex flex-col w-[95%] mt-5 items-center  gap-3 `, props.style]}
     >
       {dates.map((d) => {
         const day = daysOfWeek[getDay(new Date(d))];
@@ -43,7 +40,7 @@ export function MatchupsBySeasonAndWeek(props: MatchupsBySeasonAndWeekType) {
           <View key={d} style={[tw`flex   flex-col gap-3 pt-3  w-full`]}>
             <View
               style={[
-                tw`flex flex-row px-4 pb-2 mx-4 border-b border-b-black justify-between`,
+                tw`flex flex-row  pb-2 mx-4 border-b border-b-black justify-between`,
               ]}
             >
               <PickemsText style={[tw`font-bold text-lg`]}>

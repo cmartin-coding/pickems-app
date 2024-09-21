@@ -20,15 +20,13 @@ export function MatchupsTeamCard(props: MatchupsTeamCardType) {
   return (
     <View
       style={[
-        tw`flex-1   flex  flex-row justify-between rounded-md ${
-          props.isWinner ? "" : ""
-        }`,
+        tw`flex-1   flex  flex-row  rounded-md ${props.isWinner ? "" : ""}`,
       ]}
     >
       <View style={[tw`flex flex-col items-center justify-center `]}>
         <View style={[tw`flex flex-row items-center  gap-1`]}>
           <PickemsText
-            style={[tw`font-bold dark:text-white `, props.textStyle]}
+            style={[tw`font-bold text-sm dark:text-white `, props.textStyle]}
           >
             {props.abbreviation}
           </PickemsText>

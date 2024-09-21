@@ -40,7 +40,7 @@ export function PicksByGameTime(props: PicksByGameTimeProps) {
               </PickemsText>
               <PickemsText style={[tw`font-bold`]}>{timeStr}</PickemsText>
             </View>
-            <View style={[tw`flex flex-col mx-2 my-4 items-center gap-4 `]}>
+            <View style={[tw`flex flex-col  my-4 items-center gap-4 `]}>
               {props.matchups[d].map((matchup) => {
                 const overUnderVal = matchup.over_under_number
                   ? matchup.over_under_number
