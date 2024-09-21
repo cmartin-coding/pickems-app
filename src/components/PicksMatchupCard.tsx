@@ -45,10 +45,11 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
 
   const [pick, setPick] = useState<Tables<"picks">>(initialPickVal);
 
-  const pickIsMade = !!props.overUnderInfo
-    ? pick.over_under_selection && pick.team_selection
-    : !!pick.team_selection;
+  // const pickIsMade = !!props.overUnderInfo
+  //   ? pick.over_under_selection && pick.team_selection
+  //   : !!pick.team_selection;
 
+  const pickIsMade = !!pick.team_selection;
   useEffect(() => {
     if (pickIsMade && userHasAlteredPick) {
       props.onPickCompleted(pick);

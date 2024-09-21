@@ -50,6 +50,7 @@ const showSuccessfulSavingToastMessage = () => {
     visibilityTime: 1300,
   });
 };
+
 export function UserPicksScreen(props: UserPicksScreenType) {
   // console.log(props.matchups, props.currWeek);
 
@@ -106,7 +107,7 @@ export function UserPicksScreen(props: UserPicksScreenType) {
 
   const completedMatchups = props.matchups.filter((m) => m.isComplete);
   const pickResults = getWeeklyResults(completedMatchups);
-
+  // console.log(completedMatchups, "here", props.matchups);
   const [submitPicks, { isLoading: isSubmittingPicksLoading }] =
     useSubmitPicksMutation();
 
@@ -139,8 +140,8 @@ export function UserPicksScreen(props: UserPicksScreenType) {
       console.error(ex);
     }
   };
-
-  console.log(pickResults);
+  console.log("PICKS", picks);
+  // console.log(pickResults);
   return (
     <PickemsPage
       refreshControl={{

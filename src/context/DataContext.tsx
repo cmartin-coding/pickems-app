@@ -24,7 +24,7 @@ export function DataProvider(props: { children: ReactNode }) {
 
   const handleInitialAppOpen = async (userId: string) => {
     setLoading(true);
-
+    // console.log("here");
     try {
       const { data: user, error } = await supabase
         .from("users")
@@ -76,6 +76,7 @@ export function DataProvider(props: { children: ReactNode }) {
       handleInitialAppOpen(authCtx.user.id);
     }
   }, [authCtx.user?.id]);
+
   return (
     <DataContext.Provider value={{ loading: loading }}>
       {props.children}

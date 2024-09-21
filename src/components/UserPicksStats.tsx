@@ -18,6 +18,8 @@ export function UserPickStats(props: CurrentStatsType) {
   const [isSubmittedPicksIncluded, setIsSubmittedPicksIncluded] =
     useState(true);
 
+  // console.log(props.stats);
+
   const totalAccuracy =
     ((props.stats.numberOfCorrectOverUnderPicks +
       props.stats.numberOfCorrectPicks) /
