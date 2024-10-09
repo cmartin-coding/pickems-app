@@ -167,6 +167,7 @@ export type Database = {
           division: Database["public"]["Enums"]["Division"] | null;
           id: number;
           name: string;
+          record: string | null;
         };
         Insert: {
           abbreviation?: string | null;
@@ -175,6 +176,7 @@ export type Database = {
           division?: Database["public"]["Enums"]["Division"] | null;
           id: number;
           name: string;
+          record?: string | null;
         };
         Update: {
           abbreviation?: string | null;
@@ -183,6 +185,7 @@ export type Database = {
           division?: Database["public"]["Enums"]["Division"] | null;
           id?: number;
           name?: string;
+          record?: string | null;
         };
         Relationships: [];
       };

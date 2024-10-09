@@ -79,6 +79,7 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
     "primary",
     "background"
   );
+
   return (
     <View
       style={[
@@ -124,6 +125,7 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
               isWinner={isAwayTeamWinner}
               score={props.matchup.score.away || 0}
               teamName={props.matchup.away_team.name as NFLTeamNames}
+              record={props.matchup.away_team.record ?? ""}
             />
           </TouchableOpacity>
 
@@ -164,6 +166,7 @@ export function PicksMatchupCard(props: PicksMatchupCardType) {
               isWinner={isHomeTeamWinner}
               score={props.matchup.score.home || 0}
               teamName={props.matchup.home_team.name as NFLTeamNames}
+              record={props.matchup.home_team.record ?? ""}
             />
           </TouchableOpacity>
         </View>

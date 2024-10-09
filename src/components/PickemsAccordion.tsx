@@ -12,7 +12,7 @@ export function PickemsAccordion(props: PickemsAccordionProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const isOpenTitleStyles = {
-    true: "bg-pickems-blue rounded-none",
+    true: "bg-pickems-blue/40 rounded-t-md",
     false: "bg-transparent",
   };
 

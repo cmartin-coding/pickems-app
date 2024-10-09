@@ -236,9 +236,9 @@ export function UserPicksScreen(props: UserPicksScreenType) {
           {completedGameTimes.length > 0 && (
             <PickemsAccordion
               title="In Progress/Completed Matchups"
-              style={[tw`border-2 dark:border-white mb-6`]}
+              style={[tw`border dark:border-white/40 rounded-md mb-6`]}
             >
-              <View style={[tw``]}>
+              <View style={[tw`px-2 py-1`]}>
                 <PicksByGameTime
                   gametimes={completedGameTimes}
                   isCurrentMatchupWeek={isCurrentMatchupWeek}

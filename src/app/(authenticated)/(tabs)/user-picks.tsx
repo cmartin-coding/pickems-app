@@ -27,7 +27,6 @@ export default function UserPicks() {
 
   const currWeek = getCurrentNFLWeek();
 
-  console.log(currWeek);
   const [selectedWeek, setSelectedWeek] = useState(currWeek);
 
   const { isLoading, data, isFetching, refetch } = useGetUserPicks({

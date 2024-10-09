@@ -108,6 +108,7 @@ export function AuthProvider(props: { children: any }) {
       options: { data: { display_name: name } },
     });
 
+    console.log(result, "RESULT");
     return { user: result.data.user as User };
   };
 

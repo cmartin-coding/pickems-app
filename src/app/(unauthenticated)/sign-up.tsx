@@ -73,6 +73,7 @@ export default function SignUp() {
                       param.password,
                       param.name
                     );
+
                     const result = await addUser({
                       id: user.user.id,
                       email: param.email,

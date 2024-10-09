@@ -13,10 +13,12 @@ type MatchupsTeamCardType = {
   isComplete: boolean;
   abbreviation: string;
   textStyle?: TextStyle[];
+  record?: string;
   // useTeamColor?: boolean;
 };
 export function MatchupsTeamCard(props: MatchupsTeamCardType) {
   const teamTextColor = getTeamColors(props.teamName, "primary", "text");
+
   return (
     <View
       style={[
@@ -34,6 +36,7 @@ export function MatchupsTeamCard(props: MatchupsTeamCardType) {
             <TeamLogo team={props.teamName as NFLTeamNames} />
           </View>
         </View>
+
         {props.isComplete && (
           <PickemsText
             style={[
@@ -42,6 +45,11 @@ export function MatchupsTeamCard(props: MatchupsTeamCardType) {
             ]}
           >
             {props.score}
+          </PickemsText>
+        )}
+        {props.record && props.record.length > 0 && (
+          <PickemsText style={[tw`text-sm pb-1 font-semibold text-slate-200`]}>
+            {props.record}
           </PickemsText>
         )}
       </View>
